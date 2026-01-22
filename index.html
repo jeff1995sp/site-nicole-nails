@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicole Nails | Studio de Unhas Profissional</title>
+    <meta name="description" content="Especialista em unhas, spa dos pés e nail design em Diadema, SP.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+    <style>
+        :root {
+            --pink: #ff66b2;
+            --deep-pink: #d63384;
+            --dark-gray: #1a1a1a;
+            --light-gray: #f8f9fa;
+            --text-color: #333;
+            --white: #ffffff;
+            --header-height: 80px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; scroll-padding-top: var(--header-height); }
+        body { font-family: 'Montserrat', sans-serif; background-color: var(--white); color: var(--text-color); line-height: 1.6; overflow-x: hidden; }
+        
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--pink); }
+        h2 { font-size: 2.5rem; text-align: center; margin-bottom: 2rem; }
+        
+        section { padding: 4rem 2rem; }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 1rem; }
+
+        /* --- Header --- */
+        .site-header { background: var(--white); padding: 0 2rem; border-bottom: 1px solid #f0f0f0; box-shadow: 0 2px 10px rgba(0,0,0,0.06); position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; height: var(--header-height); display: flex; align-items: center; }
+        .header-container { display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1200px; margin: 0 auto; }
+        .site-header h1 { font-size: 1.8rem; color: var(--pink); margin: 0; cursor: pointer; }
+        
+        .main-nav-desktop { display: flex; list-style: none; gap: 1.5rem; }
+        .main-nav-desktop a { text-decoration: none; color: #333; font-weight: 600; transition: color 0.3s; }
+        .main-nav-desktop a:hover { color: var(--pink); }
+
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--pink); cursor: pointer; }
+        .mobile-nav { display: none; position: fixed; top: var(--header-height); left: 0; width: 100%; background: white; box-shadow: 0 5px 10px rgba(0,0,0,0.1); padding: 1rem; text-align: center; z-index: 999; }
+        .mobile-nav a { display: block; padding: 15px; color: #333; text-decoration: none; font-weight: 600; border-bottom: 1px solid #f0f0f0; }
+
+        .social-icons { display: flex; gap: 1rem; align-items: center; }
+        .social-icons img { width: 28px; height: 28px; transition: transform 0.3s; }
+        .social-icons a:hover img { transform: scale(1.1); }
+
+        /* --- Hero --- */
+        .hero-section { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('imagens/essa_mao.png') no-repeat center center; background-size: cover; color: var(--white); height: 75vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: var(--header-height); }
+        .hero-content h2 { font-size: 3rem; color: var(--white); text-shadow: 0 0 15px var(--pink); }
+        .cta-button { background: var(--pink); color: var(--white); padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s; border: 2px solid var(--pink); }
+        .cta-button:hover { background: transparent; color: var(--pink); }
+
+        /* --- About --- */
+        .about-section { background-color: var(--light-gray); }
+        .about-content { text-align: center; max-width: 800px; margin: 0 auto; }
+        .about-text ul { list-style: none; padding: 0; text-align: left; display: inline-block; margin-top: 1rem; }
+        .about-text ul li { position: relative; padding-left: 25px; margin-bottom: 10px; }
+        .about-text ul li::before { content: '💅'; position: absolute; left: 0; top: 0; }
+
+        /* --- Gallery --- */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+        .gallery-item img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); transition: transform 0.3s; }
+        .gallery-item img:hover { transform: scale(1.05); }
+
+        /* --- Pinterest --- */
+        .pinterest-section { background-color: #fdf5f8; }
+        .pinterest-container { max-width: 700px; margin: 0 auto; text-align: center; }
+        #pinterest-form { display: flex; gap: 10px; margin-top: 1rem; flex-wrap: wrap; }
+        #pinterest-query { flex-grow: 1; padding: 15px; border-radius: 50px; border: 1px solid #ddd; }
+        #pinterest-submit { background-color: #E60023; color: white; border: none; padding: 10px 25px; border-radius: 50px; cursor: pointer; display: flex; align-items: center; gap: 8px; justify-content: center; }
+        .suggestion-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 1rem; }
+        .suggestion-tag { background: #fff; border: 1px solid var(--pink); color: var(--pink); padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; cursor: pointer; }
+
+        /* --- NOVO AGENDAMENTO RADICAL (Design Glassmorphism) --- */
+        .booking-section {
+            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Efeitos de fundo */
+        .booking-section::before { content: ''; position: absolute; top: -50px; left: -50px; width: 300px; height: 300px; background: #ff66b2; border-radius: 50%; filter: blur(80px); opacity: 0.4; }
+        .booking-section::after { content: ''; position: absolute; bottom: -50px; right: -50px; width: 300px; height: 300px; background: #66ccff; border-radius: 50%; filter: blur(80px); opacity: 0.4; }
+
+        .booking-container { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
+
+        .booking-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 24px;
+            padding: 3rem;
+            width: 100%;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        }
+
+        .booking-card h2 { margin-bottom: 0.5rem; text-shadow: none; font-size: 2.2rem; }
+        .booking-subtitle { text-align: center; color: #666; margin-bottom: 2rem; font-size: 1.1rem; }
+
+        .booking-form { display: grid; gap: 1.5rem; }
+        
+        .input-group { position: relative; }
+        .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--pink); font-size: 1.1rem; z-index: 2; }
+        
+        .styled-input {
+            width: 100%;
+            padding: 16px 16px 16px 45px; /* Espaço para o ícone */
+            border: 2px solid transparent;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.8);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 1rem;
+            color: #333;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .styled-input:focus {
+            outline: none;
+            border-color: var(--pink);
+            background: white;
+            box-shadow: 0 4px 20px rgba(255, 102, 178, 0.2);
+        }
+
+        .submit-button {
+            background: linear-gradient(45deg, var(--pink), var(--deep-pink));
+            color: white;
+            border: none;
+            padding: 18px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 10px;
+            box-shadow: 0 10px 25px rgba(255, 102, 178, 0.4);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .submit-button:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 102, 178, 0.5); }
+        .submit-button:active { transform: translateY(1px); }
+        .submit-button:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
+
+        .attention-notice {
+            background: rgba(255, 255, 255, 0.5);
+            border-left: 5px solid #FF9A9E;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        /* Status personalizados */
+        #status-agendamento { margin-top: 20px; text-align: center; font-weight: bold; display: none; padding: 15px; border-radius: 12px; }
+        .status-sucesso { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .status-erro { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .status-loading { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
+
+        /* --- Location --- */
+        .location-section { background: white; }
+        .map-container { width: 100%; height: 350px; border: 4px solid var(--pink); border-radius: 15px; overflow: hidden; margin-top: 1rem; }
+        .location-section p { text-align: center; font-size: 1.2rem; margin-bottom: 1rem; }
+        .parking-info { color: var(--pink); font-weight: 700; font-size: 1.1rem; margin-top: -15px; display: block; text-align: center; }
+
+        /* --- AI Chat --- */
+        .ai-chat-section { background-color: #f4f7f9; }
+        .ai-chat-outer-container { max-width: 850px; margin: 0 auto; }
+        .ai-chat-header { text-align: center; margin-bottom: 2rem; }
+        .ai-chat-window { background: var(--white); border-radius: 20px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); padding: 1rem; height: 500px; overflow-y: auto; display: flex; flex-direction: column; gap: 1.2rem; }
+        
+        .chat-bubble { max-width: 85%; padding: 15px; border-radius: 20px; line-height: 1.6; box-shadow: 0 2px 5px rgba(0,0,0,0.08); font-size: 0.95rem; }
+        .user-bubble { align-self: flex-end; background: var(--pink); color: white; border-bottom-right-radius: 5px; }
+        .ai-bubble { align-self: flex-start; background: #f1f1f1; color: #444; border-bottom-left-radius: 5px; display: flex; align-items: flex-start; gap: 10px; }
+        .ai-bubble .ai-avatar { font-size: 1.5rem; margin-top: 5px; }
+        .ai-bubble .ai-content h4 { color: var(--pink); margin-bottom: 0.8rem; font-weight: 700; border-bottom: 2px solid #ffdde9; padding-bottom: 5px; font-size: 1.1rem; }
+        .ai-bubble .ai-content ul { padding-left: 20px; margin-top: 0.5rem; }
+        .medical-warning { background-color: #ffebee; border: 1px solid #ef5350; color: #c62828; border-radius: 5px; padding: 0.8rem; margin-top: 0.5rem; font-size: 0.85rem; font-weight: 600; }
+
+        .ai-prompt-form { display: flex; gap: 10px; margin-top: 1rem; }
+        #ai-prompt-input { flex-grow: 1; padding: 15px 25px; border-radius: 50px; border: 1px solid #e0e0e0; font-family: 'Montserrat', sans-serif; font-size: 1rem; }
+        #ai-prompt-submit { background: var(--pink); color: white; border: none; border-radius: 50%; width: 55px; height: 55px; font-size: 1.5rem; cursor: pointer; transition: transform 0.2s; }
+        #ai-prompt-submit:hover { transform: scale(1.1); }
+
+        /* --- Footer --- */
+        .site-footer { background: var(--dark-gray); color: var(--white); text-align: center; padding: 3rem 1rem; }
+        .footer-bottom { background: #000; color: #aaa; padding: 1rem; text-align: center; font-size: 0.9rem; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .site-header { padding: 0 1rem; }
+            .site-header h1 { font-size: 1.4rem; }
+            .main-nav-desktop { display: none; }
+            .mobile-menu-btn { display: block; }
+            .hero-content h2 { font-size: 2.2rem; }
+            .booking-card { padding: 1.5rem; }
+            .submit-button { font-size: 1rem; padding: 15px; }
+            #pinterest-form { flex-direction: column; }
+            #pinterest-submit { width: 100%; }
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            section { padding: 3rem 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="site-header">
+        <div class="header-container">
+            <h1>Nicole Nails 💅</h1>
+            <nav class="main-nav-desktop">
+                <a href="#inicio">Início</a>
+                <a href="#sobre">Sobre</a>
+                <a href="#galeria">Galeria</a>
+                <a href="#agendamento">Agendamento</a>
+                <a href="#localizacao-final">Localização</a>
+            </nav>
+            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <div class="social-icons">
+                <a href="https://www.instagram.com/nicolenails_freitas/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Insta"/></a>
+                <a href="https://wa.me/5511913554213" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="Whats"/></a>
+            </div>
+        </div>
+    </header>
+
+    <nav id="mobile-nav" class="mobile-nav">
+        <a href="#inicio" onclick="toggleMenu()">Início</a>
+        <a href="#sobre" onclick="toggleMenu()">Sobre</a>
+        <a href="#galeria" onclick="toggleMenu()">Galeria</a>
+        <a href="#agendamento" onclick="toggleMenu()">Agendamento</a>
+        <a href="#localizacao-final" onclick="toggleMenu()">Localização</a>
+    </nav>
+
+    <main>
+        <section id="inicio" class="hero-section">
+            <div class="hero-content">
+                <h2>Bem-vindas à Nicole Nails</h2>
+                <p>Onde a arte encontra a beleza e a saúde das suas unhas.</p>
+                <a href="#agendamento" class="cta-button">Agendar Agora</a>
+            </div>
+        </section>
+
+        <section id="sobre" class="about-section">
+            <div class="container">
+                <div class="about-content">
+                    <div class="about-text">
+                        <h2>Excelência e Cuidado</h2>
+                        <p>Aqui na Nicole Nails, não fazemos apenas unhas, entregamos autoestima e saúde. Especializada em alongamentos de alta durabilidade e Spa dos Pés regenerador com protocolos de biossegurança hospitalar.</p>
+                        <ul>
+                            <li>Materiais 100% esterilizados em autoclave.</li>
+                            <li>Lixas e palitos descartáveis.</li>
+                            <li>Técnicas modernas de fibra, gel e blindagem.</li>
+                            <li>Spa dos pés com tratamento de calosidades.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="galeria" class="gallery-section">
+            <div class="container">
+                <h2>Nossos Trabalhos</h2>
+                <div class="gallery-grid">
+                    <div class="gallery-item"><img src="imagens/1.jpg" alt="Unha 1"/></div>
+                    <div class="gallery-item"><img src="imagens/2.jpg" alt="Unha 2"/></div>
+                    <div class="gallery-item"><img src="imagens/3.jpg" alt="Unha 3"/></div>
+                    <div class="gallery-item"><img src="imagens/4.jpg" alt="Unha 4"/></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="inspiracao" class="pinterest-section">
+            <div class="container pinterest-container">
+                <h2>Inspiração Pinterest 💡</h2>
+                <p>Busque ideias incríveis para sua próxima unha!</p>
+                <form id="pinterest-form">
+                    <input type="text" id="pinterest-query" placeholder="Ex: unhas vermelhas decoradas" required>
+                    <button type="submit" id="pinterest-submit">Buscar</button>
+                </form>
+                <div class="suggestion-tags">
+                    <span class="suggestion-tag">Noivas</span>
+                    <span class="suggestion-tag">Francesinha</span>
+                    <span class="suggestion-tag">Spa dos Pés</span>
+                    <span class="suggestion-tag">Unhas Stiletto</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="agendamento" class="booking-section">
+            <div class="container booking-container">
+                <div class="booking-card">
+                    <h2>Agende seu Horário</h2>
+                    <p class="booking-subtitle">Rápido, fácil e lindo! 💖</p>
+                    
+                    <div class="attention-notice">
+                        <strong>⚠️ Política de Sinal:</strong> Para confirmar, é necessário um sinal de <strong>R$30,00</strong>. O valor será descontado no dia.
+                    </div>
+                    
+                    <form id="form-agendamento" class="booking-form">
+                        <div class="input-group">
+                            <i class="fas fa-user"></i>
+                            <input id="nome" name="nome" placeholder="Seu Nome Completo" type="text" class="styled-input" required/>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-gem"></i>
+                            <select id="servico" name="procedimento" class="styled-input" required>
+                                <option value="" disabled selected>Selecione o procedimento</option>
+                                <option>Manicure – 1h30min</option>
+                                <option>Pedicure – 1h30min</option>
+                                <option>Manicure & Pedicure – 2h30min</option>
+                                <option>Spa dos Pés – 2h</option>
+                                <option>Alongamento na Tip – 2h30min</option>
+                                <option>Alongamento na Fibra – 3h</option>
+                                <option>Manutenção – 1h30min</option>
+                                <option>Alongamento Podal – 2h</option>
+                                <option>Alongamento + Pedicure – 4h</option>
+                                <option>Esmaltação – 30min</option>
+                            </select>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-calendar-alt"></i>
+                            <input id="data" name="data" placeholder="Escolha a Data" required type="text" class="styled-input"/>
+                        </div>
+
+                        <div class="input-group">
+                            <i class="fas fa-clock"></i>
+                            <select id="horario" name="horario" class="styled-input" required disabled>
+                                <option value="" disabled selected>Selecione a data primeiro...</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" id="btn-agendar" class="submit-button">
+                            Confirmar Agendamento <i class="fas fa-heart"></i>
+                        </button>
+                    </form>
+                    <div id="status-agendamento"></div>
+                </div>
+            </div>
+        </section>
+        
+        <section id="localizacao-final" class="location-section">
+            <div class="container">
+                <h2>Localização</h2>
+                <p>Av. Rotary, 79 - Serraria, Diadema - SP, 09980-600</p>
+                <p class="parking-info">🚗 Temos Estacionamento no Local!</p>
+                
+                <div class="map-container">
+                    <iframe 
+                        src="https://maps.google.com/maps?q=Av.%20Rotary,%2079%20-%20Serraria,%20Diadema&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="ajuda" class="ai-chat-section">
+            <div class="ai-chat-outer-container">
+                <div class="ai-chat-header">
+                    <h2>Nicole Nails AI 🤖</h2>
+                    <p>Sua especialista em unhas, podologia e biossegurança. Pergunte qualquer coisa!</p>
+                </div>
+                <div id="ai-chat-window" class="ai-chat-window"></div>
+                <form id="ai-prompt-form" class="ai-prompt-form">
+                    <input type="text" id="ai-prompt-input" placeholder="Ex: O que é onicólise? Spa tira rachadura?" required>
+                    <button type="submit" id="ai-prompt-submit">›</button>
+                </form>
+            </div>
+        </section>
+
+        <div id="ai-knowledge-base" style="display: none;">
+            <div data-primary="inicio,oi,ola,olá,ajuda,tudo bem,começar" data-secondary="">
+                <h4>Olá! Sou a IA da Nicole Nails 💅</h4>
+                <p>Sou treinada com milhares de informações sobre saúde e beleza das unhas. Posso te ajudar com:</p>
+                <ul>
+                    <li>🦶 <b>Spa e Podologia:</b> Calos, rachaduras, unhas encravadas.</li>
+                    <li>💅 <b>Técnicas:</b> Fibra, Gel, Blindagem, Esmaltação.</li>
+                    <li>🧪 <b>Química e Produtos:</b> Gels, primers, reações.</li>
+                    <li>🚑 <b>Patologias:</b> Fungos, micoses, descolamentos.</li>
+                    <li>📅 <b>Agendamento Online.</b></li>
+                </ul>
+                <p>Mande sua dúvida!</p>
+            </div>
+            <div data-primary="spa,pés,pes,rachadura,fissura,seco,áspero" data-secondary="hidratação,tratamento">
+                <h4>🦶 Spa dos Pés Premium</h4>
+                <p>Nosso Spa não é apenas estético, é saúde! O protocolo inclui:</p>
+                <ol>
+                    <li><b>Assepsia:</b> Higienização completa.</li>
+                    <li><b>Emoliência:</b> Uso de produtos queratolíticos (agentes que amolecem a pele grossa) com bota térmica.</li>
+                    <li><b>Bisturi/Lixamento Técnico:</b> Remoção segura de calosidades e células mortas (plantar).</li>
+                    <li><b>Esfoliação:</b> Grânulos para renovar a pele.</li>
+                    <li><b>Hidratação Profunda:</b> Cremes à base de ureia e massagem relaxante.</li>
+                </ol>
+                <p><b>Resultado:</b> Pés macios, sem rachaduras e descansados. Ideal a cada 20 dias.</p>
+            </div>
+            </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container">
+            <h3>Nicole Nails</h3>
+            <p>Siga no Instagram e acompanhe as novidades!</p>
+        </div>
+    </footer>
+    <div class="footer-bottom"><p>© 2026 Nicole Nails.</p></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
+    
+    <script>
+        // URL DO SEU SCRIPT GOOGLE
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxRMBPB1MLzGYihoCkCLIyNxTjy2bxo3rbNL5wCIzuvTE94hw2ACHyZO-0H713IsXtmA/exec';
+
+        // MENU MOBILE
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-nav');
+            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            // Flatpickr
+            flatpickr("#data", {
+                locale: "pt", altInput: true, altFormat: "d/m/Y", dateFormat: "Y-m-d", minDate: "today",
+                disable: [ function(date) { return (date.getDay() === 0 || date.getDay() === 1); } ]
+            });
+
+            // Agendamento Logic
+            const nomeInput = document.getElementById("nome");
+            const servicoSelect = document.getElementById("servico");
+            const dataInput = document.getElementById("data");
+            const horarioSelect = document.getElementById("horario");
+            const formAgendamento = document.getElementById("form-agendamento");
+            const btnAgendar = document.getElementById("btn-agendar");
+            const statusDiv = document.getElementById("status-agendamento");
+
+            function buscarHorarios() {
+                const data = dataInput.value;
+                const servico = servicoSelect.value;
+                if (!data || !servico) return;
+
+                horarioSelect.innerHTML = '<option>Buscando...</option>';
+                horarioSelect.disabled = true;
+
+                const url = `${SCRIPT_URL}?data=${data}&servico=${encodeURIComponent(servico)}`;
+
+                fetch(url)
+                    .then(r => r.json())
+                    .then(horarios => {
+                        horarioSelect.innerHTML = '<option value="" disabled selected>Selecione</option>';
+                        const hoje = new Date().toISOString().split('T')[0];
+                        const agora = new Date();
+                        const horaAtual = agora.getHours() + ':' + String(agora.getMinutes()).padStart(2, '0');
+
+                        if (Array.isArray(horarios) && horarios.length > 0) {
+                            horarios.forEach(h => {
+                                if (data === hoje && h <= horaAtual) return;
+                                const opt = document.createElement("option");
+                                opt.value = h; opt.textContent = h;
+                                horarioSelect.appendChild(opt);
+                            });
+                            horarioSelect.disabled = false;
+                        } else {
+                            horarioSelect.innerHTML = '<option>Lotado :(</option>';
+                        }
+                    })
+                    .catch(() => horarioSelect.innerHTML = '<option>Erro na agenda</option>');
+            }
+
+            servicoSelect.addEventListener("change", buscarHorarios);
+            dataInput.addEventListener("change", buscarHorarios);
+
+            formAgendamento.addEventListener("submit", function(e) {
+                e.preventDefault();
+                if(!nomeInput.value || !servicoSelect.value || !dataInput.value || !horarioSelect.value) {
+                    alert("Preencha todos os campos!"); return;
+                }
+                btnAgendar.disabled = true;
+                btnAgendar.innerHTML = 'Agendando... <i class="fas fa-spinner fa-spin"></i>';
+                statusDiv.style.display = 'block';
+                statusDiv.className = 'status-loading';
+                statusDiv.textContent = "Conectando à agenda...";
+
+                const params = new URLSearchParams({
+                    action: 'agendar',
+                    nome: nomeInput.value,
+                    servico: servicoSelect.value,
+                    data: dataInput.value,
+                    horario: horarioSelect.value
+                });
+
+                fetch(`${SCRIPT_URL}?${params.toString()}`)
+                    .then(r => r.json())
+                    .then(d => {
+                        if(d.result === 'sucesso') {
+                            statusDiv.className = 'status-sucesso';
+                            
+                            // GERA O LINK DO WHATSAPP AQUI
+                            const dataFormatada = dataInput.value.split('-').reverse().join('/');
+                            const mensagemZap = `Olá Nicole! Acabei de agendar pelo site.%0A%0A*Nome:* ${nomeInput.value}%0A*Serviço:* ${servicoSelect.value}%0A*Data:* ${dataFormatada}%0A*Horário:* ${horarioSelect.value}`;
+                            const linkZap = `https://wa.me/5511913554213?text=${mensagemZap}`;
+                            
+                            statusDiv.innerHTML = `
+                                ✅ Agendado com Sucesso!<br><br>
+                                <a href="${linkZap}" target="_blank" style="background:#25D366; color:white; padding:10px 20px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; margin-top:5px;">
+                                <i class="fab fa-whatsapp"></i> Enviar Comprovante
+                                </a>`;
+                            
+                            formAgendamento.reset();
+                            horarioSelect.disabled = true;
+                        } else throw new Error(d.mensagem);
+                    })
+                    .catch(e => {
+                        statusDiv.className = 'status-erro';
+                        statusDiv.textContent = "Erro ao agendar. Tente novamente.";
+                    })
+                    .finally(() => {
+                        btnAgendar.disabled = false;
+                        btnAgendar.innerHTML = 'Confirmar Agendamento <i class="fas fa-heart"></i>';
+                    });
+            });
+
+            // Pinterest Logic
+            document.getElementById("pinterest-form").addEventListener("submit", function(e) {
+                e.preventDefault();
+                const q = document.getElementById("pinterest-query").value;
+                if(q) window.open("https://www.pinterest.com/search/pins/?q=" + encodeURIComponent(q), "_blank");
+            });
+            document.querySelectorAll('.suggestion-tag').forEach(tag => {
+                tag.addEventListener('click', () => {
+                    document.getElementById("pinterest-query").value = tag.textContent;
+                    document.getElementById("pinterest-form").dispatchEvent(new Event('submit'));
+                });
+            });
+
+            // IA CHAT LOGIC (Simplificada para o exemplo)
+            const chatWindow = document.getElementById('ai-chat-window');
+            const promptForm = document.getElementById('ai-prompt-form');
+            const promptInput = document.getElementById('ai-prompt-input');
+            const kb = document.querySelectorAll('#ai-knowledge-base > div');
+
+            function addBubble(text, type) {
+                const b = document.createElement('div');
+                b.className = `chat-bubble ${type}-bubble`;
+                if(type === 'ai') {
+                    b.innerHTML = `<div class="ai-avatar">💅</div><div class="ai-content">${text}</div>`;
+                    b.className += ' ai-bubble';
+                } else {
+                    b.textContent = text;
+                }
+                chatWindow.appendChild(b);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+            }
+
+            function processAI(text) {
+                const loading = document.createElement('div');
+                loading.className = 'chat-bubble ai-bubble';
+                loading.innerHTML = '...';
+                chatWindow.appendChild(loading);
+                chatWindow.scrollTop = chatWindow.scrollHeight;
+
+                setTimeout(() => {
+                    chatWindow.removeChild(loading);
+                    const safeText = text.toLowerCase();
+                    let bestMatch = null;
+                    let maxScore = 0;
+
+                    kb.forEach(div => {
+                        const primary = div.dataset.primary.split(',');
+                        const secondary = div.dataset.secondary.split(',');
+                        let score = 0;
+                        primary.forEach(key => { if(safeText.includes(key.trim())) score += 5; });
+                        secondary.forEach(key => { if(safeText.includes(key.trim())) score += 2; });
+
+                        if(score > maxScore) {
+                            maxScore = score;
+                            bestMatch = div.innerHTML;
+                        }
+                    });
+
+                    if(bestMatch && maxScore > 0) {
+                        addBubble(bestMatch, 'ai');
+                    } else {
+                        addBubble("Desculpe, ainda estou aprendendo! Tente perguntar sobre unhas encravadas, spa dos pés ou materiais.", 'ai');
+                    }
+                }, 800);
+            }
+
+            promptForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const val = promptInput.value.trim();
+                if(!val) return;
+                addBubble(val, 'user');
+                promptInput.value = '';
+                processAI(val);
+            });
+
+            setTimeout(() => processAI("olá"), 500);
+        });
+    </script>
+</body>
+</html>
