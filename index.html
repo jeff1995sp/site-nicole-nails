@@ -53,7 +53,20 @@
         /* --- Hero --- */
         .hero-section { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('imagens/essa_mao.png') no-repeat center center; background-size: cover; color: var(--white); height: 75vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: var(--header-height); }
         .hero-content h2 { font-size: 3rem; color: var(--white); text-shadow: 0 0 15px var(--pink); }
-        .cta-button { background: var(--pink); color: var(--white); padding: 15px 30px; border-radius: 50px; text-decoration: none; font-weight: 700; transition: all 0.3s; border: 2px solid var(--pink); }
+        
+        /* BOTÃO ATUALIZADO (Mais para baixo) */
+        .cta-button { 
+            background: var(--pink); 
+            color: var(--white); 
+            padding: 15px 30px; 
+            border-radius: 50px; 
+            text-decoration: none; 
+            font-weight: 700; 
+            transition: all 0.3s; 
+            border: 2px solid var(--pink); 
+            display: inline-block; /* Garante que o espaçamento funcione */
+            margin-top: 50px;      /* AQUI: Empurra o botão para baixo */
+        }
         .cta-button:hover { background: transparent; color: var(--pink); }
 
         /* --- About --- */
@@ -312,6 +325,11 @@
                         </div>
 
                         <div class="input-group">
+                            <i class="fab fa-whatsapp"></i>
+                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: 11 99999-9999)" type="tel" class="styled-input" required/>
+                        </div>
+
+                        <div class="input-group">
                             <i class="fas fa-gem"></i>
                             <select id="servico" name="procedimento" class="styled-input" required>
                                 <option value="" disabled selected>Selecione o procedimento</option>
@@ -483,20 +501,38 @@
             servicoSelect.addEventListener("change", buscarHorarios);
             dataInput.addEventListener("change", buscarHorarios);
 
+            // Lógica de Agendamento com WhatsApp e Aviso (NOVA)
             formAgendamento.addEventListener("submit", function(e) {
                 e.preventDefault();
-                if(!nomeInput.value || !servicoSelect.value || !dataInput.value || !horarioSelect.value) {
-                    alert("Preencha todos os campos!"); return;
+                
+                // Pega os dados
+                const zapInput = document.getElementById("whatsapp_cliente");
+                
+                // Validação básica
+                if(!nomeInput.value || !servicoSelect.value || !dataInput.value || !horarioSelect.value || !zapInput.value) {
+                    alert("Por favor, preencha todos os campos, incluindo seu WhatsApp!"); return;
                 }
+
+                // --- O POPUP DE AVISO (AQUI ESTÁ O SEGREDO) ---
+                const aceitou = confirm("⚠️ ATENÇÃO: PAGAMENTO DE SINAL\n\nPara confirmar seu horário, o envio do comprovante de R$ 30,00 é OBRIGATÓRIO.\n\nVocê vai enviar o comprovante no WhatsApp agora?");
+                
+                if (!aceitou) {
+                    return; // Se a cliente clicar em "Cancelar", o agendamento para aqui.
+                }
+                // ------------------------------------------------
+
                 btnAgendar.disabled = true;
                 btnAgendar.innerHTML = 'Agendando... <i class="fas fa-spinner fa-spin"></i>';
                 statusDiv.style.display = 'block';
                 statusDiv.className = 'status-loading';
-                statusDiv.textContent = "Conectando à agenda...";
+                statusDiv.textContent = "Processando agendamento...";
+
+                // TRUQUE: Junta o Nome + Zap para salvar na planilha sem mexer no backend
+                const nomeComZap = `${nomeInput.value} | Zap: ${zapInput.value}`;
 
                 const params = new URLSearchParams({
                     action: 'agendar',
-                    nome: nomeInput.value,
+                    nome: nomeComZap, 
                     servico: servicoSelect.value,
                     data: dataInput.value,
                     horario: horarioSelect.value
@@ -508,15 +544,17 @@
                         if(d.result === 'sucesso') {
                             statusDiv.className = 'status-sucesso';
                             
-                            // GERA O LINK DO WHATSAPP AQUI
+                            // Cria a mensagem automática para o WhatsApp com o número que ela digitou
                             const dataFormatada = dataInput.value.split('-').reverse().join('/');
-                            const mensagemZap = `Olá Nicole! Acabei de agendar pelo site.%0A%0A*Nome:* ${nomeInput.value}%0A*Serviço:* ${servicoSelect.value}%0A*Data:* ${dataFormatada}%0A*Horário:* ${horarioSelect.value}`;
+                            const mensagemZap = `Oii Nicole! Fiz um agendamento no site.%0A%0A*Nome:* ${nomeInput.value}%0A*Zap:* ${zapInput.value}%0A*Data:* ${dataFormatada} às ${horarioSelect.value}%0A%0A*Estou enviando o comprovante do sinal agora!* 👇`;
+                            
                             const linkZap = `https://wa.me/5511913554213?text=${mensagemZap}`;
                             
                             statusDiv.innerHTML = `
-                                ✅ Agendado com Sucesso!<br><br>
-                                <a href="${linkZap}" target="_blank" style="background:#25D366; color:white; padding:10px 20px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; margin-top:5px;">
-                                <i class="fab fa-whatsapp"></i> Enviar Comprovante
+                                ✅ <b>Pré-Agendamento Realizado!</b><br>
+                                Agora clique abaixo para finalizar:<br><br>
+                                <a href="${linkZap}" target="_blank" style="background:#25D366; color:white; padding:15px 20px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                                <i class="fab fa-whatsapp"></i> ENVIAR COMPROVANTE
                                 </a>`;
                             
                             formAgendamento.reset();
@@ -525,11 +563,13 @@
                     })
                     .catch(e => {
                         statusDiv.className = 'status-erro';
-                        statusDiv.textContent = "Erro ao agendar. Tente novamente.";
+                        statusDiv.textContent = "Erro ao agendar. Verifique sua conexão.";
                     })
                     .finally(() => {
                         btnAgendar.disabled = false;
-                        btnAgendar.innerHTML = 'Confirmar Agendamento <i class="fas fa-heart"></i>';
+                        if(statusDiv.className !== 'status-sucesso') {
+                             btnAgendar.innerHTML = 'Confirmar Agendamento <i class="fas fa-heart"></i>';
+                        }
                     });
             });
 
@@ -546,7 +586,7 @@
                 });
             });
 
-            // IA CHAT LOGIC (Simplificada para o exemplo)
+            // IA CHAT LOGIC (Simplificada)
             const chatWindow = document.getElementById('ai-chat-window');
             const promptForm = document.getElementById('ai-prompt-form');
             const promptInput = document.getElementById('ai-prompt-input');
