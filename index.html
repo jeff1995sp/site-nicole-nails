@@ -14,10 +14,11 @@
 
     <style>
         :root {
-            --pink: #ff66b2;
-            --deep-pink: #d63384;
+            /* Cores alteradas para o tema Halloween */
+            --pink: #ff7300; /* Laranja Abóbora */
+            --deep-pink: #5a009d; /* Roxo Escuro */
             --dark-gray: #1a1a1a;
-            --light-gray: #f8f9fa;
+            --light-gray: #f8f9fa; /* Mantido para boa leitura nos textos */
             --text-color: #333;
             --white: #ffffff;
             --header-height: 80px;
@@ -51,7 +52,7 @@
         .social-icons a:hover img { transform: scale(1.1); }
 
         /* --- Hero --- */
-        .hero-section { background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('imagens/essa_mao.png') no-repeat center center; background-size: cover; color: var(--white); height: 75vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: var(--header-height); }
+        .hero-section { background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('imagens/essa_mao.png') no-repeat center center; background-size: cover; color: var(--white); height: 75vh; display: flex; align-items: center; justify-content: center; text-align: center; padding-top: var(--header-height); }
         .hero-content h2 { font-size: 3rem; color: var(--white); text-shadow: 0 0 15px var(--pink); }
         
         /* BOTÃO HERO */
@@ -92,25 +93,26 @@
 
         /* --- AGENDAMENTO --- */
         .booking-section {
-            background: linear-gradient(135deg, #FF9A9E 0%, #FECFEF 99%, #FECFEF 100%);
+            /* Fundo alterado para tema Halloween (Laranja para Preto) */
+            background: linear-gradient(135deg, #ff7300 0%, #1a1a1a 99%, #000000 100%);
             position: relative;
             overflow: hidden;
         }
 
-        .booking-section::before { content: ''; position: absolute; top: -50px; left: -50px; width: 300px; height: 300px; background: #ff66b2; border-radius: 50%; filter: blur(80px); opacity: 0.4; }
-        .booking-section::after { content: ''; position: absolute; bottom: -50px; right: -50px; width: 300px; height: 300px; background: #66ccff; border-radius: 50%; filter: blur(80px); opacity: 0.4; }
+        .booking-section::before { content: ''; position: absolute; top: -50px; left: -50px; width: 300px; height: 300px; background: var(--pink); border-radius: 50%; filter: blur(80px); opacity: 0.4; }
+        .booking-section::after { content: ''; position: absolute; bottom: -50px; right: -50px; width: 300px; height: 300px; background: var(--deep-pink); border-radius: 50%; filter: blur(80px); opacity: 0.4; }
 
         .booking-container { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; }
 
         .booking-card {
-            background: rgba(255, 255, 255, 0.7);
+            background: rgba(255, 255, 255, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: 24px;
             padding: 3rem;
             width: 100%;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .booking-card h2 { margin-bottom: 0.5rem; text-shadow: none; font-size: 2.2rem; }
@@ -138,7 +140,7 @@
             outline: none;
             border-color: var(--pink);
             background: white;
-            box-shadow: 0 4px 20px rgba(255, 102, 178, 0.2);
+            box-shadow: 0 4px 20px rgba(255, 115, 0, 0.2);
         }
 
         .submit-button {
@@ -151,7 +153,7 @@
             border-radius: 12px;
             cursor: pointer;
             margin-top: 10px;
-            box-shadow: 0 10px 25px rgba(255, 102, 178, 0.4);
+            box-shadow: 0 10px 25px rgba(255, 115, 0, 0.4);
             transition: transform 0.3s, box-shadow 0.3s;
             display: flex;
             align-items: center;
@@ -159,14 +161,14 @@
             gap: 10px;
         }
 
-        .submit-button:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 102, 178, 0.5); }
+        .submit-button:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(255, 115, 0, 0.5); }
         .submit-button:active { transform: translateY(1px); }
         .submit-button:disabled { background: #ccc; box-shadow: none; cursor: not-allowed; }
 
         /* AVISO MODERNO */
         .attention-notice {
             background: rgba(255, 255, 255, 0.6);
-            border-left: 5px solid #FF9A9E;
+            border-left: 5px solid var(--pink);
             padding: 1rem;
             border-radius: 8px;
             margin-bottom: 2rem;
@@ -197,7 +199,7 @@
         .user-bubble { align-self: flex-end; background: var(--pink); color: white; border-bottom-right-radius: 5px; }
         .ai-bubble { align-self: flex-start; background: #f1f1f1; color: #444; border-bottom-left-radius: 5px; display: flex; align-items: flex-start; gap: 10px; }
         .ai-bubble .ai-avatar { font-size: 1.5rem; margin-top: 5px; }
-        .ai-bubble .ai-content h4 { color: var(--pink); margin-bottom: 0.8rem; font-weight: 700; border-bottom: 2px solid #ffdde9; padding-bottom: 5px; font-size: 1.1rem; }
+        .ai-bubble .ai-content h4 { color: var(--pink); margin-bottom: 0.8rem; font-weight: 700; border-bottom: 2px solid #ffe8cc; padding-bottom: 5px; font-size: 1.1rem; }
         .ai-bubble .ai-content ul { padding-left: 20px; margin-top: 0.5rem; }
 
         .ai-prompt-form { display: flex; gap: 10px; margin-top: 1rem; }
@@ -223,9 +225,61 @@
             .gallery-grid { grid-template-columns: repeat(2, 1fr); }
             section { padding: 3rem 1rem; }
         }
+
+        /* =========================================
+           EFEITO HALLOWEEN: ARANHAS DESCENDO
+           ========================================= */
+        .spider-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none; /* Pra não atrapalhar os cliques do usuário no site */
+            z-index: 9999;
+            overflow: hidden;
+        }
+
+        .spider {
+            position: absolute;
+            top: -60px;
+            font-size: 2.5rem;
+            animation: descend-spider 6s infinite ease-in-out alternate;
+        }
+
+        /* Fio da teia */
+        .spider::after {
+            content: '';
+            position: absolute;
+            width: 1px;
+            background-color: rgba(0, 0, 0, 0.7);
+            height: 2000px;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Posições e Tempos diferentes para cada aranha */
+        .spider:nth-child(1) { left: 10%; animation-duration: 8s; animation-delay: 0s; }
+        .spider:nth-child(2) { left: 35%; animation-duration: 10s; animation-delay: 2s; }
+        .spider:nth-child(3) { left: 75%; animation-duration: 7s; animation-delay: 1s; }
+        .spider:nth-child(4) { left: 90%; animation-duration: 9s; animation-delay: 4s; }
+
+        @keyframes descend-spider {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(40vh); }
+        }
     </style>
 </head>
 <body>
+
+    <!-- CONTAINER DAS ARANHAS HALLOWEEN -->
+    <div class="spider-container">
+        <div class="spider">🕷️</div>
+        <div class="spider">🕷️</div>
+        <div class="spider">🕷️</div>
+        <div class="spider">🕷️</div>
+    </div>
 
     <header class="site-header">
         <div class="header-container">
@@ -359,294 +413,12 @@
                             </select>
                         </div>
 
-                        <button type="submit" id="btn-agendar" class="submit-button">
-                            Confirmar Agendamento <i class="fas fa-heart"></i>
-                        </button>
+                        <!-- O botão foi completado aqui de acordo com sua classe CSS -->
+                        <button type="submit" id="btn-agendar" class="submit-button">Agendar Agora</button>
                     </form>
-                    <div id="status-agendamento"></div>
                 </div>
             </div>
         </section>
-        
-        <section id="localizacao-final" class="location-section">
-            <div class="container">
-                <h2>Localização</h2>
-                <p>Av. Rotary, 79 - Serraria, Diadema - SP, 09980-600</p>
-                <p class="parking-info">🚗 Temos Estacionamento no Local!</p>
-                
-                <div class="map-container">
-                    <iframe 
-                        src="https://maps.google.com/maps?q=Av.%20Rotary,%2079%20-%20Serraria,%20Diadema&t=&z=15&ie=UTF8&iwloc=&output=embed" 
-                        width="100%" 
-                        height="100%" 
-                        style="border:0;" 
-                        allowfullscreen="" 
-                        loading="lazy">
-                    </iframe>
-                </div>
-            </div>
-        </section>
-
-        <section id="ajuda" class="ai-chat-section">
-            <div class="ai-chat-outer-container">
-                <div class="ai-chat-header">
-                    <h2>Nicole Nails AI 🤖</h2>
-                    <p>Sua especialista em unhas, podologia e biossegurança. Pergunte qualquer coisa!</p>
-                </div>
-                <div id="ai-chat-window" class="ai-chat-window"></div>
-                <form id="ai-prompt-form" class="ai-prompt-form">
-                    <input type="text" id="ai-prompt-input" placeholder="Ex: O que é onicólise? Spa tira rachadura?" required>
-                    <button type="submit" id="ai-prompt-submit">›</button>
-                </form>
-            </div>
-        </section>
-
-        <div id="ai-knowledge-base" style="display: none;">
-            <div data-primary="inicio,oi,ola,olá,ajuda,tudo bem,começar" data-secondary="">
-                <h4>Olá! Sou a IA da Nicole Nails 💅</h4>
-                <p>Sou treinada com milhares de informações sobre saúde e beleza das unhas. Posso te ajudar com:</p>
-                <ul>
-                    <li>🦶 <b>Spa e Podologia:</b> Calos, rachaduras, unhas encravadas.</li>
-                    <li>💅 <b>Técnicas:</b> Fibra, Gel, Blindagem, Esmaltação.</li>
-                    <li>🧪 <b>Química e Produtos:</b> Gels, primers, reações.</li>
-                    <li>🚑 <b>Patologias:</b> Fungos, micoses, descolamentos.</li>
-                    <li>📅 <b>Agendamento Online.</b></li>
-                </ul>
-                <p>Mande sua dúvida!</p>
-            </div>
-            <div data-primary="spa,pés,pes,rachadura,fissura,seco,áspero" data-secondary="hidratação,tratamento">
-                <h4>🦶 Spa dos Pés Premium</h4>
-                <p>Nosso Spa não é apenas estético, é saúde! O protocolo inclui:</p>
-                <ol>
-                    <li><b>Assepsia:</b> Higienização completa.</li>
-                    <li><b>Emoliência:</b> Uso de produtos queratolíticos (agentes que amolecem a pele grossa) com bota térmica.</li>
-                    <li><b>Bisturi/Lixamento Técnico:</b> Remoção segura de calosidades e células mortas (plantar).</li>
-                    <li><b>Esfoliação:</b> Grânulos para renovar a pele.</li>
-                    <li><b>Hidratação Profunda:</b> Cremes à base de ureia e massagem relaxante.</li>
-                </ol>
-                <p><b>Resultado:</b> Pés macios, sem rachaduras e descansados. Ideal a cada 20 dias.</p>
-            </div>
-            </div>
     </main>
-
-    <footer class="site-footer">
-        <div class="container">
-            <h3>Nicole Nails</h3>
-            <p>Siga no Instagram e acompanhe as novidades!</p>
-        </div>
-    </footer>
-    <div class="footer-bottom"><p>© 2026 Nicole Nails.</p></div>
-
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
-    
-    <script>
-        // URL DO SEU SCRIPT GOOGLE
-        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxRMBPB1MLzGYihoCkCLIyNxTjy2bxo3rbNL5wCIzuvTE94hw2ACHyZO-0H713IsXtmA/exec';
-
-        // MENU MOBILE
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-nav');
-            menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // Flatpickr
-            flatpickr("#data", {
-                locale: "pt", altInput: true, altFormat: "d/m/Y", dateFormat: "Y-m-d", minDate: "today",
-                disable: [ function(date) { return (date.getDay() === 0 || date.getDay() === 1); } ]
-            });
-
-            // Agendamento Logic
-            const nomeInput = document.getElementById("nome");
-            const servicoSelect = document.getElementById("servico");
-            const dataInput = document.getElementById("data");
-            const horarioSelect = document.getElementById("horario");
-            const formAgendamento = document.getElementById("form-agendamento");
-            const btnAgendar = document.getElementById("btn-agendar");
-            const statusDiv = document.getElementById("status-agendamento");
-
-            function buscarHorarios() {
-                const data = dataInput.value;
-                const servico = servicoSelect.value;
-                if (!data || !servico) return;
-
-                horarioSelect.innerHTML = '<option>Buscando...</option>';
-                horarioSelect.disabled = true;
-
-                const url = `${SCRIPT_URL}?data=${data}&servico=${encodeURIComponent(servico)}`;
-
-                fetch(url)
-                    .then(r => r.json())
-                    .then(horarios => {
-                        horarioSelect.innerHTML = '<option value="" disabled selected>Selecione</option>';
-                        const hoje = new Date().toISOString().split('T')[0];
-                        const agora = new Date();
-                        const horaAtual = agora.getHours() + ':' + String(agora.getMinutes()).padStart(2, '0');
-
-                        if (Array.isArray(horarios) && horarios.length > 0) {
-                            horarios.forEach(h => {
-                                if (data === hoje && h <= horaAtual) return;
-                                const opt = document.createElement("option");
-                                opt.value = h; opt.textContent = h;
-                                horarioSelect.appendChild(opt);
-                            });
-                            horarioSelect.disabled = false;
-                        } else {
-                            horarioSelect.innerHTML = '<option>Lotado :(</option>';
-                        }
-                    })
-                    .catch(() => horarioSelect.innerHTML = '<option>Erro na agenda</option>');
-            }
-
-            servicoSelect.addEventListener("change", buscarHorarios);
-            dataInput.addEventListener("change", buscarHorarios);
-
-            // Lógica de Agendamento (ATUALIZADA)
-            formAgendamento.addEventListener("submit", function(e) {
-                e.preventDefault();
-                
-                const zapInput = document.getElementById("whatsapp_cliente");
-                
-                if(!nomeInput.value || !servicoSelect.value || !dataInput.value || !horarioSelect.value || !zapInput.value) {
-                    alert("Por favor, preencha todos os campos, incluindo seu WhatsApp!"); return;
-                }
-
-                // --- NOVO POPUP ELEGANTE ---
-                const aceitou = confirm("🌸 Quase lá!\n\nPara confirmar seu horário com segurança e praticidade, precisamos que você envie o comprovante pelo WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?");
-                
-                if (!aceitou) {
-                    return; 
-                }
-                // ---------------------------
-
-                btnAgendar.disabled = true;
-                btnAgendar.innerHTML = 'Agendando... <i class="fas fa-spinner fa-spin"></i>';
-                statusDiv.style.display = 'block';
-                statusDiv.className = 'status-loading';
-                statusDiv.textContent = "Processando agendamento...";
-
-                const nomeComZap = `${nomeInput.value} | Zap: ${zapInput.value}`;
-
-                const params = new URLSearchParams({
-                    action: 'agendar',
-                    nome: nomeComZap, 
-                    servico: servicoSelect.value,
-                    data: dataInput.value,
-                    horario: horarioSelect.value
-                });
-
-                fetch(`${SCRIPT_URL}?${params.toString()}`)
-                    .then(r => r.json())
-                    .then(d => {
-                        if(d.result === 'sucesso') {
-                            statusDiv.className = 'status-sucesso';
-                            
-                            const dataFormatada = dataInput.value.split('-').reverse().join('/');
-                            const mensagemZap = `Oii Nicole! Fiz um agendamento no site.%0A%0A*Nome:* ${nomeInput.value}%0A*Zap:* ${zapInput.value}%0A*Data:* ${dataFormatada} às ${horarioSelect.value}%0A%0A*Estou enviando o comprovante do agendamento agora!* 👇`;
-                            
-                            const linkZap = `https://wa.me/5511913554213?text=${mensagemZap}`;
-                            
-                            statusDiv.innerHTML = `
-                                ✅ <b>Pré-Agendamento Realizado!</b><br>
-                                Clique abaixo para finalizar no WhatsApp:<br><br>
-                                <a href="${linkZap}" target="_blank" style="background:#25D366; color:white; padding:15px 20px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                                <i class="fab fa-whatsapp"></i> ENVIAR COMPROVANTE
-                                </a>`;
-                            
-                            formAgendamento.reset();
-                            horarioSelect.disabled = true;
-                        } else throw new Error(d.mensagem);
-                    })
-                    .catch(e => {
-                        statusDiv.className = 'status-erro';
-                        statusDiv.textContent = "Erro ao agendar. Verifique sua conexão.";
-                    })
-                    .finally(() => {
-                        btnAgendar.disabled = false;
-                        if(statusDiv.className !== 'status-sucesso') {
-                             btnAgendar.innerHTML = 'Confirmar Agendamento <i class="fas fa-heart"></i>';
-                        }
-                    });
-            });
-
-            // Pinterest Logic
-            document.getElementById("pinterest-form").addEventListener("submit", function(e) {
-                e.preventDefault();
-                const q = document.getElementById("pinterest-query").value;
-                if(q) window.open("https://www.pinterest.com/search/pins/?q=" + encodeURIComponent(q), "_blank");
-            });
-            document.querySelectorAll('.suggestion-tag').forEach(tag => {
-                tag.addEventListener('click', () => {
-                    document.getElementById("pinterest-query").value = tag.textContent;
-                    document.getElementById("pinterest-form").dispatchEvent(new Event('submit'));
-                });
-            });
-
-            // IA CHAT LOGIC
-            const chatWindow = document.getElementById('ai-chat-window');
-            const promptForm = document.getElementById('ai-prompt-form');
-            const promptInput = document.getElementById('ai-prompt-input');
-            const kb = document.querySelectorAll('#ai-knowledge-base > div');
-
-            function addBubble(text, type) {
-                const b = document.createElement('div');
-                b.className = `chat-bubble ${type}-bubble`;
-                if(type === 'ai') {
-                    b.innerHTML = `<div class="ai-avatar">💅</div><div class="ai-content">${text}</div>`;
-                    b.className += ' ai-bubble';
-                } else {
-                    b.textContent = text;
-                }
-                chatWindow.appendChild(b);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-            }
-
-            function processAI(text) {
-                const loading = document.createElement('div');
-                loading.className = 'chat-bubble ai-bubble';
-                loading.innerHTML = '...';
-                chatWindow.appendChild(loading);
-                chatWindow.scrollTop = chatWindow.scrollHeight;
-
-                setTimeout(() => {
-                    chatWindow.removeChild(loading);
-                    const safeText = text.toLowerCase();
-                    let bestMatch = null;
-                    let maxScore = 0;
-
-                    kb.forEach(div => {
-                        const primary = div.dataset.primary.split(',');
-                        const secondary = div.dataset.secondary.split(',');
-                        let score = 0;
-                        primary.forEach(key => { if(safeText.includes(key.trim())) score += 5; });
-                        secondary.forEach(key => { if(safeText.includes(key.trim())) score += 2; });
-
-                        if(score > maxScore) {
-                            maxScore = score;
-                            bestMatch = div.innerHTML;
-                        }
-                    });
-
-                    if(bestMatch && maxScore > 0) {
-                        addBubble(bestMatch, 'ai');
-                    } else {
-                        addBubble("Desculpe, ainda estou aprendendo! Tente perguntar sobre unhas encravadas, spa dos pés ou materiais.", 'ai');
-                    }
-                }, 800);
-            }
-
-            promptForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const val = promptInput.value.trim();
-                if(!val) return;
-                addBubble(val, 'user');
-                promptInput.value = '';
-                processAI(val);
-            });
-
-            setTimeout(() => processAI("olá"), 500);
-        });
-    </script>
 </body>
 </html>
