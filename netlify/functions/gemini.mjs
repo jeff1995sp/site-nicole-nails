@@ -7,7 +7,7 @@ export const handler = async function(event, context) {
         const { prompt } = JSON.parse(event.body);
         
         // Chave embutida direto no servidor seguro do Netlify (Invisível no navegador)
-        const API_KEY = 'AQ.Ab8RN6Ida8YYSOX7JyvTKBb5jaFCfz0_ZXJQfZrsQy8p4CdiCw'; 
+        const API_KEY = ''; 
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
