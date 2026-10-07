@@ -12,8 +12,8 @@ export const handler = async function(event, context) {
         const API_KEY = process.env.GEMINI_API_KEY;
         if (!API_KEY) return { statusCode: 500, body: JSON.stringify({ error: "Chave ausente no Netlify." }) };
 
-        // O modelo oficial e real da Google (o 3.8 não existe e causou o travamento)
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // O modelo correto e atualizado (3.8-flash) com a chave a passar diretamente no URL
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${API_KEY}`;
 
         const response = await fetch(url, {
             method: "POST",
