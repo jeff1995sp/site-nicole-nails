@@ -17,8 +17,8 @@ export const handler = async function(event, context) {
             };
         }
 
-        // 3. O URL exato sem duplicar a palavra "models/" (causa comum do erro 404)
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // 3. O URL exato com o "-latest" adicionado para forçar a versão mais recente
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key=${API_KEY}`;
 
         // 4. Chamada direta (fetch) à API do Google
         const response = await fetch(url, {
