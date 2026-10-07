@@ -5,7 +5,9 @@ exports.handler = async function(event, context) {
 
     try {
         const { prompt } = JSON.parse(event.body);
-        const API_KEY = process.env.GEMINI_API_KEY; // Pega a chave do cofre do Netlify
+        
+        // Colocada diretamente no servidor seguro do Netlify (Invisível para o público)
+        const API_KEY = process.env.GEMINI_API_KEY; 
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
