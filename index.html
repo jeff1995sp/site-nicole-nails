@@ -729,12 +729,17 @@
                     const dados = await resposta.json(); 
                     chatWindow.removeChild(loading);
 
-                    if (resposta.ok && dados.candidates) {
-                        addBubble(dados.candidates[0].content.parts[0].text, 'ai');
+                    // ==========================================
+                    // MUDANÇA AQUI: LENDO O NOVO FORMATO DO BACKEND
+                    // ==========================================
+                    if (resposta.ok && dados.success && dados.text) {
+                        addBubble(dados.text, 'ai');
                     } else {
+                        console.error("Erro na API:", dados.error);
                         addBubble("Desculpe, tive um pequeno branco! Pode perguntar de novo? 💖", 'ai');
                     }
                 } catch (erro) {
+                    console.error("Falha na comunicação:", erro);
                     chatWindow.removeChild(loading); 
                     addBubble("Desculpe, minha conexão falhou! Tente de novo. 💖", 'ai');
                 }
