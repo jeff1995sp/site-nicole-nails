@@ -14,8 +14,8 @@ export const handler = async function(event, context) {
             };
         }
 
-        // MUDANÇA AQUI: Trocámos "v1beta" por "v1" (versão estável) e o modelo voltou para gemini-1.5-flash
-        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
+        // MUDANÇA AQUI: Atualizado para o modelo gemini-2.5-flash
+        const url = `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=${API_KEY}`;
 
         const response = await fetch(url, {
             method: 'POST',
@@ -24,7 +24,10 @@ export const handler = async function(event, context) {
                 system_instruction: { 
                     parts: [{ text: "Você é a assistente virtual inteligente do salão Nicole Nails. Especialidade: Unhas em Gel e Spa dos Pés. Respostas curtas, profissionais e fofas com emojis." }] 
                 },
-                contents: [{ parts: [{ text: prompt }] }]
+                contents: [{ 
+                    role: "user", 
+                    parts: [{ text: prompt }] 
+                }]
             })
         });
 
