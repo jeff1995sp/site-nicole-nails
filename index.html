@@ -262,8 +262,8 @@
 
     <header class="site-header">
         <div class="header-container">
-            <!-- GATILHO DO ADMIN (Duplo Clique aqui para entrar no painel) -->
-            <h1 id="admin-trigger" title="N.N" style="cursor: pointer;">Nicole Nails 💅</h1>
+            <!-- TRIGGER DO ADMIN ADICIONADO AQUI -->
+            <h1 id="admin-trigger" style="cursor: pointer;" title="Acesso Restrito">Nicole Nails 💅</h1>
             <nav class="main-nav-desktop">
                 <a href="#inicio">Início</a>
                 <a href="#sobre">Sobre</a>
@@ -356,7 +356,7 @@
                     <form id="form-agendamento" class="booking-form">
                         
                         <!-- ========================================== -->
-                        <!-- PERGUNTA INTELIGENTE (Início do Zero)      -->
+                        <!-- PERGUNTA INTELIGENTE COM TRAVA DE "INÍCIO DO ZERO" -->
                         <!-- ========================================== -->
                         <div class="input-group" style="background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #ffdde9;">
                             <label style="font-weight: 600; color: var(--deep-pink); display: block; margin-bottom: 10px; font-size: 1.05rem;">É sua primeira vez no Studio?</label>
@@ -370,10 +370,10 @@
                             </div>
                         </div>
 
-                        <!-- WHATSAPP COM MÁSCARA AUTOMÁTICA -->
+                        <!-- WHATSAPP COM TECLADO NUMÉRICO DE CELULAR -->
                         <div class="input-group">
                             <i class="fab fa-whatsapp"></i>
-                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: (11) 99999-9999)" type="tel" class="styled-input" required maxlength="15"/>
+                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: (11) 99999-9999)" type="tel" inputmode="numeric" class="styled-input" required maxlength="15"/>
                         </div>
 
                         <div class="input-group">
@@ -382,15 +382,16 @@
                         </div>
 
                         <!-- ========================================== -->
-                        <!-- BLOCO DE ANAMNESE E DADOS DE SAÚDE         -->
+                        <!-- INÍCIO DO BLOCO DE ANAMNESE                -->
                         <!-- ========================================== -->
                         <div id="bloco-anamnese" style="display: block; background: #fff5f8; border: 1px solid #ffdde9; border-radius: 15px; padding: 20px; margin-top: 10px; width: 100%;">
                             <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: var(--deep-pink); border-bottom: 2px solid #ffdde9; padding-bottom: 5px;">📋 Ficha de Saúde (Apenas 1ª Vez)</h3>
                             
                             <div style="margin-bottom: 20px;">
                                 <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 1: Dados Pessoais</h4>
-                                <!-- DATA DE NASCIMENTO DE DIGITAR COM MÁSCARA -->
-                                <input type="text" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nascimento (Ex: 25/12/1990)" maxlength="10">
+                                <!-- DATA DE NASCIMENTO COM TECLADO NUMÉRICO E MÁSCARA -->
+                                <input type="tel" inputmode="numeric" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nasc. (Ex: 25/12/1990)" maxlength="10">
+                                
                                 <input type="text" id="ana_profissao" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Sua Profissão">
                                 <select id="ana_origem" class="styled-input" style="padding: 10px;">
                                     <option value="">Como nos conheceu?</option>
@@ -434,8 +435,10 @@
                                 <label style="cursor: pointer;"><input type="checkbox" id="ana_aceite" required> <b>Li, aceito e concordo.</b></label>
                             </div>
                         </div>
+                        <!-- ========================================== -->
+                        <!-- FIM DO BLOCO DE ANAMNESE                   -->
+                        <!-- ========================================== -->
 
-                        <!-- AGENDAMENTO ORIGINAL (INTOCADO) -->
                         <div class="input-group">
                             <i class="fas fa-gem"></i>
                             <select id="servico" name="procedimento" class="styled-input" required>
@@ -474,15 +477,16 @@
             </div>
         </section>
         
+        <!-- ENDEREÇO CORRIGIDO -->
         <section id="localizacao-final" class="location-section">
             <div class="container">
                 <h2>Localização</h2>
-                <p>Av. Rotary, 79 - Serraria, Diadema - SP, 09980-600</p>
+                <p>Rua Juqui, 60 - Conceição, Diadema - SP</p>
                 <p class="parking-info">🚗 Temos Estacionamento no Local!</p>
                 
                 <div class="map-container">
                     <iframe 
-                        src="https://maps.google.com/maps?q=Av.%20Rotary,%2079%20-%20Serraria,%20Diadema&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        src="https://maps.google.com/maps?q=Rua%20Juqui,%2060%20-%20Concei%C3%A7%C3%A3o,%20Diadema&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
                         height="100%" 
                         style="border:0;" 
@@ -547,7 +551,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     
     <script>
-        // ACESSO AO ADMIN (Duplo clique no título da página)
+        // Gatilho secreto para entrar no painel Admin (Duplo clique no título)
         document.getElementById('admin-trigger').addEventListener('dblclick', function() {
             let senha = prompt("🔒 Acesso Restrito ao Sistema. Digite a senha:");
             if (senha === "0712") {
@@ -557,9 +561,7 @@
             }
         });
 
-        // ==========================================
-        // URL DO SEU SCRIPT GOOGLE (INTOCADA!)
-        // ==========================================
+        // URL DO SCRIPT GOOGLE (INTOCADA!)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxRMBPB1MLzGYihoCkCLIyNxTjy2bxo3rbNL5wCIzuvTE94hw2ACHyZO-0H713IsXtmA/exec';
 
         function toggleMenu() {
@@ -568,7 +570,6 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            
             // FLATPICKR APENAS PARA A DATA DA AGENDA (MANTIDO DO SEU CÓDIGO)
             flatpickr("#data", {
                 locale: "pt", altInput: true, altFormat: "d/m/Y", dateFormat: "Y-m-d", minDate: "today",
@@ -587,7 +588,7 @@
             const dataNascInput = document.getElementById("ana_data_nasc");
 
             // ==========================================
-            // MÁSCARAS INTELIGENTES (DIGITAÇÃO)
+            // MÁSCARAS INTELIGENTES (DIGITAÇÃO FÁCIL NO CELULAR)
             // ==========================================
             zapInput.addEventListener('input', function (e) {
                 let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
@@ -597,11 +598,11 @@
             if(dataNascInput) {
                 dataNascInput.addEventListener('input', function (e) {
                     let v = e.target.value.replace(/\D/g, '');
-                    if (v.length > 8) v = v.slice(0,8);
-                    if (v.length >= 5) {
-                        e.target.value = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
-                    } else if (v.length >= 3) {
-                        e.target.value = v.slice(0,2) + '/' + v.slice(2);
+                    if (v.length > 8) v = v.substring(0,8);
+                    if (v.length > 4) {
+                        e.target.value = v.replace(/^(\d{2})(\d{2})(\d{1,4}).*/, '$1/$2/$3');
+                    } else if (v.length > 2) {
+                        e.target.value = v.replace(/^(\d{2})(\d{1,2}).*/, '$1/$2');
                     } else {
                         e.target.value = v;
                     }
@@ -609,7 +610,7 @@
             }
 
             // ==========================================
-            // LÓGICA DE MOSTRAR/ESCONDER FICHA (NOVO SISTEMA)
+            // LÓGICA DE MOSTRAR/ESCONDER FICHA 
             // ==========================================
             const radiosPrimeiraVez = document.querySelectorAll('input[name="primeira_vez"]');
             let clienteNova = true; 
