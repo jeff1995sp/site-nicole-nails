@@ -1,4 +1,4 @@
-exports.handler = async function(event, context) {
+export const handler = async function(event, context) {
     if (event.httpMethod !== 'POST') {
         return { statusCode: 405, body: 'Method Not Allowed' };
     }
@@ -6,8 +6,8 @@ exports.handler = async function(event, context) {
     try {
         const { prompt } = JSON.parse(event.body);
         
-        // Colocada diretamente no servidor seguro do Netlify (Invisível para o público)
-        const API_KEY = process.env.GEMINI_API_KEY; 
+        // Chave embutida direto no servidor seguro do Netlify (Invisível no navegador)
+        const API_KEY = 'AQ.Ab8RN6Ida8YYSOX7JyvTKBb5jaFCfz0_ZXJQfZrsQy8p4CdiCw'; 
 
         const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
@@ -15,7 +15,9 @@ exports.handler = async function(event, context) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
-                system_instruction: { parts: [{ text: "Você é a assistente virtual inteligente do salão Nicole Nails. Especialidade: Unhas em Gel e Spa dos Pés. Respostas curtas, profissionais e fofas com emojis." }] },
+                system_instruction: { 
+                    parts: [{ text: "Você é a assistente virtual inteligente do salão Nicole Nails. Especialidade: Unhas em Gel e Spa dos Pés. Respostas curtas, profissionais e fofas com emojis." }] 
+                },
                 contents: [{ parts: [{ text: prompt }] }]
             })
         });
