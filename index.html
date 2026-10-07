@@ -726,7 +726,7 @@
                     });
             });
 
-            // CHAT DE IA COM GEMINI À PROVA DE ERROS
+            // CHAT DE IA COM GEMINI (CONECTADO À FUNÇÃO SEGURA DO NETLIFY)
             const chatWindow = document.getElementById('ai-chat-window');
             const promptForm = document.getElementById('ai-prompt-form');
             const promptInput = document.getElementById('ai-prompt-input');
@@ -747,26 +747,24 @@
                 loading.innerHTML = '<div class="ai-avatar">💅</div><div class="ai-content">Digitando...</div>';
                 chatWindow.appendChild(loading); chatWindow.scrollTop = chatWindow.scrollHeight;
 
-                const API_KEY = ''; 
-                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
-
                 try {
-                    const resposta = await fetch(url, {
-                        method: 'POST', headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            system_instruction: { parts: [{ text: "Você é a IA da Nicole Nails. Especialidade: Unhas em Gel e Spa dos Pés. Respostas curtas e fofas com emojis." }] },
-                            contents: [{ parts: [{ text: perguntaUsuario }] }]
-                        })
+                    const resposta = await fetch('/.netlify/functions/gemini', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ prompt: perguntaUsuario })
                     });
-                    const dados = await resposta.json(); chatWindow.removeChild(loading);
+
+                    const dados = await resposta.json(); 
+                    chatWindow.removeChild(loading);
+
                     if (resposta.ok && dados.candidates) {
                         addBubble(dados.candidates[0].content.parts[0].text, 'ai');
-                    } else if (dados.error) {
-                        if(dados.error.message.includes("API_KEY_INVALID")) addBubble("⚠️ A Chave da API do Google inserida no código é inválida ou expirou. Por favor, gere uma nova.", 'ai');
-                        else addBubble(`⚠️ Erro do Google: ${dados.error.message}`, 'ai');
+                    } else {
+                        addBubble("Desculpe, tive um pequeno branco! Pode perguntar de novo? 💖", 'ai');
                     }
                 } catch (erro) {
-                    chatWindow.removeChild(loading); addBubble("Desculpe, minha conexão falhou! Verifique a internet e tente de novo. 💖", 'ai');
+                    chatWindow.removeChild(loading); 
+                    addBubble("Desculpe, minha conexão falhou! Tente de novo. 💖", 'ai');
                 }
             }
 
