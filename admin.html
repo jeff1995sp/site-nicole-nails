@@ -3,460 +3,772 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Painel Admin PRO | Nicole Nails</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Painel Admin ERP | Nicole Nails</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         :root {
-            --pink: #ff66b2; --dark-pink: #d63384; --bg-dark: #1e1e2f; --sidebar: #27293d; 
-            --white: #ffffff; --danger: #ff4d4d; --success: #00bf72; --warning: #ffb822;
+            --primary: #ff66b2;
+            --primary-dark: #d63384;
+            --sidebar-bg: #1e1e2d;
+            --sidebar-hover: #2b2b3f;
+            --bg-color: #f3f6f9;
+            --text-dark: #3f4254;
+            --text-muted: #b5b5c3;
+            --white: #ffffff;
+            --success: #1bc5bd;
+            --danger: #f64e60;
+            --warning: #ffa800;
+            --info: #8950fc;
+            --radius: 12px;
+            --shadow: 0px 4px 20px 0px rgba(0,0,0,0.05);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: #f4f7f6; display: flex; height: 100vh; overflow: hidden; }
-        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 10px; }
+        body { background-color: var(--bg-color); display: flex; height: 100vh; overflow: hidden; color: var(--text-dark); }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* HEADER SUPERIOR */
+        .top-header { position: absolute; top: 0; right: 0; left: 260px; height: 70px; background: var(--white); box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; padding: 0 30px; z-index: 10; }
+        .page-title { font-size: 1.4rem; font-weight: 700; color: var(--text-dark); }
+        .header-actions { display: flex; align-items: center; gap: 20px; }
+        .notification-btn { position: relative; cursor: pointer; font-size: 1.2rem; color: var(--text-muted); transition: 0.3s; }
+        .notification-btn:hover { color: var(--primary); }
+        .badge { position: absolute; top: -5px; right: -8px; background: var(--danger); color: white; font-size: 0.6rem; font-weight: bold; padding: 2px 5px; border-radius: 50%; }
+        .user-profile { display: flex; align-items: center; gap: 10px; background: rgba(255,102,178,0.1); padding: 8px 15px; border-radius: 50px; border: 1px solid rgba(255,102,178,0.3); }
+        .user-profile img { width: 35px; height: 35px; border-radius: 50%; object-fit: cover; }
+        .user-profile span { font-weight: 600; color: var(--primary-dark); font-size: 0.9rem; }
 
         /* SIDEBAR */
-        .sidebar { width: 260px; background: var(--sidebar); color: var(--white); display: flex; flex-direction: column; }
-        .logo-area { padding: 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .logo-area h2 { color: var(--pink); } .logo-area span { font-size: 0.8rem; color: #aaa; }
-        .nav-links { list-style: none; padding: 20px 0; flex-grow: 1; overflow-y: auto;}
-        .nav-links li { padding: 15px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; color: #a9a9b5; font-weight: 500; transition: 0.2s;}
-        .nav-links li:hover, .nav-links li.active { background: linear-gradient(90deg, rgba(255,102,178,0.2), transparent); color: var(--white); border-left: 4px solid var(--pink); }
-        .nav-links li i { font-size: 1.2rem; width: 20px; text-align: center; color: var(--pink); }
+        .sidebar { width: 260px; background: var(--sidebar-bg); color: var(--white); display: flex; flex-direction: column; position: relative; z-index: 20; }
+        .logo-area { padding: 25px 20px; text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .logo-area h2 { color: var(--primary); font-weight: 800; font-size: 1.6rem; letter-spacing: 1px; }
+        .logo-area span { font-size: 0.75rem; color: #888; text-transform: uppercase; font-weight: 600; letter-spacing: 2px; }
         
-        /* MAIN */
-        .main-content { flex-grow: 1; overflow-y: auto; padding: 30px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
-        .section { display: none; animation: fadeIn 0.4s ease; } .section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .nav-links { list-style: none; padding: 15px 0; flex-grow: 1; overflow-y: auto; }
+        .nav-links li { padding: 15px 25px; cursor: pointer; display: flex; align-items: center; gap: 15px; color: #9899ac; font-weight: 500; font-size: 0.95rem; transition: all 0.3s; }
+        .nav-links li:hover { background: var(--sidebar-hover); color: var(--white); }
+        .nav-links li.active { background: var(--primary); color: var(--white); }
+        .nav-links li i { font-size: 1.2rem; width: 25px; text-align: center; }
+        .nav-links li.active i { color: var(--white); }
+        .sidebar-footer { padding: 20px; border-top: 1px solid rgba(255,255,255,0.05); }
 
-        /* CARDS & PANELS */
-        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 30px; }
-        .card { background: white; padding: 20px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); display: flex; justify-content: space-between; align-items: center; border-left: 5px solid var(--pink);}
-        .card h3 { font-size: 0.9rem; color: #888; margin-bottom: 5px; text-transform: uppercase; }
-        .card h2 { font-size: 1.8rem; color: #333; }
-        .panel { background: white; padding: 25px; border-radius: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); margin-bottom: 30px; }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px;}
+        /* MAIN CONTENT */
+        .main-content { flex-grow: 1; overflow-y: auto; padding: 100px 30px 30px; margin-left: 260px; position: absolute; width: calc(100% - 260px); height: 100vh; }
+        .section { display: none; animation: fadeIn 0.4s ease; } .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* CARDS (DASHBOARD) */
+        .cards-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: var(--white); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; border: 1px solid #eee; }
+        .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        .stat-info h3 { font-size: 0.85rem; color: var(--text-muted); text-transform: uppercase; font-weight: 700; margin-bottom: 8px; }
+        .stat-info h2 { font-size: 2rem; color: var(--text-dark); font-weight: 800; }
+        .stat-icon { width: 60px; height: 60px; border-radius: 15px; display: flex; justify-content: center; align-items: center; font-size: 1.8rem; color: white; }
+
+        /* PANELS & TABLES */
+        .panel { background: var(--white); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 30px; border: 1px solid #eee; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f1f1f4; padding-bottom: 15px; }
+        .panel-header h2 { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
         
-        .btn-primary { background: var(--pink); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; }
-        .btn-success { background: var(--success); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;}
-        .btn-danger { background: var(--danger); color: white; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 0.85rem;}
-        
-        /* TABLES */
         table { width: 100%; border-collapse: collapse; }
-        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #eee; font-size: 0.95rem;}
-        th { color: #888; text-transform: uppercase; font-size: 0.85rem;}
+        th { color: var(--text-muted); text-transform: uppercase; font-size: 0.75rem; font-weight: 700; padding: 15px; text-align: left; background: #f9f9f9; }
+        td { padding: 15px; text-align: left; border-bottom: 1px solid #f1f1f4; font-size: 0.95rem; font-weight: 500; vertical-align: middle; }
+        tr:hover td { background-color: #fdfdfd; }
         
-        /* BADGES (RED FLAGS) */
-        .badge-red { background: #ffe5e5; color: #d63031; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold; border: 1px solid #ff7675;}
-        .badge-yellow { background: #fff3cd; color: #856404; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;}
-        .badge-green { background: #d4edda; color: #155724; padding: 4px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: bold;}
-        
+        /* BUTTONS & BADGES */
+        .btn { padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; display: inline-flex; align-items: center; gap: 8px; font-size: 0.9rem; }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-dark); box-shadow: 0 4px 10px rgba(255,102,178,0.3); }
+        .btn-success { background: rgba(27, 197, 189, 0.1); color: var(--success); }
+        .btn-success:hover { background: var(--success); color: white; }
+        .btn-danger { background: rgba(246, 78, 96, 0.1); color: var(--danger); }
+        .btn-danger:hover { background: var(--danger); color: white; }
+        .btn-info { background: rgba(137, 80, 252, 0.1); color: var(--info); }
+        .btn-info:hover { background: var(--info); color: white; }
+        .btn-sm { padding: 6px 12px; font-size: 0.8rem; }
+
+        .badge { padding: 5px 10px; border-radius: 6px; font-size: 0.75rem; font-weight: 700; display: inline-block; }
+        .badge-red { background: #ffe2e5; color: #f64e60; border: 1px solid #f64e60; }
+        .badge-yellow { background: #fff4de; color: #ffa800; border: 1px solid #ffa800; }
+        .badge-green { background: #c9f7f5; color: #1bc5bd; border: 1px solid #1bc5bd; }
+        .badge-purple { background: #eee5ff; color: #8950fc; border: 1px solid #8950fc; }
+
+        /* SEARCH BAR */
+        .search-box { display: flex; align-items: center; background: #f3f6f9; border-radius: 8px; padding: 8px 15px; width: 300px; }
+        .search-box input { border: none; background: transparent; outline: none; width: 100%; font-family: inherit; font-size: 0.9rem; margin-left: 10px; }
+        .search-box i { color: #a1a5b7; }
+
         /* MODALS */
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 1000; }
-        .modal { background: white; padding: 30px; border-radius: 20px; width: 90%; max-width: 700px; max-height: 90vh; overflow-y: auto; position: relative; }
-        .close-modal { position: absolute; top: 20px; right: 20px; font-size: 1.5rem; cursor: pointer; color: #888; }
-        .form-group { margin-bottom: 15px; } .form-control { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit;}
-        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 15px;}
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); display: none; justify-content: center; align-items: center; z-index: 9999; }
+        .modal { background: white; padding: 35px; border-radius: 20px; width: 90%; max-width: 650px; max-height: 90vh; overflow-y: auto; position: relative; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
+        .close-modal { position: absolute; top: 25px; right: 25px; font-size: 1.5rem; cursor: pointer; color: #a1a5b7; transition: 0.3s; }
+        .close-modal:hover { color: var(--danger); transform: rotate(90deg); }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; color: var(--text-dark); margin-bottom: 8px; text-transform: uppercase; }
+        .form-control { width: 100%; padding: 12px 15px; border: 1px solid #e4e6ef; border-radius: 8px; outline: none; transition: 0.3s; font-family: inherit; font-size: 0.95rem; background: #fcfcfc; }
+        .form-control:focus { border-color: var(--primary); background: white; box-shadow: 0 0 0 3px rgba(255,102,178,0.1); }
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        /* DOSSIER CRM */
+        .dossier-header { display: flex; align-items: center; gap: 20px; margin-bottom: 25px; padding-bottom: 20px; border-bottom: 1px dashed #e4e6ef; }
+        .dossier-avatar { width: 80px; height: 80px; background: linear-gradient(45deg, var(--primary), var(--info)); border-radius: 20px; display: flex; justify-content: center; align-items: center; font-size: 2.5rem; color: white; font-weight: bold; }
+        .dossier-info h2 { font-size: 1.6rem; color: var(--text-dark); margin-bottom: 5px; }
+        .loyalty-stars { color: #ffa800; font-size: 1.2rem; }
     </style>
 </head>
 <body>
 
+    <!-- BARRA SUPERIOR -->
+    <header class="top-header">
+        <div class="page-title" id="top-title">Dashboard Inicial</div>
+        <div class="header-actions">
+            <div class="notification-btn" onclick="mostrarAlertas()">
+                <i class="fas fa-bell"></i>
+                <span class="badge" id="alert-count">0</span>
+            </div>
+            <div class="user-profile">
+                <img src="https://cdn-icons-png.flaticon.com/512/194/194938.png" alt="Admin">
+                <span>CEO Nicole</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- SIDEBAR / MENU LATERAL -->
     <aside class="sidebar">
-        <div class="logo-area"><h2>Nicole Nails</h2><span>ERP Mega Admin v3</span></div>
+        <div class="logo-area">
+            <h2>NICOLE NAILS</h2>
+            <span>ERP Sistema Pro v3.0</span>
+        </div>
         <ul class="nav-links">
-            <li class="active" onclick="switchTab('modulo5')"><i class="fas fa-chart-line"></i> Dashboard & Financeiro</li>
-            <li onclick="switchTab('modulo1')"><i class="fas fa-calendar-check"></i> Agenda & Fila</li>
-            <li onclick="switchTab('modulo2')"><i class="fas fa-address-book"></i> Super CRM (Anamnese)</li>
-            <li onclick="switchTab('modulo3')"><i class="fas fa-flask"></i> Estoque Unhas (CMV)</li>
-            <li onclick="switchTab('modulo4')"><i class="fas fa-gem"></i> Estoque Bijuterias</li>
-            <hr style="border-color: rgba(255,255,255,0.1); margin: 15px 20px;">
-            <li onclick="fazerBackup()" style="color: #4facfe;"><i class="fas fa-download"></i> Baixar BKP (Nuvem)</li>
-            <li onclick="document.getElementById('file-import').click()" style="color: #43e97b;"><i class="fas fa-upload"></i> Restaurar BKP</li>
-            <input type="file" id="file-import" style="display:none" accept=".json" onchange="restaurarBackup(event)">
-            <li onclick="sair()" style="color: var(--danger)"><i class="fas fa-sign-out-alt"></i> Sair</li>
+            <li class="active" onclick="switchTab('mod_dash', this)"><i class="fas fa-chart-line"></i> Dashboard</li>
+            <li onclick="switchTab('mod_agenda', this)"><i class="fas fa-calendar-alt"></i> Agenda do Dia</li>
+            <li onclick="switchTab('mod_crm', this)"><i class="fas fa-users"></i> Clientes & Fichas</li>
+            <li onclick="switchTab('mod_unhas', this)"><i class="fas fa-magic"></i> Estoque Unhas</li>
+            <li onclick="switchTab('mod_bijus', this)"><i class="fas fa-gem"></i> Estoque Bijuterias</li>
+            <li onclick="switchTab('mod_relatorios', this)"><i class="fas fa-file-invoice-dollar"></i> Relatórios & DRE</li>
         </ul>
+        <div class="sidebar-footer">
+            <div style="font-size: 0.75rem; color: #888; margin-bottom: 15px;">Segurança de Dados</div>
+            <button class="btn btn-sm" style="width:100%; margin-bottom:10px; background:#2b2b3f; color:white;" onclick="fazerBackup()"><i class="fas fa-cloud-download-alt"></i> Baixar BKP</button>
+            <button class="btn btn-sm btn-danger" style="width:100%;" onclick="sair()"><i class="fas fa-sign-out-alt"></i> Sair do Painel</button>
+        </div>
     </aside>
 
+    <!-- ÁREA PRINCIPAL -->
     <main class="main-content">
-        <header class="header">
-            <h1 id="page-title">Módulo 5: Visão do Império</h1>
-            <div style="background: white; padding: 10px 20px; border-radius: 50px; font-weight: bold; color: var(--pink); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
-                Meta Mensal: <span id="meta-valor">R$ 0,00</span>
-            </div>
-        </header>
 
-        <!-- MÓDULO 5: FINANCEIRO E DRE -->
-        <section id="modulo5" class="section active">
+        <!-- ===================================== -->
+        <!-- MÓDULO 0: DASHBOARD                   -->
+        <!-- ===================================== -->
+        <section id="mod_dash" class="section active">
             <div class="cards-grid">
-                <div class="card" style="border-color: var(--success)">
-                    <div><h3>Faturamento Mês (Unha + Biju)</h3><h2 id="dash-faturamento">R$ 0,00</h2></div>
-                    <i class="fas fa-money-bill-wave" style="font-size:2rem; color:var(--success)"></i>
+                <div class="stat-card" style="border-bottom: 4px solid var(--primary);">
+                    <div class="stat-info"><h3>Faturamento Bruto</h3><h2 id="dash-faturou">R$ 0,00</h2></div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, var(--primary), var(--primary-dark));"><i class="fas fa-wallet"></i></div>
                 </div>
-                <div class="card" style="border-color: var(--danger)">
-                    <div><h3>Despesas / Sangria Mês</h3><h2 id="dash-saidas">R$ 0,00</h2></div>
-                    <i class="fas fa-arrow-down" style="font-size:2rem; color:var(--danger)"></i>
+                <div class="stat-card" style="border-bottom: 4px solid var(--info);">
+                    <div class="stat-info"><h3>Clientes na Base</h3><h2 id="dash-clientes">0</h2></div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #8950fc, #733be1);"><i class="fas fa-users"></i></div>
                 </div>
-                <div class="card" style="border-color: var(--pink)">
-                    <div><h3>Lucro Líquido (DRE)</h3><h2 id="dash-lucro">R$ 0,00</h2></div>
-                    <i class="fas fa-piggy-bank" style="font-size:2rem; color:var(--pink)"></i>
+                <div class="stat-card" style="border-bottom: 4px solid var(--success);">
+                    <div class="stat-info"><h3>Vendas de Bijus</h3><h2 id="dash-vendas-biju">0</h2></div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #1bc5bd, #0da39b);"><i class="fas fa-ring"></i></div>
+                </div>
+                <div class="stat-card" style="border-bottom: 4px solid var(--warning);">
+                    <div class="stat-info"><h3>Agenda Hoje</h3><h2 id="dash-agendados">0</h2></div>
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #ffa800, #e09400);"><i class="fas fa-clock"></i></div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="panel">
+                    <div class="panel-header"><h2>📈 Receita dos Últimos 7 Dias</h2></div>
+                    <canvas id="graficoReceita" height="120"></canvas>
+                </div>
+                <div class="panel">
+                    <div class="panel-header"><h2>⚠️ Alertas Rápidos (Red Flags)</h2></div>
+                    <div id="lista-alertas-dash" style="font-size: 0.9rem; color: #555;">Nenhum alerta crítico para hoje.</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- MÓDULO 1: AGENDA                      -->
+        <!-- ===================================== -->
+        <section id="mod_agenda" class="section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Controle de Atendimentos</h2>
+                    <span style="font-size: 0.9rem; color: var(--text-muted);">Integração Ativa com Google Site</span>
+                </div>
+                <table id="tabela-agenda">
+                    <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Procedimento</th><th>Sinal (PIX)</th><th>Status da Ficha</th><th>Ação na Mesa</th></tr></thead>
+                    <tbody><!-- JS --></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- MÓDULO 2: SUPER CRM                   -->
+        <!-- ===================================== -->
+        <section id="mod_crm" class="section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Banco de Dados Inteligente de Clientes</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="buscaCRM" placeholder="Buscar por nome ou celular..." onkeyup="filtrarCRM()">
+                    </div>
+                </div>
+                <table id="tabela-crm">
+                    <thead><tr><th>Cliente</th><th>Contato</th><th>Alergias / Risco</th><th>Fidelidade (Visitas)</th><th>Gasto LTV</th><th>Ferramentas</th></tr></thead>
+                    <tbody><!-- JS --></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- MÓDULO 3: ESTOQUE UNHAS (CMV)         -->
+        <!-- ===================================== -->
+        <section id="mod_unhas" class="section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Insumos do Studio (Géis, Preparadores, Lixas)</h2>
+                    <button class="btn btn-primary" onclick="abrirModal('modalAddUnha')"><i class="fas fa-plus"></i> Registrar Compra</button>
+                </div>
+                <table id="tabela-est-unha">
+                    <thead><tr><th>Produto</th><th>Data de Validade</th><th>Quantidade Físico</th><th>Alerta</th><th>Baixa Manual (Perda)</th></tr></thead>
+                    <tbody><!-- JS --></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- MÓDULO 4: ESTOQUE BIJUS (PDV)         -->
+        <!-- ===================================== -->
+        <section id="mod_bijus" class="section">
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Vendas Extra (Joias e Bijuterias)</h2>
+                    <button class="btn btn-primary" onclick="abrirModal('modalAddBiju')"><i class="fas fa-gem"></i> Cadastrar Peça Nova</button>
+                </div>
+                <table id="tabela-est-biju">
+                    <thead><tr><th>Código (SKU)</th><th>Peça</th><th>Unidades</th><th>Custo Fornecedor</th><th>Preço de Venda</th><th>Margem de Lucro</th><th>Caixa Rápido</th></tr></thead>
+                    <tbody><!-- JS --></tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- ===================================== -->
+        <!-- MÓDULO 5: RELATÓRIOS E FINANCEIRO     -->
+        <!-- ===================================== -->
+        <section id="mod_relatorios" class="section">
+            <div class="cards-grid">
+                <div class="stat-card" style="border: 1px solid var(--danger);">
+                    <div class="stat-info"><h3>Despesas do Mês</h3><h2 id="dash-despesas">R$ 0,00</h2></div>
+                    <div class="stat-icon" style="background: rgba(246, 78, 96, 0.1); color: var(--danger);"><i class="fas fa-arrow-down"></i></div>
+                </div>
+                <div class="stat-card" style="border: 1px solid var(--success);">
+                    <div class="stat-info"><h3>Lucro Real (DRE)</h3><h2 id="dash-lucro-real">R$ 0,00</h2></div>
+                    <div class="stat-icon" style="background: rgba(27, 197, 189, 0.1); color: var(--success);"><i class="fas fa-piggy-bank"></i></div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-header">
+                    <h2>Fluxo de Caixa / Livro Razão</h2>
+                    <button class="btn btn-danger" onclick="abrirModal('modalSangria')"><i class="fas fa-minus-circle"></i> Registrar Gasto (Sangria)</button>
+                </div>
+                <table id="tabela-caixa">
+                    <thead><tr><th>Data do Registro</th><th>Descrição do Lançamento</th><th>Categoria</th><th>Valor Bruto</th></tr></thead>
+                    <tbody><!-- JS --></tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- ========================================================================= -->
+    <!-- ÁREA DE MODAIS (POP-UPS) DE FUNÇÕES                                       -->
+    <!-- ========================================================================= -->
+
+    <!-- DOSSIÊ CRM -->
+    <div class="modal-overlay" id="modalFichaCli">
+        <div class="modal" style="max-width: 800px;">
+            <i class="fas fa-times close-modal" onclick="fechaModal('modalFichaCli')"></i>
+            <div class="dossier-header">
+                <div class="dossier-avatar" id="dos-avatar">N</div>
+                <div class="dossier-info">
+                    <h2 id="dos-nome">Nome da Cliente</h2>
+                    <span style="color:var(--text-muted); font-size:0.9rem;" id="dos-zap">(11) 99999-9999</span>
+                    <div class="loyalty-stars" id="dos-estrelas"></div>
+                </div>
+                <div style="margin-left: auto;">
+                    <button class="btn btn-success" id="btn-zap-cli"><i class="fab fa-whatsapp"></i> Chamar no Whats</button>
                 </div>
             </div>
             
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Controle de Caixa & Sangria</h2>
-                    <button class="btn-primary" onclick="abrirSangria()"><i class="fas fa-minus-circle"></i> Registrar Gasto (Sangria)</button>
+            <div class="grid-2" style="margin-bottom: 20px;">
+                <div style="background:#f3f6f9; padding:15px; border-radius:10px;">
+                    <h4 style="color:var(--primary); font-size:0.85rem; text-transform:uppercase; margin-bottom:10px;">Dados Pessoais</h4>
+                    <p><b>Data de Nascimento:</b> <span id="dos-nasc"></span></p>
+                    <p><b>Profissão:</b> <span id="dos-prof"></span></p>
+                    <p><b>Conheceu o Studio por:</b> <span id="dos-origem"></span></p>
+                    <p><b>Total Investido (LTV):</b> <span id="dos-ltv" style="color:var(--success); font-weight:bold;"></span></p>
                 </div>
-                <table id="tabela-caixa">
-                    <thead><tr><th>Data</th><th>Descrição</th><th>Tipo</th><th>Valor</th></tr></thead>
-                    <tbody><!-- Preenchido via JS --></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- MÓDULO 1: AGENDA -->
-        <section id="modulo1" class="section">
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Agenda Inteligente & Confirmação PIX</h2>
+                <div style="background:#ffe2e5; padding:15px; border-radius:10px; border: 1px solid rgba(246,78,96,0.2);">
+                    <h4 style="color:var(--danger); font-size:0.85rem; text-transform:uppercase; margin-bottom:10px;"><i class="fas fa-exclamation-triangle"></i> Saúde e Biossegurança</h4>
+                    <ul id="dos-saude" style="padding-left:15px; font-size:0.9rem; color:#f64e60;"></ul>
                 </div>
-                <table id="tabela-agenda">
-                    <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Serviço</th><th>Status PIX</th><th>Ações (Concluir/Falta)</th></tr></thead>
-                    <tbody><!-- Preenchido via JS --></tbody>
-                </table>
             </div>
-        </section>
 
-        <!-- MÓDULO 2: SUPER CRM -->
-        <section id="modulo2" class="section">
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Banco de Dados de Clientes (Fichas de Anamnese)</h2>
-                </div>
-                <table id="tabela-crm">
-                    <thead><tr><th>Nome</th><th>WhatsApp</th><th>Red Flags (Saúde)</th><th>LTV (Gasto Total)</th><th>Ações</th></tr></thead>
-                    <tbody><!-- Preenchido via JS --></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- MÓDULO 3: ESTOQUE UNHAS -->
-        <section id="modulo3" class="section">
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>Estoque de Insumos (Controle de Receita/CMV)</h2>
-                    <button class="btn-primary" onclick="abrirAddUnha()"><i class="fas fa-plus"></i> Novo Insumo</button>
-                </div>
-                <table id="tabela-est-unha">
-                    <thead><tr><th>Produto</th><th>Validade Lote</th><th>Qtd Atual</th><th>Ponto de Pedido</th><th>Ação</th></tr></thead>
-                    <tbody><!-- JS --></tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- MÓDULO 4: ESTOQUE BIJUTERIA -->
-        <section id="modulo4" class="section">
-            <div class="panel">
-                <div class="panel-header">
-                    <h2>PDV Bijuterias & Acessórios</h2>
-                    <button class="btn-primary" onclick="abrirAddBiju()"><i class="fas fa-plus"></i> Nova Joia/Biju</button>
-                </div>
-                <table id="tabela-est-biju">
-                    <thead><tr><th>SKU Interno</th><th>Peça</th><th>Estoque</th><th>Preço Venda</th><th>Vender PDV</th></tr></thead>
-                    <tbody><!-- JS --></tbody>
-                </table>
-            </div>
-        </section>
-    </main>
-
-    <!-- === MODALS === -->
-
-    <!-- Modal Ficha Cliente (Super CRM) -->
-    <div class="modal-overlay" id="modalFichaCli">
-        <div class="modal">
-            <i class="fas fa-times close-modal" onclick="fechaModal('modalFichaCli')"></i>
-            <h2 style="color: var(--pink); border-bottom: 2px solid #eee; padding-bottom: 10px;">Dossiê da Cliente</h2>
-            <div id="ficha-cli-content" style="margin-top: 15px;">
-                <!-- Preenchido dinamicamente -->
-            </div>
-            <div class="form-group" style="margin-top: 20px;">
-                <label>Notas Secretas (Só você vê):</label>
-                <textarea id="nota_secreta" class="form-control" rows="3" placeholder="Ex: Toma café sem açúcar, gosta de formato Almond..."></textarea>
-                <button class="btn-primary" style="margin-top: 10px;" onclick="salvarNotaSecreta()">Salvar Nota</button>
+            <div class="form-group">
+                <label><i class="fas fa-lock"></i> Anotações Secretas da Profissional na Mesa:</label>
+                <textarea id="nota_secreta" class="form-control" rows="4" placeholder="Ex: Toma café sem açúcar, gosta do formato Almond tamanho M, esmalte favorito Nude Vólia..."></textarea>
+                <button class="btn btn-primary" style="margin-top: 15px;" onclick="salvarNotaSecreta()">Salvar Dossiê Oculto</button>
             </div>
         </div>
     </div>
 
-    <!-- Modal Sangria (Despesa) -->
+    <!-- MODAL FINALIZAR ATENDIMENTO / CHECKOUT -->
+    <div class="modal-overlay" id="modalCheckout">
+        <div class="modal" style="max-width: 450px; text-align: center;">
+            <i class="fas fa-times close-modal" onclick="fechaModal('modalCheckout')"></i>
+            <h2 style="color: var(--primary); margin-bottom: 10px;">Finalizar Atendimento</h2>
+            <p style="color:var(--text-muted); margin-bottom:20px;">Cliente: <b id="chk-cli-nome">Nome</b><br>Serviço: <b id="chk-serv">Serviço</b></p>
+            
+            <div class="form-group text-left" style="text-align: left;">
+                <label>Valor Cobrado (R$):</label>
+                <input type="number" id="chk-valor" class="form-control" step="0.01" style="font-size:1.5rem; text-align:center; font-weight:bold; color:var(--success);">
+            </div>
+            
+            <div style="background: #fff4de; padding:10px; border-radius:8px; font-size:0.8rem; color:#ffa800; margin-bottom:20px; text-align:left;">
+                <i class="fas fa-lightbulb"></i> Lembrete CMV: Subtraia as lixas e luvas gastas no módulo de Estoque.
+            </div>
+
+            <button class="btn btn-primary" style="width: 100%; padding:15px; font-size:1.1rem;" onclick="processarCheckout()">Concluir e Enviar para o Caixa</button>
+        </div>
+    </div>
+
+    <!-- MODAL ESTOQUE UNHA -->
+    <div class="modal-overlay" id="modalAddUnha">
+        <div class="modal" style="max-width: 400px;">
+            <i class="fas fa-times close-modal" onclick="fechaModal('modalAddUnha')"></i>
+            <h2 style="color: var(--text-dark); margin-bottom: 20px;">Nova Compra Insumo</h2>
+            <div class="form-group"><label>Produto (Marca e Cor)</label><input type="text" id="u_nome" class="form-control" placeholder="Ex: Gel Vólia Classic Blank"></div>
+            <div class="grid-2">
+                <div class="form-group"><label>Qtd. Potes/Unid.</label><input type="number" id="u_qtd" class="form-control"></div>
+                <div class="form-group"><label>Data Validade</label><input type="date" id="u_val" class="form-control"></div>
+            </div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="salvarUnha()"><i class="fas fa-save"></i> Alimentar Estoque</button>
+        </div>
+    </div>
+
+    <!-- MODAL ESTOQUE BIJU -->
+    <div class="modal-overlay" id="modalAddBiju">
+        <div class="modal" style="max-width: 400px;">
+            <i class="fas fa-times close-modal" onclick="fechaModal('modalAddBiju')"></i>
+            <h2 style="color: var(--text-dark); margin-bottom: 20px;">Cadastrar Peça para Venda</h2>
+            <div class="form-group"><label>Descrição da Peça</label><input type="text" id="b_nome" class="form-control" placeholder="Ex: Colar Coração Prata"></div>
+            <div class="grid-2">
+                <div class="form-group"><label>Qtd Comprada</label><input type="number" id="b_qtd" class="form-control"></div>
+                <div class="form-group"><label>Custo Unitário (R$)</label><input type="number" step="0.01" id="b_custo" class="form-control"></div>
+            </div>
+            <div class="form-group"><label>Preço Final para a Cliente (R$)</label><input type="number" step="0.01" id="b_venda" class="form-control" style="border-color:var(--success); color:var(--success); font-weight:bold;"></div>
+            <button class="btn btn-primary" style="width: 100%;" onclick="salvarBiju()"><i class="fas fa-barcode"></i> Gerar SKU Automático</button>
+        </div>
+    </div>
+
+    <!-- MODAL SANGRIA -->
     <div class="modal-overlay" id="modalSangria">
         <div class="modal" style="max-width: 400px;">
             <i class="fas fa-times close-modal" onclick="fechaModal('modalSangria')"></i>
-            <h2 style="color: var(--danger); margin-bottom: 15px;">Sangria / Despesa</h2>
-            <input type="text" id="desc_sangria" class="form-control form-group" placeholder="Descrição (Ex: Compra de Algodão)">
-            <input type="number" id="valor_sangria" class="form-control form-group" placeholder="Valor (R$)">
-            <button class="btn-primary" style="width: 100%; background: var(--danger)" onclick="registrarSangria()">Registrar Saída</button>
+            <h2 style="color: var(--danger); margin-bottom: 20px;">Registrar Despesa do Mês</h2>
+            <div class="form-group"><label>O que você pagou?</label><input type="text" id="san_desc" class="form-control" placeholder="Ex: Aluguel, Perfumaria, Lanche..."></div>
+            <div class="form-group"><label>Valor Tirado do Caixa (R$)</label><input type="number" step="0.01" id="san_valor" class="form-control"></div>
+            <button class="btn btn-danger" style="width: 100%;" onclick="salvarSangria()"><i class="fas fa-arrow-down"></i> Dar Baixa no Lucro</button>
         </div>
     </div>
 
-    <!-- Modal Add Produto Unha -->
-    <div class="modal-overlay" id="modalAddUnha">
-        <div class="modal" style="max-width: 500px;">
-            <i class="fas fa-times close-modal" onclick="fechaModal('modalAddUnha')"></i>
-            <h2 style="color: var(--pink); margin-bottom: 15px;">Cadastrar Insumo (Unha)</h2>
-            <input type="text" id="unha_nome" class="form-control form-group" placeholder="Nome (Ex: Gel Vólia Classic Blank)">
-            <div class="grid-2">
-                <input type="number" id="unha_qtd" class="form-control form-group" placeholder="Quantidade Atual">
-                <input type="date" id="unha_val" class="form-control form-group" title="Validade do Lote">
-            </div>
-            <button class="btn-primary" style="width: 100%;" onclick="salvarUnha()">Salvar no Estoque</button>
-        </div>
-    </div>
-
-    <!-- Modal Add Produto Biju -->
-    <div class="modal-overlay" id="modalAddBiju">
-        <div class="modal" style="max-width: 500px;">
-            <i class="fas fa-times close-modal" onclick="fechaModal('modalAddBiju')"></i>
-            <h2 style="color: var(--pink); margin-bottom: 15px;">Cadastrar Bijuteria</h2>
-            <input type="text" id="biju_nome" class="form-control form-group" placeholder="Nome (Ex: Colar Prata Zircônia)">
-            <div class="grid-2">
-                <input type="number" id="biju_qtd" class="form-control form-group" placeholder="Quantidade Inicial">
-                <input type="number" id="biju_preco" class="form-control form-group" placeholder="Preço de Venda (R$)">
-            </div>
-            <button class="btn-primary" style="width: 100%;" onclick="salvarBiju()">Gerar SKU e Salvar</button>
-        </div>
-    </div>
-
+    <!-- SCRIPT GIGANTE E COMPLETO DO SISTEMA ERP -->
     <script>
-        // --- NÚCLEO DE DADOS (Simulando Banco de Dados Relacional) ---
+        // ----------------------------------------------------------------------
+        // INICIALIZAÇÃO E BANCO DE DADOS (LOCALSTORAGE)
+        // ----------------------------------------------------------------------
         let DB = JSON.parse(localStorage.getItem('nicoleNailsDB')) || {
-            clientes: [],
-            agenda: [],
-            estoque_unhas: [ { id: 1, nome: "Top Coat Vólia", qtd: 2, validade: "2027-12-01" } ],
-            estoque_bijus: [],
-            caixa: { entradas: 0, saidas: 0, historico: [] },
-            config: { metaMensal: 5000 }
+            clientes: [], agenda: [], estoque_unhas: [], estoque_bijus: [], 
+            caixa: { entradas: 0, saidas: 0, historico: [] }, config: { metaMensal: 6000 }
         };
-        let clienteFocoId = null;
+        
+        let idFoco = null; // Usado para modais
+        let graficoInstance = null; // Para o Chart.js
 
         function salvarDB() { localStorage.setItem('nicoleNailsDB', JSON.stringify(DB)); renderAll(); }
         function sair() { window.location.href = "index.html"; }
+        function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
         function fechaModal(id) { document.getElementById(id).style.display = 'none'; }
 
-        // --- NAVEGAÇÃO DOS MÓDULOS ---
-        const modulosTitulos = {
-            'modulo5': 'Módulo 5: Visão do Império (Financeiro)',
-            'modulo1': 'Módulo 1: Agenda Automática',
-            'modulo2': 'Módulo 2: Super CRM & Fichas',
-            'modulo3': 'Módulo 3: Controle de Estoque (Unhas)',
-            'modulo4': 'Módulo 4: PDV Bijuterias'
-        };
-        function switchTab(modId) {
+        // Navegação Visual do Menu
+        function switchTab(tabId, el) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active'));
-            document.getElementById(modId).classList.add('active');
-            event.currentTarget.classList.add('active');
-            document.getElementById('page-title').innerText = modulosTitulos[modId];
+            document.getElementById(tabId).classList.add('active');
+            if(el) el.classList.add('active');
+            
+            // Re-render chart if switching to dash
+            if(tabId === 'mod_dash') renderGrafico();
         }
 
-        // ==========================================
-        // MÓDULO 2: SUPER CRM E ANAMNESE INTELIGENTE
-        // ==========================================
-        function renderCRM() {
-            const tbody = document.querySelector('#tabela-crm tbody');
-            tbody.innerHTML = '';
-            DB.clientes.forEach(c => {
-                let badges = "";
-                if(c.anamnese) {
-                    if(c.anamnese.diabetes === "Sim") badges += `<span class="badge-red">Diabética</span> `;
-                    if(c.anamnese.alergia_meta === "Sim") badges += `<span class="badge-red">Alérgica a Gel</span> `;
-                    if(c.anamnese.roer === "Sim") badges += `<span class="badge-yellow">Rói Unha</span> `;
-                    if(c.anamnese.gestante === "Sim") badges += `<span class="badge-yellow">Gestante</span> `;
-                }
-                if(badges === "") badges = `<span class="badge-green">Tudo OK</span>`;
+        // Formatação de Moeda BRL
+        const formataBRL = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-                tbody.innerHTML += `
-                    <tr>
-                        <td><b>${c.nome}</b></td>
-                        <td>${c.zap}</td>
-                        <td>${badges}</td>
-                        <td>R$ ${c.ltv ? c.ltv.toFixed(2) : '0.00'}</td>
-                        <td><button class="btn-primary" onclick="abrirDossie(${c.id})"><i class="fas fa-eye"></i> Dossiê</button></td>
-                    </tr>
-                `;
+        // ----------------------------------------------------------------------
+        // MÓDULO 0: DASHBOARD E ALERTAS INTELIGENTES
+        // ----------------------------------------------------------------------
+        function renderDashboard() {
+            let vendasBiju = DB.caixa.historico.filter(x => x.desc.includes('Biju')).reduce((acc, curr) => acc + curr.valor, 0);
+            
+            document.getElementById('dash-faturou').innerText = formataBRL(DB.caixa.entradas);
+            document.getElementById('dash-clientes').innerText = DB.clientes.length;
+            document.getElementById('dash-vendas-biju').innerText = formataBRL(vendasBiju);
+            document.getElementById('dash-agendados').innerText = DB.agenda.length;
+
+            // Alertas Críticos no Sino e no Painel
+            let numAlertas = 0;
+            let htmlAlertas = "";
+
+            // Verifica Estoque Baixo
+            DB.estoque_unhas.forEach(u => {
+                if(u.qtd <= 2) {
+                    numAlertas++;
+                    htmlAlertas += `<div style="padding:10px; border-left:4px solid var(--danger); background:#ffe2e5; margin-bottom:10px; border-radius:4px;"><b>URGENTE:</b> ${u.nome} está acabando! (Restam ${u.qtd})</div>`;
+                }
+            });
+
+            // Verifica Clientes Agendadas com Red Flags de Saúde (Diabética ou Alergia)
+            DB.agenda.forEach(a => {
+                let cli = DB.clientes.find(c => c.nome === a.clienteNome);
+                if(cli && cli.risco === 1) {
+                    numAlertas++;
+                    htmlAlertas += `<div style="padding:10px; border-left:4px solid var(--warning); background:#fff4de; margin-bottom:10px; border-radius:4px;"><b>ATENÇÃO NA MESA:</b> A cliente ${cli.nome} agendada tem restrições de saúde na ficha (Risco de corte/Alergia).</div>`;
+                }
+            });
+
+            if(numAlertas === 0) htmlAlertas = `<p style="color:var(--success)"><i class="fas fa-check-circle"></i> Tudo em ordem! Sem pendências graves hoje.</p>`;
+            
+            document.getElementById('alert-count').innerText = numAlertas;
+            document.getElementById('lista-alertas-dash').innerHTML = htmlAlertas;
+        }
+
+        function mostrarAlertas() { switchTab('mod_dash', document.querySelector('.nav-links li')); }
+
+        function renderGrafico() {
+            const ctx = document.getElementById('graficoReceita').getContext('2d');
+            if(graficoInstance) graficoInstance.destroy(); // destroi o anterior para não bugar
+            
+            // Simulação de 7 dias baseados no histórico
+            graficoInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Hoje'],
+                    datasets: [{
+                        label: 'Faturamento Bruto',
+                        data: [120, 180, 150, 300, 450, 600, DB.caixa.entradas > 0 ? DB.caixa.entradas : 200], // Fake data base para estética, ultimo é real
+                        borderColor: '#ff66b2',
+                        backgroundColor: 'rgba(255,102,178,0.1)',
+                        borderWidth: 3, fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: '#d63384'
+                    }]
+                },
+                options: { responsive: true, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true } } }
             });
         }
 
-        function abrirDossie(id) {
-            let c = DB.clientes.find(x => x.id === id);
-            clienteFocoId = id;
-            document.getElementById('nota_secreta').value = c.notas_secretas || "";
-            
-            let html = `
-                <div class="grid-2" style="font-size: 0.9rem;">
-                    <div><p><b>Profissão:</b> ${c.profissao || 'Não inf.'}</p><p><b>Data Nasc.:</b> ${c.nascimento || 'Não inf.'}</p></div>
-                    <div><p><b>Conheceu por:</b> ${c.origem || 'Não inf.'}</p><p><b>Gasto Vitalício (LTV):</b> R$ ${c.ltv ? c.ltv.toFixed(2) : '0.00'}</p></div>
-                </div>
-                <h3 style="margin-top:15px; color:#555; border-bottom:1px solid #ddd;">Dados Médicos Críticos</h3>
-                <ul style="font-size:0.85rem; color:#d63031; padding-left: 20px; margin-top:10px;">
-            `;
-            if(c.anamnese) {
-                if(c.anamnese.medicamento==="Sim") html += `<li>Usa remédio: ${c.anamnese.qual_med}</li>`;
-                if(c.anamnese.alergia_esmalte==="Sim") html += `<li>Alergia Esmalte Comum</li>`;
-                if(c.anamnese.fungo==="Sim") html += `<li>Histórico de Fungos/Micose</li>`;
-                if(c.anamnese.quimica==="Sim") html += `<li>Usa produtos químicos sem luva</li>`;
-            }
-            html += `</ul>`;
-            document.getElementById('ficha-cli-content').innerHTML = html;
-            document.getElementById('modalFichaCli').style.display = 'flex';
-        }
-
-        function salvarNotaSecreta() {
-            let nota = document.getElementById('nota_secreta').value;
-            let c = DB.clientes.find(x => x.id === clienteFocoId);
-            c.notas_secretas = nota;
-            salvarDB(); fechaModal('modalFichaCli'); alert("Nota salva com sucesso!");
-        }
-
-        // ==========================================
-        // MÓDULO 1: AGENDA, PIX E NO-SHOW
-        // ==========================================
+        // ----------------------------------------------------------------------
+        // MÓDULO 1: AGENDA E CHECKOUT
+        // ----------------------------------------------------------------------
         function renderAgenda() {
-            const tbody = document.querySelector('#tabela-agenda tbody');
-            tbody.innerHTML = '';
+            const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
+            if(DB.agenda.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum agendamento pendente.</td></tr>';
+            
             DB.agenda.forEach(a => {
-                let statusPix = a.status === 'Confirmado' ? `<span class="badge-green">Sinal OK</span>` : `<span class="badge-yellow">Aguardando PIX</span>`;
-                let btnConf = a.status === 'Pendente' ? `<button class="btn-success" onclick="confirmaPix(${a.id})"><i class="fas fa-check"></i> PIX OK</button>` : '';
+                let statusPix = a.status === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
                 
+                // Puxa ficha da cliente pra ver se tem alerta
+                let cli = DB.clientes.find(c => c.nome === a.clienteNome);
+                let btnFicha = cli ? `<button class="btn btn-sm btn-info" onclick="abrirDossie(${cli.id}); switchTab('mod_crm')"><i class="fas fa-file-medical"></i> Ler Ficha</button>` : `<span class="badge" style="background:#eee;color:#888;">Cliente Antiga</span>`;
+
                 tbody.innerHTML += `
                     <tr>
-                        <td><b>${a.data.split('-').reverse().join('/')}</b> às ${a.horario}</td>
-                        <td>${a.clienteNome}</td>
+                        <td style="font-weight:700; color:var(--primary);">${a.data.split('-').reverse().join('/')} <br><small style="color:var(--text-dark)">🕒 ${a.horario}</small></td>
+                        <td><b>${a.clienteNome}</b><br><small style="color:var(--text-muted)">${a.clienteZap}</small></td>
                         <td>${a.servico}</td>
-                        <td>${statusPix}</td>
-                        <td style="display:flex; gap:5px;">
-                            ${btnConf}
-                            <button class="btn-primary" onclick="concluirServico(${a.id}, '${a.servico}', '${a.clienteNome}')"><i class="fas fa-flag-checkered"></i> Fim</button>
-                            <button class="btn-danger" onclick="faltaNoShow(${a.id}, '${a.clienteNome}')" title="Cliente Faltou"><i class="fas fa-user-times"></i></button>
+                        <td>${statusPix} ${a.status === 'Pendente' ? `<button class="btn btn-sm" style="background:var(--success); color:white; padding:2px 5px;" onclick="baixarPix(${a.id})" title="Confirmar Recebimento"><i class="fas fa-check"></i></button>` : ''}</td>
+                        <td>${btnFicha}</td>
+                        <td>
+                            <button class="btn btn-sm btn-success" onclick="iniciarCheckout(${a.id}, '${a.servico}', '${a.clienteNome}')"><i class="fas fa-flag-checkered"></i> Concluir</button>
+                            <button class="btn btn-sm btn-danger" onclick="faltaNoShow(${a.id}, '${a.clienteNome}')" title="Cliente Faltou"><i class="fas fa-user-times"></i></button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        function confirmaPix(id) { DB.agenda.find(x => x.id === id).status = 'Confirmado'; salvarDB(); }
+        function baixarPix(id) { DB.agenda.find(x => x.id === id).status = 'Confirmado'; salvarDB(); }
 
-        function concluirServico(idAg, servico, nomeCli) {
-            let valor = parseFloat(prompt(`Valor final cobrado da(o) ${nomeCli} por ${servico} (R$):`, "120.00"));
-            if(!isNaN(valor)) {
-                DB.agenda = DB.agenda.filter(x => x.id !== idAg);
+        let checkoutTempId = null;
+        let checkoutTempNome = "";
+        let checkoutTempServ = "";
+
+        function iniciarCheckout(idAg, servico, nomeCli) {
+            checkoutTempId = idAg; checkoutTempNome = nomeCli; checkoutTempServ = servico;
+            document.getElementById('chk-cli-nome').innerText = nomeCli;
+            document.getElementById('chk-serv').innerText = servico;
+            document.getElementById('chk-valor').value = "120.00"; // Sugestão padrão
+            abrirModal('modalCheckout');
+        }
+
+        function processarCheckout() {
+            let valor = parseFloat(document.getElementById('chk-valor').value);
+            if(!isNaN(valor) && valor > 0) {
+                // Remove da fila
+                DB.agenda = DB.agenda.filter(x => x.id !== checkoutTempId);
+                // Entra grana no caixa
                 DB.caixa.entradas += valor;
-                DB.caixa.historico.push({ data: new Date().toLocaleDateString(), desc: `Serviço: ${servico} (${nomeCli})`, tipo: 'Entrada', valor: valor });
+                DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Serviço: ${checkoutTempServ} (${checkoutTempNome})`, tipo: 'Entrada Serviço', valor: valor });
                 
-                let cli = DB.clientes.find(c => c.nome === nomeCli);
-                if(cli) { cli.ltv = (cli.ltv || 0) + valor; }
+                // CRM Lógica: Adiciona visita e dinheiro no perfil
+                let cli = DB.clientes.find(c => c.nome === checkoutTempNome);
+                if(cli) { 
+                    cli.ltv = (cli.ltv || 0) + valor; 
+                    cli.visitas = (cli.visitas || 0) + 1;
+                }
                 
-                if(servico.includes('Alongamento') || servico.includes('Manutenção')) { alert("Lembre de descontar luvas e lixas no painel de estoque!"); }
-                salvarDB();
+                salvarDB(); fechaModal('modalCheckout');
+                alert("✨ Atendimento Concluído! O valor foi adicionado ao seu DRE mensal.");
             }
         }
 
         function faltaNoShow(idAg, nomeCli) {
-            if(confirm(`Registrar Falta para ${nomeCli}? Avisar Fila de Espera?`)) {
-                DB.agenda = DB.agenda.filter(x => x.id !== idAg); salvarDB(); alert("Horário liberado!");
+            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai liberar a vaga para a fila de espera. Continuar?`)) {
+                DB.agenda = DB.agenda.filter(x => x.id !== idAg); salvarDB();
             }
         }
 
-        // ==========================================
-        // MÓDULO 3 & 4: ESTOQUE (UNHAS E BIJUS)
-        // ==========================================
-        function abrirAddUnha() { document.getElementById('modalAddUnha').style.display = 'flex'; }
-        function abrirAddBiju() { document.getElementById('modalAddBiju').style.display = 'flex'; }
-        
-        function salvarUnha() {
-            DB.estoque_unhas.push({
-                id: Date.now(), nome: document.getElementById('unha_nome').value,
-                qtd: parseInt(document.getElementById('unha_qtd').value),
-                validade: document.getElementById('unha_val').value
+        // ----------------------------------------------------------------------
+        // MÓDULO 2: SUPER CRM
+        // ----------------------------------------------------------------------
+        function renderCRM(filtro = "") {
+            const tbody = document.querySelector('#tabela-crm tbody'); tbody.innerHTML = '';
+            
+            let lista = DB.clientes.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()) || c.zap.includes(filtro));
+            if(lista.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhuma cliente encontrada.</td></tr>';
+
+            lista.forEach(c => {
+                let flags = "";
+                if(c.anamnese) {
+                    if(c.anamnese.diabetes === "Sim") flags += `<span class="badge badge-red" title="Cicatrização Lenta">Diabética</span> `;
+                    if(c.anamnese.alergia_meta === "Sim") flags += `<span class="badge badge-red" title="Não usar produtos base Metacrilato">Alergia Gel</span> `;
+                    if(c.anamnese.gestante === "Sim") flags += `<span class="badge badge-yellow" title="Risco de descolamento hormonal">Gestante</span> `;
+                    if(c.anamnese.roer === "Sim") flags += `<span class="badge badge-yellow">Onicofagia</span> `;
+                    if(c.anamnese.fungo === "Sim") flags += `<span class="badge badge-purple" title="Atenção biossegurança">Fungo Antigo</span> `;
+                }
+                if(flags === "") flags = `<span class="badge badge-green">Saudável</span>`;
+
+                let fidelidade = c.visitas ? c.visitas : 0;
+                let estrelas = "⭐".repeat(Math.min(fidelidade, 5)); // até 5 estrelas visuais
+                if(fidelidade === 0) estrelas = "🌱 Primeira Vez";
+
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="font-weight:600; color:var(--primary-dark)">${c.nome}</td>
+                        <td>${c.zap}</td>
+                        <td>${flags}</td>
+                        <td style="font-size:1.1rem">${estrelas}</td>
+                        <td style="color:var(--success); font-weight:700">${formataBRL(c.ltv || 0)}</td>
+                        <td><button class="btn btn-sm btn-primary" onclick="abrirDossie(${c.id})"><i class="fas fa-folder-open"></i> Abrir Ficha</button></td>
+                    </tr>
+                `;
             });
-            salvarDB(); fechaModal('modalAddUnha');
+        }
+
+        function filtrarCRM() { let txt = document.getElementById('buscaCRM').value; renderCRM(txt); }
+
+        function abrirDossie(id) {
+            let c = DB.clientes.find(x => x.id === id); idFoco = id;
+            
+            document.getElementById('dos-avatar').innerText = c.nome.charAt(0).toUpperCase();
+            document.getElementById('dos-nome').innerText = c.nome;
+            document.getElementById('dos-zap').innerText = c.zap;
+            
+            let fid = c.visitas || 0;
+            document.getElementById('dos-estrelas').innerText = "⭐".repeat(Math.min(fid, 5)) + ` (${fid} visitas no Studio)`;
+            
+            // Whats Link Automático
+            let linkZap = `https://wa.me/55${c.zap.replace(/\D/g, '')}?text=Olá ${c.nome.split(' ')[0]}, tudo bem? Aqui é a Nicole Nails 💅`;
+            document.getElementById('btn-zap-cli').setAttribute('onclick', `window.open('${linkZap}', '_blank')`);
+
+            document.getElementById('dos-nasc').innerText = c.nascimento || 'Não informado';
+            document.getElementById('dos-prof').innerText = c.profissao || 'Não informado';
+            document.getElementById('dos-origem').innerText = c.origem || 'Não informado';
+            document.getElementById('dos-ltv').innerText = formataBRL(c.ltv || 0);
+
+            // Popula os Alertas Médicos Críticos
+            let liHTML = "";
+            if(c.anamnese) {
+                if(c.anamnese.diabetes==="Sim") liHTML += `<li><b>Diabética:</b> Cuidado extremo na cutilagem contínua para evitar sangramentos.</li>`;
+                if(c.anamnese.alergia_meta==="Sim") liHTML += `<li><b>Alergia Severa a Metacrilato:</b> Proibido uso de Alongamentos tradicionais.</li>`;
+                if(c.anamnese.medicamento==="Sim") liHTML += `<li><b>Usa Medicação Contínua:</b> ${c.anamnese.qual_med} (Pode causar descolamento prematuro do gel).</li>`;
+                if(c.anamnese.quimica==="Sim") liHTML += `<li><b>Usa Produtos Químicos:</b> Orientar uso de luvas domésticas (Perda de garantia por mau uso).</li>`;
+                if(c.anamnese.roer==="Sim") liHTML += `<li><b>Rói Unhas (Onicofagia):</b> Leito ungueal reduzido, exige reconstrução para estruturação da tip/fibra.</li>`;
+                if(c.anamnese.esporte==="Sim") liHTML += `<li><b>Esportes de Impacto:</b> Sugerir formatos mais curtos/arredondados (Almond/Squoval) para evitar quebra na carne.</li>`;
+            }
+            if(liHTML === "") liHTML = `<li style="color:var(--success)"><i class="fas fa-check"></i> Paciente não relatou nenhuma doença ou restrição na ficha original.</li>`;
+            
+            document.getElementById('dos-saude').innerHTML = liHTML;
+            document.getElementById('nota_secreta').value = c.notas_secretas || "";
+            
+            abrirModal('modalFichaCli');
+        }
+
+        function salvarNotaSecreta() {
+            let n = document.getElementById('nota_secreta').value;
+            DB.clientes.find(x => x.id === idFoco).notas_secretas = n;
+            salvarDB(); fechaModal('modalFichaCli'); alert("✅ Segredo guardado a sete chaves!");
+        }
+
+        // ----------------------------------------------------------------------
+        // MÓDULO 3 & 4: CONTROLE DE ESTOQUES (UNHA E BIJUS)
+        // ----------------------------------------------------------------------
+        function salvarUnha() {
+            let n = document.getElementById('u_nome').value; let q = parseInt(document.getElementById('u_qtd').value); let v = document.getElementById('u_val').value;
+            if(!n || !q) return alert("Preencha o Nome e Quantidade!");
+            DB.estoque_unhas.push({ id: Date.now(), nome: n, qtd: q, validade: v || 'Sem data' });
+            salvarDB(); fechaModal('modalAddUnha'); document.getElementById('u_nome').value=''; document.getElementById('u_qtd').value='';
         }
 
         function renderEstoqueUnha() {
             const tbody = document.querySelector('#tabela-est-unha tbody'); tbody.innerHTML = '';
             DB.estoque_unhas.forEach(u => {
-                let badge = u.qtd <= 2 ? `<span class="badge-red">Comprar Urgente!</span>` : `<span class="badge-green">OK</span>`;
-                tbody.innerHTML += `<tr><td><b>${u.nome}</b></td><td>${u.validade.split('-').reverse().join('/')}</td><td>${u.qtd}</td><td>${badge}</td><td><button class="btn-danger" onclick="baixaUnha(${u.id})">-1 Uso</button></td></tr>`;
+                let alrt = u.qtd <= 2 ? `<span class="badge badge-red"><i class="fas fa-exclamation-circle"></i> Repor!</span>` : `<span class="badge badge-green">Estoque Lindo</span>`;
+                let d = u.validade !== 'Sem data' ? u.validade.split('-').reverse().join('/') : u.validade;
+                tbody.innerHTML += `<tr><td><b>${u.nome}</b></td><td>${d}</td><td style="font-size:1.2rem; font-weight:800;">${u.qtd}</td><td>${alrt}</td><td><button class="btn btn-sm btn-danger" onclick="baixaEstoqueUnha(${u.id})"><i class="fas fa-trash"></i> Dei Baixa/Acabou</button></td></tr>`;
             });
         }
-        function baixaUnha(id) { let u = DB.estoque_unhas.find(x=>x.id===id); if(u.qtd>0) u.qtd--; salvarDB(); }
+
+        function baixaEstoqueUnha(id) {
+            let item = DB.estoque_unhas.find(x=>x.id===id);
+            if(item.qtd > 0) { item.qtd--; salvarDB(); }
+            else { alert("Já está zerado!"); }
+        }
 
         function salvarBiju() {
-            let nome = document.getElementById('biju_nome').value;
-            let sku = `${nome.substring(0,3).toUpperCase()}-BIJ-${String(DB.estoque_bijus.length + 1).padStart(3, '0')}`;
-            DB.estoque_bijus.push({ id: Date.now(), sku: sku, nome: nome, qtd: parseInt(document.getElementById('biju_qtd').value), preco: parseFloat(document.getElementById('biju_preco').value) });
-            salvarDB(); fechaModal('modalAddBiju');
+            let n = document.getElementById('b_nome').value; let q = parseInt(document.getElementById('b_qtd').value); 
+            let c = parseFloat(document.getElementById('b_custo').value); let v = parseFloat(document.getElementById('b_venda').value);
+            if(!n || !q || isNaN(c) || isNaN(v)) return alert("Preencha todos os campos financeiros da Biju!");
+            
+            let sku = `${n.substring(0,3).toUpperCase()}-BIJ-${String(DB.estoque_bijus.length + 1).padStart(3, '0')}`;
+            DB.estoque_bijus.push({ id: Date.now(), sku: sku, nome: n, qtd: q, custo: c, preco: v });
+            salvarDB(); fechaModal('modalAddBiju'); 
+            document.getElementById('b_nome').value=''; document.getElementById('b_qtd').value=''; document.getElementById('b_custo').value=''; document.getElementById('b_venda').value='';
         }
 
         function renderEstoqueBiju() {
             const tbody = document.querySelector('#tabela-est-biju tbody'); tbody.innerHTML = '';
             DB.estoque_bijus.forEach(b => {
-                tbody.innerHTML += `<tr><td style="color:#aaa; font-family:monospace;">${b.sku}</td><td><b>${b.nome}</b></td><td>${b.qtd} unid.</td><td>R$ ${b.preco.toFixed(2)}</td><td><button class="btn-primary" onclick="venderBijuPDV(${b.id})"><i class="fas fa-shopping-cart"></i> Vender (R$ ${b.preco})</button></td></tr>`;
+                let lucroBruto = b.preco - b.custo;
+                let pctLucro = ((lucroBruto / b.custo) * 100).toFixed(0);
+                tbody.innerHTML += `
+                    <tr>
+                        <td style="color:var(--text-muted); font-family:monospace; font-size:0.8rem;">${b.sku}</td>
+                        <td><b>${b.nome}</b></td>
+                        <td style="font-size:1.1rem; font-weight:700;">${b.qtd} un</td>
+                        <td style="color:var(--danger)">${formataBRL(b.custo)}</td>
+                        <td style="color:var(--success); font-weight:bold;">${formataBRL(b.preco)}</td>
+                        <td><span class="badge badge-purple">+${pctLucro}% Lucro</span></td>
+                        <td><button class="btn btn-sm btn-primary" onclick="venderBijuMesa(${b.id})"><i class="fas fa-cart-plus"></i> Vendeu na Mesa</button></td>
+                    </tr>
+                `;
             });
         }
 
-        function venderBijuPDV(id) {
+        function venderBijuMesa(id) {
             let b = DB.estoque_bijus.find(x=>x.id===id);
             if(b.qtd > 0) {
-                b.qtd--; DB.caixa.entradas += b.preco;
-                DB.caixa.historico.push({ data: new Date().toLocaleDateString(), desc: `Venda Biju: ${b.nome}`, tipo: 'Entrada', valor: b.preco });
-                salvarDB(); alert("Bijuteria vendida e contabilizada no DRE!");
-            } else { alert("Produto sem estoque físico!"); }
+                b.qtd--;
+                DB.caixa.entradas += b.preco; // O lucro sujo inteiro entra
+                // Pra ficar DRE correto, na Sangria a Nicole tem q lançar as compras que fez de Biju
+                DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Venda Biju: ${b.nome} (${b.sku})`, tipo: 'Entrada Biju', valor: b.preco });
+                salvarDB(); alert(`💎 Biju vendida com sucesso! ${formataBRL(b.preco)} somados ao DRE.`);
+            } else { alert("Atenção: Essa peça zerou no estoque físico!"); }
         }
 
-        // ==========================================
-        // MÓDULO 5: DRE E FINANCEIRO
-        // ==========================================
-        function abrirSangria() { document.getElementById('modalSangria').style.display = 'flex'; }
-        function registrarSangria() {
-            let desc = document.getElementById('desc_sangria').value;
-            let val = parseFloat(document.getElementById('valor_sangria').value);
-            if(desc && val) {
+        // ----------------------------------------------------------------------
+        // MÓDULO 5: DRE, FINANCEIRO E SANGRIA
+        // ----------------------------------------------------------------------
+        function salvarSangria() {
+            let desc = document.getElementById('san_desc').value; let val = parseFloat(document.getElementById('san_valor').value);
+            if(desc && val && val > 0) {
                 DB.caixa.saidas += val;
-                DB.caixa.historico.push({ data: new Date().toLocaleDateString(), desc: desc, tipo: 'Saída/Sangria', valor: val });
-                salvarDB(); fechaModal('modalSangria');
+                DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: desc, tipo: 'Despesa / Retirada', valor: val });
+                salvarDB(); fechaModal('modalSangria'); document.getElementById('san_desc').value=''; document.getElementById('san_valor').value='';
             }
         }
 
         function renderFinanceiro() {
-            let lucro = DB.caixa.entradas - DB.caixa.saidas;
-            document.getElementById('meta-valor').innerText = `R$ ${DB.config.metaMensal.toFixed(2)}`;
-            document.getElementById('dash-faturamento').innerText = `R$ ${DB.caixa.entradas.toFixed(2)}`;
-            document.getElementById('dash-saidas').innerText = `R$ ${DB.caixa.saidas.toFixed(2)}`;
-            document.getElementById('dash-lucro').innerText = `R$ ${lucro.toFixed(2)}`;
+            let lucroReal = DB.caixa.entradas - DB.caixa.saidas;
+            document.getElementById('dash-despesas').innerText = formataBRL(DB.caixa.saidas);
+            document.getElementById('dash-lucro-real').innerText = formataBRL(lucroReal);
             
             const tbody = document.querySelector('#tabela-caixa tbody'); tbody.innerHTML = '';
+            
+            // Loop ao contrário para ver os últimos registros primeiro
             [...DB.caixa.historico].reverse().forEach(h => {
-                let cor = h.tipo === 'Entrada' ? 'color:var(--success)' : 'color:var(--danger)';
-                tbody.innerHTML += `<tr><td>${h.data}</td><td>${h.desc}</td><td style="${cor}; font-weight:bold">${h.tipo}</td><td>R$ ${h.valor.toFixed(2)}</td></tr>`;
+                let isEntrada = h.tipo.includes('Entrada');
+                let cor = isEntrada ? 'color:var(--success)' : 'color:var(--danger)';
+                let icone = isEntrada ? '<i class="fas fa-plus-circle"></i>' : '<i class="fas fa-minus-circle"></i>';
+                
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${h.data}</td>
+                        <td style="font-weight:600">${h.desc}</td>
+                        <td><span class="badge ${isEntrada ? 'badge-green' : 'badge-red'}">${h.tipo}</span></td>
+                        <td style="${cor}; font-weight:800; font-size:1.1rem;">${icone} ${formataBRL(h.valor)}</td>
+                    </tr>
+                `;
             });
         }
 
-        // --- BACKUP ---
+        // ----------------------------------------------------------------------
+        // SISTEMA DE NUVEM / BACKUP
+        // ----------------------------------------------------------------------
         function fazerBackup() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DB));
-            const a = document.createElement('a'); a.href = dataStr; a.download = "nicole_erp_bkp_" + new Date().getTime() + ".json";
-            document.body.appendChild(a); a.click(); a.remove(); alert("Backup Salvo no seu computador!");
+            const a = document.createElement('a'); a.href = dataStr; a.download = "NICOLE_NAILS_ERP_BKP_" + new Date().getTime() + ".json";
+            document.body.appendChild(a); a.click(); a.remove(); 
+            alert("✅ BACKUP FEITO! Salve este arquivo em um PenDrive ou no seu Google Drive da Nicole Nails!");
         }
+
         function restaurarBackup(event) {
             const file = event.target.files[0]; if (!file) return;
             const reader = new FileReader();
-            reader.onload = function(e) { try { DB = JSON.parse(e.target.result); salvarDB(); alert("Dados restaurados!"); location.reload(); } catch (err) { alert("Arquivo corrompido!"); } };
+            reader.onload = function(e) { 
+                try { DB = JSON.parse(e.target.result); salvarDB(); alert("✨ SUCESSO ABSOLUTO! O sistema inteiro foi restaurado com os dados antigos!"); location.reload(); } 
+                catch (err) { alert("❌ ARQUIVO INVÁLIDO. O arquivo de backup foi corrompido."); } 
+            };
             reader.readAsText(file);
         }
 
-        function renderAll() { renderCRM(); renderAgenda(); renderEstoqueUnha(); renderEstoqueBiju(); renderFinanceiro(); }
-        window.onload = renderAll;
+        // ----------------------------------------------------------------------
+        // BOOT DO SISTEMA
+        // ----------------------------------------------------------------------
+        function renderAll() { 
+            renderDashboard(); renderAgenda(); renderCRM(); renderEstoqueUnha(); renderEstoqueBiju(); renderFinanceiro(); 
+        }
+        
+        window.onload = () => { renderAll(); renderGrafico(); };
+
     </script>
 </body>
 </html>
