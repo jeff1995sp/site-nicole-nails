@@ -224,7 +224,7 @@
             section { padding: 3rem 1rem; }
         }
 
-        /* --- TEMA HALLOWEEN (ADICIONADO) --- */
+        /* --- TEMA HALLOWEEN --- */
         .halloween-decor { pointer-events: none; z-index: 9999; }
         .cobweb-top-left { position: fixed; top: -20px; left: -20px; font-size: 7rem; z-index: 9999; pointer-events: none; opacity: 0.8; }
         .cobweb-top-right { position: fixed; top: -20px; right: -20px; font-size: 7rem; z-index: 9999; pointer-events: none; opacity: 0.8; transform: scaleX(-1); }
@@ -262,7 +262,8 @@
 
     <header class="site-header">
         <div class="header-container">
-            <h1>Nicole Nails 💅</h1>
+            <!-- TRIGGER DO ADMIN ADICIONADO AQUI -->
+            <h1 id="admin-trigger" style="cursor: pointer;" title="Acesso Restrito">Nicole Nails 💅</h1>
             <nav class="main-nav-desktop">
                 <a href="#inicio">Início</a>
                 <a href="#sobre">Sobre</a>
@@ -353,15 +354,72 @@
                     </div>
                     
                     <form id="form-agendamento" class="booking-form">
+                        
+                        <div class="input-group">
+                            <i class="fab fa-whatsapp"></i>
+                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: 11 99999-9999)" type="tel" class="styled-input" required/>
+                        </div>
+
                         <div class="input-group">
                             <i class="fas fa-user"></i>
                             <input id="nome" name="nome" placeholder="Seu Nome Completo" type="text" class="styled-input" required/>
                         </div>
 
-                        <div class="input-group">
-                            <i class="fab fa-whatsapp"></i>
-                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: 11 99999-9999)" type="tel" class="styled-input" required/>
+                        <!-- ========================================== -->
+                        <!-- INÍCIO DO BLOCO DE ANAMNESE (Oculto)       -->
+                        <!-- ========================================== -->
+                        <div id="bloco-anamnese" style="display: none; background: #fff5f8; border: 1px solid #ffdde9; border-radius: 15px; padding: 20px; margin-top: 10px; width: 100%;">
+                            <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: var(--deep-pink); border-bottom: 2px solid #ffdde9; padding-bottom: 5px;">📋 Ficha de Saúde (Apenas 1ª Vez)</h3>
+                            
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 1: Dados Pessoais</h4>
+                                <input type="date" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nascimento">
+                                <input type="text" id="ana_profissao" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Sua Profissão">
+                                <select id="ana_origem" class="styled-input" style="padding: 10px;">
+                                    <option value="">Como nos conheceu?</option>
+                                    <option>Instagram</option>
+                                    <option>Indicação</option>
+                                    <option>Google</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 2: Saúde Geral</h4>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Gestante ou lactante? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="gestante" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="gestante" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">É portadora de Diabetes? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="diabetes" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="diabetes" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Alterações na Tireoide? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="tireoide" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="tireoide" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Faz tratamento oncológico? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="oncologico" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="oncologico" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Uso contínuo de medicamento? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="medicamento" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="medicamento" value="Não" checked> Não</label></div>
+                                <input type="text" id="ana_qual_med" class="styled-input" style="padding: 8px; font-size:0.9rem;" placeholder="Se sim, qual medicamento?">
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 3: Alergias (Atenção)</h4>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Alergia a esmaltes comuns? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="alergia_esmalte" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="alergia_esmalte" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Alergia a METACRILATO (Gel/Acrílico)? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="alergia_meta" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="alergia_meta" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Alergia a látex ou níquel? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="alergia_latex" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="alergia_latex" value="Não" checked> Não</label></div>
+                            </div>
+
+                            <div style="margin-bottom: 20px;">
+                                <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 4 e 5: Unhas e Estilo de Vida</h4>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Tem o hábito de roer unhas? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="roer" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="roer" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Suor excessivo nas mãos? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="suor" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="suor" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Fungos ou unhas encravadas? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="fungo" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="fungo" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Pancada ou trauma recente na unha? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="trauma" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="trauma" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Contato com química/limpeza sem luva? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="quimica" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="quimica" value="Não" checked> Não</label></div>
+                                <div style="margin-bottom: 12px; font-size: 0.9rem; color: #555;">Esportes de impacto (Lutas, Crossfit)? <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="esporte" value="Sim"> Sim</label> <label style="margin-right: 15px; cursor: pointer;"><input type="radio" name="esporte" value="Não" checked> Não</label></div>
+                            </div>
+
+                            <div style="background: #fff; padding: 15px; border-radius: 8px; font-size: 0.85rem; color: #666; border: 1px solid #ddd; margin-top: 15px;">
+                                <strong>Termo de Consentimento Eletrônico:</strong><br>
+                                Declaro que as informações de saúde são verdadeiras. Entendo que o alongamento exige manutenções periódicas e que omissão de dados ou remoção em casa podem causar danos à unha natural. Autorizo o procedimento.
+                                <br><br>
+                                <label style="cursor: pointer;"><input type="checkbox" id="ana_aceite"> <b>Li, aceito e concordo.</b></label>
+                            </div>
                         </div>
+                        <!-- ========================================== -->
+                        <!-- FIM DO BLOCO DE ANAMNESE                   -->
+                        <!-- ========================================== -->
 
                         <div class="input-group">
                             <i class="fas fa-gem"></i>
@@ -474,6 +532,16 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     
     <script>
+        // ADICIONADO: Gatilho secreto para entrar no painel Admin clicando duas vezes no título do site
+        document.getElementById('admin-trigger').addEventListener('dblclick', function() {
+            let senha = prompt("🔒 Acesso Restrito ao Sistema. Digite a senha:");
+            if (senha === "0712") {
+                window.location.href = "admin.html";
+            } else if (senha !== null && senha !== "") {
+                alert("❌ Senha incorreta.");
+            }
+        });
+
         // URL DO SEU SCRIPT GOOGLE
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxRMBPB1MLzGYihoCkCLIyNxTjy2bxo3rbNL5wCIzuvTE94hw2ACHyZO-0H713IsXtmA/exec';
 
@@ -492,12 +560,30 @@
 
             // Agendamento Logic
             const nomeInput = document.getElementById("nome");
+            const zapInput = document.getElementById("whatsapp_cliente");
             const servicoSelect = document.getElementById("servico");
             const dataInput = document.getElementById("data");
             const horarioSelect = document.getElementById("horario");
             const formAgendamento = document.getElementById("form-agendamento");
             const btnAgendar = document.getElementById("btn-agendar");
             const statusDiv = document.getElementById("status-agendamento");
+            const blocoAnamnese = document.getElementById("bloco-anamnese");
+
+            // ADICIONADO: VERIFICADOR INTELIGENTE DE CLIENTE EXISTENTE
+            let clienteNova = true;
+            zapInput.addEventListener('blur', function() {
+                let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [] };
+                let clienteExistente = dbLocal.clientes.find(c => c.zap.replace(/\D/g,'') === zapInput.value.replace(/\D/g,''));
+                
+                if(clienteExistente) {
+                    clienteNova = false;
+                    blocoAnamnese.style.display = 'none'; // Esconde anamnese para quem já é cliente
+                    if(!nomeInput.value) nomeInput.value = clienteExistente.nome; // Auto-preenche nome
+                } else if (zapInput.value.length > 8) {
+                    clienteNova = true;
+                    blocoAnamnese.style.display = 'block'; // Força anamnese aparecer
+                }
+            });
 
             function buscarHorarios() {
                 const data = dataInput.value;
@@ -539,11 +625,51 @@
             formAgendamento.addEventListener("submit", function(e) {
                 e.preventDefault();
                 
-                const zapInput = document.getElementById("whatsapp_cliente");
-                
                 if(!nomeInput.value || !servicoSelect.value || !dataInput.value || !horarioSelect.value || !zapInput.value) {
                     alert("Por favor, preencha todos os campos, incluindo seu WhatsApp!"); return;
                 }
+
+                // ADICIONADO: Verifica se a cliente leu o termo médico
+                if(clienteNova && !document.getElementById('ana_aceite').checked && zapInput.value.length > 8) {
+                    alert("Você precisa ler e aceitar o Termo de Consentimento Eletrônico para prosseguir!"); 
+                    return;
+                }
+
+                // ADICIONADO: Salvando os dados médicos e agenda para o Painel Admin ver depois
+                let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [], agenda: [], caixa: {entradas:0, saidas:0, historico:[]}, estoque_unhas:[], estoque_bijus:[], config: { metaMensal: 5000 } };
+                
+                if(clienteNova && zapInput.value.length > 8) {
+                    const valRadio = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value || "Não";
+                    let diabete = valRadio('diabetes');
+                    let alergiaMeta = valRadio('alergia_meta');
+                    let status_risco = (diabete === 'Sim' || alergiaMeta === 'Sim') ? 1 : 0;
+                    
+                    let novaCliente = {
+                        id: Date.now(),
+                        nome: nomeInput.value,
+                        zap: zapInput.value,
+                        nascimento: document.getElementById('ana_data_nasc').value,
+                        profissao: document.getElementById('ana_profissao').value,
+                        origem: document.getElementById('ana_origem').value,
+                        risco: status_risco,
+                        notas_secretas: "",
+                        ltv: 0,
+                        anamnese: {
+                            gestante: valRadio('gestante'), diabetes: diabete, tireoide: valRadio('tireoide'), oncologico: valRadio('oncologico'),
+                            medicamento: valRadio('medicamento'), qual_med: document.getElementById('ana_qual_med').value,
+                            alergia_esmalte: valRadio('alergia_esmalte'), alergia_meta: alergiaMeta, alergia_latex: valRadio('alergia_latex'),
+                            roer: valRadio('roer'), suor: valRadio('suor'), fungo: valRadio('fungo'), trauma: valRadio('trauma'),
+                            quimica: valRadio('quimica'), esporte: valRadio('esporte')
+                        }
+                    };
+                    dbLocal.clientes.push(novaCliente);
+                }
+
+                dbLocal.agenda.push({
+                    id: Date.now(), clienteNome: nomeInput.value, clienteZap: zapInput.value, servico: servicoSelect.value, 
+                    data: dataInput.value, horario: horarioSelect.value, status: 'Pendente'
+                });
+                localStorage.setItem('nicoleNailsDB', JSON.stringify(dbLocal));
 
                 // --- NOVO POPUP ELEGANTE ---
                 const aceitou = confirm("🌸 Quase lá!\n\nPara confirmar seu horário com segurança e praticidade, precisamos que você envie o comprovante pelo WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?");
@@ -589,6 +715,7 @@
                             
                             formAgendamento.reset();
                             horarioSelect.disabled = true;
+                            blocoAnamnese.style.display = 'none'; // Esconde a anamnese depois de enviar
                         } else throw new Error(d.mensagem);
                     })
                     .catch(e => {
