@@ -370,7 +370,7 @@
                             </div>
                         </div>
 
-                        <!-- WHATSAPP COM TECLADO NUMÉRICO DE CELULAR -->
+                        <!-- WHATSAPP PARA DIGITAR (COM MÁSCARA AUTOMÁTICA) -->
                         <div class="input-group">
                             <i class="fab fa-whatsapp"></i>
                             <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: (11) 99999-9999)" type="tel" inputmode="numeric" class="styled-input" required maxlength="15"/>
@@ -389,7 +389,8 @@
                             
                             <div style="margin-bottom: 20px;">
                                 <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 1: Dados Pessoais</h4>
-                                <!-- DATA DE NASCIMENTO COM TECLADO NUMÉRICO E MÁSCARA -->
+                                
+                                <!-- DATA DE NASCIMENTO PARA DIGITAR (COM MÁSCARA AUTOMÁTICA) -->
                                 <input type="tel" inputmode="numeric" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nasc. (Ex: 25/12/1990)" maxlength="10">
                                 
                                 <input type="text" id="ana_profissao" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Sua Profissão">
@@ -477,10 +478,10 @@
             </div>
         </section>
         
-        <!-- ENDEREÇO CORRIGIDO -->
         <section id="localizacao-final" class="location-section">
             <div class="container">
                 <h2>Localização</h2>
+                <!-- ENDEREÇO CORRIGIDO -->
                 <p>Rua Juqui, 60 - Conceição, Diadema - SP</p>
                 <p class="parking-info">🚗 Temos Estacionamento no Local!</p>
                 
@@ -505,38 +506,15 @@
                 </div>
                 <div id="ai-chat-window" class="ai-chat-window"></div>
                 <form id="ai-prompt-form" class="ai-prompt-form">
-                    <input type="text" id="ai-prompt-input" placeholder="Ex: O que é onicólise? Spa tira rachadura?" required>
+                    <input type="text" id="ai-prompt-input" placeholder="Ex: Quanto tempo dura a fibra?" required>
                     <button type="submit" id="ai-prompt-submit">›</button>
                 </form>
             </div>
         </section>
+        
+        <!-- Ocultado porque agora a IA usa a API do Gemini -->
+        <div id="ai-knowledge-base" style="display: none;"></div>
 
-        <div id="ai-knowledge-base" style="display: none;">
-            <div data-primary="inicio,oi,ola,olá,ajuda,tudo bem,começar" data-secondary="">
-                <h4>Olá! Sou a IA da Nicole Nails 💅</h4>
-                <p>Sou treinada com milhares de informações sobre saúde e beleza das unhas. Posso te ajudar com:</p>
-                <ul>
-                    <li>🦶 <b>Spa e Podologia:</b> Calos, rachaduras, unhas encravadas.</li>
-                    <li>💅 <b>Técnicas:</b> Fibra, Gel, Blindagem, Esmaltação.</li>
-                    <li>🧪 <b>Química e Produtos:</b> Gels, primers, reações.</li>
-                    <li>🚑 <b>Patologias:</b> Fungos, micoses, descolamentos.</li>
-                    <li>📅 <b>Agendamento Online.</b></li>
-                </ul>
-                <p>Mande sua dúvida!</p>
-            </div>
-            <div data-primary="spa,pés,pes,rachadura,fissura,seco,áspero" data-secondary="hidratação,tratamento">
-                <h4>🦶 Spa dos Pés Premium</h4>
-                <p>Nosso Spa não é apenas estético, é saúde! O protocolo inclui:</p>
-                <ol>
-                    <li><b>Assepsia:</b> Higienização completa.</li>
-                    <li><b>Emoliência:</b> Uso de produtos queratolíticos (agentes que amolecem a pele grossa) com bota térmica.</li>
-                    <li><b>Bisturi/Lixamento Técnico:</b> Remoção segura de calosidades e células mortas (plantar).</li>
-                    <li><b>Esfoliação:</b> Grânulos para renovar a pele.</li>
-                    <li><b>Hidratação Profunda:</b> Cremes à base de ureia e massagem relaxante.</li>
-                </ol>
-                <p><b>Resultado:</b> Pés macios, sem rachaduras e descansados. Ideal a cada 20 dias.</p>
-            </div>
-            </div>
     </main>
 
     <footer class="site-footer">
@@ -570,7 +548,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // FLATPICKR APENAS PARA A DATA DA AGENDA (MANTIDO DO SEU CÓDIGO)
+            // FLATPICKR APENAS PARA A DATA DA AGENDA
             flatpickr("#data", {
                 locale: "pt", altInput: true, altFormat: "d/m/Y", dateFormat: "Y-m-d", minDate: "today",
                 disable: [ function(date) { return (date.getDay() === 0 || date.getDay() === 1); } ]
@@ -836,17 +814,21 @@
                 });
             });
 
-            // IA CHAT LOGIC
+            // ==========================================
+            // NOVA IA CHAT LOGIC (CONECTADA AO GOOGLE GEMINI)
+            // ==========================================
             const chatWindow = document.getElementById('ai-chat-window');
             const promptForm = document.getElementById('ai-prompt-form');
             const promptInput = document.getElementById('ai-prompt-input');
-            const kb = document.querySelectorAll('#ai-knowledge-base > div');
 
+            // Função para colocar os balõezinhos na tela
             function addBubble(text, type) {
                 const b = document.createElement('div');
                 b.className = `chat-bubble ${type}-bubble`;
                 if(type === 'ai') {
-                    b.innerHTML = `<div class="ai-avatar">💅</div><div class="ai-content">${text}</div>`;
+                    // Substitui quebras de linha por <br> e coloca negrito onde a IA manda **texto**
+                    let formatado = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
+                    b.innerHTML = `<div class="ai-avatar">💅</div><div class="ai-content" style="font-size: 0.95rem; line-height: 1.5; color: #444;">${formatado}</div>`;
                     b.className += ' ai-bubble';
                 } else {
                     b.textContent = text;
@@ -855,38 +837,46 @@
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
 
-            function processAI(text) {
+            // Função que chama o Cérebro do Gemini
+            async function processAI(perguntaUsuario) {
                 const loading = document.createElement('div');
                 loading.className = 'chat-bubble ai-bubble';
-                loading.innerHTML = '...';
+                loading.innerHTML = '<div class="ai-avatar">💅</div><div class="ai-content">Digitando...</div>';
                 chatWindow.appendChild(loading);
                 chatWindow.scrollTop = chatWindow.scrollHeight;
 
-                setTimeout(() => {
-                    chatWindow.removeChild(loading);
-                    const safeText = text.toLowerCase();
-                    let bestMatch = null;
-                    let maxScore = 0;
+                const API_KEY = 'AQ.Ab8RN6Ida8YYSOX7JyvTKBb5jaFCfz0_ZXJQfZrsQy8p4CdiCw'; 
+                const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
 
-                    kb.forEach(div => {
-                        const primary = div.dataset.primary.split(',');
-                        const secondary = div.dataset.secondary.split(',');
-                        let score = 0;
-                        primary.forEach(key => { if(safeText.includes(key.trim())) score += 5; });
-                        secondary.forEach(key => { if(safeText.includes(key.trim())) score += 2; });
+                const instrucaoSistema = `Você é a assistente virtual inteligente do salão Nicole Nails. 
+                Sua personalidade é amigável, acolhedora e muito profissional. Use emojis fofos.
+                A especialidade do salão é: Alongamentos de unha (fibra, gel, blindagem) e Spa dos Pés regenerador (podologia e biossegurança).
+                Regras: Responda de forma curta (máximo 3 parágrafos), direta e focada no mundo das unhas e estética. Se perguntarem algo fora de estética/unhas, diga educadamente que só pode falar sobre os serviços do studio. Se a cliente quiser agendar, diga para ela preencher o formulário na página.
+                Pergunta da cliente: ${perguntaUsuario}`;
 
-                        if(score > maxScore) {
-                            maxScore = score;
-                            bestMatch = div.innerHTML;
-                        }
+                try {
+                    const resposta = await fetch(url, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: instrucaoSistema }] }]
+                        })
                     });
 
-                    if(bestMatch && maxScore > 0) {
-                        addBubble(bestMatch, 'ai');
+                    const dados = await resposta.json();
+                    
+                    if (dados.candidates && dados.candidates.length > 0) {
+                        const respostaGemini = dados.candidates[0].content.parts[0].text;
+                        chatWindow.removeChild(loading);
+                        addBubble(respostaGemini, 'ai');
                     } else {
-                        addBubble("Desculpe, ainda estou aprendendo! Tente perguntar sobre unhas encravadas, spa dos pés ou materiais.", 'ai');
+                        throw new Error('Resposta vazia');
                     }
-                }, 800);
+
+                } catch (erro) {
+                    chatWindow.removeChild(loading);
+                    addBubble("Desculpe, minha conexão com a internet falhou rapidinho! Tente perguntar de novo. 💖", 'ai');
+                }
             }
 
             promptForm.addEventListener('submit', (e) => {
@@ -895,10 +885,11 @@
                 if(!val) return;
                 addBubble(val, 'user');
                 promptInput.value = '';
-                processAI(val);
+                processAI(val); // Envia para o Gemini
             });
 
-            setTimeout(() => processAI("olá"), 500);
+            // Mensagem de boas vindas automática
+            setTimeout(() => addBubble("Olá! Sou a IA da Nicole Nails ✨<br>Fui treinada com o Google Gemini para tirar todas as suas dúvidas sobre unhas em gel, blindagem, fungos, alergias e nosso maravilhoso Spa dos Pés. Como posso te ajudar hoje?", 'ai'), 800);
         });
     </script>
 </body>
