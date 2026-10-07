@@ -262,8 +262,8 @@
 
     <header class="site-header">
         <div class="header-container">
-            <!-- TRIGGER DO ADMIN ADICIONADO AQUI -->
-            <h1 id="admin-trigger" style="cursor: pointer;" title="Acesso Restrito">Nicole Nails 💅</h1>
+            <!-- GATILHO DO ADMIN (Duplo Clique aqui para entrar no painel) -->
+            <h1 id="admin-trigger" title="N.N" style="cursor: pointer;">Nicole Nails 💅</h1>
             <nav class="main-nav-desktop">
                 <a href="#inicio">Início</a>
                 <a href="#sobre">Sobre</a>
@@ -356,7 +356,7 @@
                     <form id="form-agendamento" class="booking-form">
                         
                         <!-- ========================================== -->
-                        <!-- PERGUNTA INTELIGENTE COM TRAVA DE "INÍCIO DO ZERO" -->
+                        <!-- PERGUNTA INTELIGENTE (Início do Zero)      -->
                         <!-- ========================================== -->
                         <div class="input-group" style="background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #ffdde9;">
                             <label style="font-weight: 600; color: var(--deep-pink); display: block; margin-bottom: 10px; font-size: 1.05rem;">É sua primeira vez no Studio?</label>
@@ -370,9 +370,10 @@
                             </div>
                         </div>
 
+                        <!-- WHATSAPP COM MÁSCARA AUTOMÁTICA -->
                         <div class="input-group">
                             <i class="fab fa-whatsapp"></i>
-                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: 11 99999-9999)" type="tel" class="styled-input" required/>
+                            <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: (11) 99999-9999)" type="tel" class="styled-input" required maxlength="15"/>
                         </div>
 
                         <div class="input-group">
@@ -381,14 +382,15 @@
                         </div>
 
                         <!-- ========================================== -->
-                        <!-- INÍCIO DO BLOCO DE ANAMNESE                -->
+                        <!-- BLOCO DE ANAMNESE E DADOS DE SAÚDE         -->
                         <!-- ========================================== -->
                         <div id="bloco-anamnese" style="display: block; background: #fff5f8; border: 1px solid #ffdde9; border-radius: 15px; padding: 20px; margin-top: 10px; width: 100%;">
                             <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: var(--deep-pink); border-bottom: 2px solid #ffdde9; padding-bottom: 5px;">📋 Ficha de Saúde (Apenas 1ª Vez)</h3>
                             
                             <div style="margin-bottom: 20px;">
                                 <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 1: Dados Pessoais</h4>
-                                <input type="date" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nascimento">
+                                <!-- DATA DE NASCIMENTO DE DIGITAR COM MÁSCARA -->
+                                <input type="text" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nascimento (Ex: 25/12/1990)" maxlength="10">
                                 <input type="text" id="ana_profissao" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Sua Profissão">
                                 <select id="ana_origem" class="styled-input" style="padding: 10px;">
                                     <option value="">Como nos conheceu?</option>
@@ -432,10 +434,8 @@
                                 <label style="cursor: pointer;"><input type="checkbox" id="ana_aceite" required> <b>Li, aceito e concordo.</b></label>
                             </div>
                         </div>
-                        <!-- ========================================== -->
-                        <!-- FIM DO BLOCO DE ANAMNESE                   -->
-                        <!-- ========================================== -->
 
+                        <!-- AGENDAMENTO ORIGINAL (INTOCADO) -->
                         <div class="input-group">
                             <i class="fas fa-gem"></i>
                             <select id="servico" name="procedimento" class="styled-input" required>
@@ -477,12 +477,12 @@
         <section id="localizacao-final" class="location-section">
             <div class="container">
                 <h2>Localização</h2>
-                <p>Rua Juqui, 60 - Conceição, Diadema - SP</p>
+                <p>Av. Rotary, 79 - Serraria, Diadema - SP, 09980-600</p>
                 <p class="parking-info">🚗 Temos Estacionamento no Local!</p>
                 
                 <div class="map-container">
                     <iframe 
-                        src="https://maps.google.com/maps?q=Rua%20Juqui,%2060%20-%20Concei%C3%A7%C3%A3o,%20Diadema&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                        src="https://maps.google.com/maps?q=Av.%20Rotary,%2079%20-%20Serraria,%20Diadema&t=&z=15&ie=UTF8&iwloc=&output=embed" 
                         width="100%" 
                         height="100%" 
                         style="border:0;" 
@@ -547,7 +547,7 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     
     <script>
-        // ADICIONADO: Gatilho secreto para entrar no painel Admin clicando duas vezes no título do site
+        // ACESSO AO ADMIN (Duplo clique no título da página)
         document.getElementById('admin-trigger').addEventListener('dblclick', function() {
             let senha = prompt("🔒 Acesso Restrito ao Sistema. Digite a senha:");
             if (senha === "0712") {
@@ -557,23 +557,24 @@
             }
         });
 
-        // URL DO SEU SCRIPT GOOGLE
+        // ==========================================
+        // URL DO SEU SCRIPT GOOGLE (INTOCADA!)
+        // ==========================================
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxRMBPB1MLzGYihoCkCLIyNxTjy2bxo3rbNL5wCIzuvTE94hw2ACHyZO-0H713IsXtmA/exec';
 
-        // MENU MOBILE
         function toggleMenu() {
             const menu = document.getElementById('mobile-nav');
             menu.style.display = (menu.style.display === 'block') ? 'none' : 'block';
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // Flatpickr
+            
+            // FLATPICKR APENAS PARA A DATA DA AGENDA (MANTIDO DO SEU CÓDIGO)
             flatpickr("#data", {
                 locale: "pt", altInput: true, altFormat: "d/m/Y", dateFormat: "Y-m-d", minDate: "today",
                 disable: [ function(date) { return (date.getDay() === 0 || date.getDay() === 1); } ]
             });
 
-            // Agendamento Logic
             const nomeInput = document.getElementById("nome");
             const zapInput = document.getElementById("whatsapp_cliente");
             const servicoSelect = document.getElementById("servico");
@@ -583,9 +584,32 @@
             const btnAgendar = document.getElementById("btn-agendar");
             const statusDiv = document.getElementById("status-agendamento");
             const blocoAnamnese = document.getElementById("bloco-anamnese");
+            const dataNascInput = document.getElementById("ana_data_nasc");
 
             // ==========================================
-            // Lógica da pergunta "Primeira Vez" com trava de "Sistema Novo"
+            // MÁSCARAS INTELIGENTES (DIGITAÇÃO)
+            // ==========================================
+            zapInput.addEventListener('input', function (e) {
+                let x = e.target.value.replace(/\D/g, '').match(/(\d{0,2})(\d{0,5})(\d{0,4})/);
+                e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+            });
+
+            if(dataNascInput) {
+                dataNascInput.addEventListener('input', function (e) {
+                    let v = e.target.value.replace(/\D/g, '');
+                    if (v.length > 8) v = v.slice(0,8);
+                    if (v.length >= 5) {
+                        e.target.value = v.slice(0,2) + '/' + v.slice(2,4) + '/' + v.slice(4);
+                    } else if (v.length >= 3) {
+                        e.target.value = v.slice(0,2) + '/' + v.slice(2);
+                    } else {
+                        e.target.value = v;
+                    }
+                });
+            }
+
+            // ==========================================
+            // LÓGICA DE MOSTRAR/ESCONDER FICHA (NOVO SISTEMA)
             // ==========================================
             const radiosPrimeiraVez = document.querySelectorAll('input[name="primeira_vez"]');
             let clienteNova = true; 
@@ -594,7 +618,7 @@
                 radio.addEventListener('change', function() {
                     let zapDigitado = zapInput.value.replace(/\D/g,'');
                     let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [] };
-                    let clienteExistente = dbLocal.clientes.find(c => c.zap.replace(/\D/g,'') === zapDigitado);
+                    let clienteExistente = dbLocal.clientes.find(c => c.zap && c.zap.replace(/\D/g,'') === zapDigitado);
 
                     if (this.value === 'Não') {
                         if (zapDigitado.length > 8 && !clienteExistente) {
@@ -619,7 +643,7 @@
             zapInput.addEventListener('blur', function() {
                 let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [] };
                 let zapDigitado = zapInput.value.replace(/\D/g,'');
-                let clienteExistente = dbLocal.clientes.find(c => c.zap.replace(/\D/g,'') === zapDigitado);
+                let clienteExistente = dbLocal.clientes.find(c => c.zap && c.zap.replace(/\D/g,'') === zapDigitado);
                 
                 if(zapDigitado.length > 8) {
                     if(clienteExistente) {
@@ -643,8 +667,10 @@
                     }
                 }
             });
-            // ==========================================
 
+            // ==========================================
+            // SEU CÓDIGO DO GOOGLE SCRIPT (MANTIDO INTACTO!)
+            // ==========================================
             function buscarHorarios() {
                 const data = dataInput.value;
                 const servico = servicoSelect.value;
@@ -681,6 +707,9 @@
             servicoSelect.addEventListener("change", buscarHorarios);
             dataInput.addEventListener("change", buscarHorarios);
 
+            // ==========================================
+            // ENVIO DOS DADOS PARA ADMIN + GOOGLE SCRIPT
+            // ==========================================
             formAgendamento.addEventListener("submit", function(e) {
                 e.preventDefault();
                 
@@ -688,10 +717,17 @@
                     alert("Por favor, preencha todos os campos, incluindo seu WhatsApp!"); return;
                 }
 
-                // Salvando no Banco de Dados do Admin
+                // Segurança: Impede de agendar se a ficha não estiver aceita (clientes novas)
+                let zapValidado = zapInput.value.replace(/\D/g,'');
+                if(clienteNova && !document.getElementById('ana_aceite').checked && zapValidado.length > 8) {
+                    alert("Você precisa ler e aceitar o Termo de Consentimento Eletrônico para prosseguir!"); 
+                    return;
+                }
+
+                // -> 1. SALVANDO OS DADOS NO ADMIN
                 let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [], agenda: [], caixa: {entradas:0, saidas:0, historico:[]}, estoque_unhas:[], estoque_bijus:[], config: { metaMensal: 5000 } };
                 
-                if(clienteNova && zapInput.value.length > 8) {
+                if(clienteNova && zapValidado.length > 8) {
                     const valRadio = (name) => document.querySelector(`input[name="${name}"]:checked`)?.value || "Não";
                     let diabete = valRadio('diabetes');
                     let alergiaMeta = valRadio('alergia_meta');
@@ -724,6 +760,7 @@
                 });
                 localStorage.setItem('nicoleNailsDB', JSON.stringify(dbLocal));
 
+                // -> 2. CHAMANDO A SUA INTEGRAÇÃO DO GOOGLE AGENDA (MANTIDO INTACTO)
                 const aceitou = confirm("🌸 Quase lá!\n\nPara confirmar seu horário com segurança e praticidade, precisamos que você envie o comprovante pelo WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?");
                 
                 if (!aceitou) {
@@ -767,7 +804,7 @@
                             formAgendamento.reset();
                             horarioSelect.disabled = true;
                             
-                            // Reseta o visual da anamnese
+                            // Reseta a tela da anamnese pro próximo cliente
                             document.querySelector('input[name="primeira_vez"][value="Sim"]').checked = true;
                             blocoAnamnese.style.display = 'block';
                             clienteNova = true;
