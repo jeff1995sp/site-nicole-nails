@@ -248,7 +248,7 @@
 </head>
 <body>
 
-    <!-- INÍCIO DAS DECORAÇÕES DE HALLOWEEN -->
+    <!-- DECORAÇÕES DE HALLOWEEN -->
     <div class="halloween-decor cobweb-top-left">🕸️</div>
     <div class="halloween-decor cobweb-top-right">🕸️</div>
     <div class="halloween-decor hanging-spider" style="left: 15%;">🕷️</div>
@@ -258,12 +258,11 @@
     <div class="halloween-decor flying-bat" style="top: 15vh; animation-delay: 0s;">🦇</div>
     <div class="halloween-decor flying-bat" style="top: 40vh; animation-delay: 5s; animation-duration: 20s;">🦇</div>
     <div class="halloween-decor flying-bat" style="top: 70vh; animation-delay: 10s; animation-duration: 12s;">🦇</div>
-    <!-- FIM DAS DECORAÇÕES DE HALLOWEEN -->
 
     <header class="site-header">
         <div class="header-container">
-            <!-- TRIGGER DO ADMIN ADICIONADO AQUI -->
-            <h1 id="admin-trigger" style="cursor: pointer;" title="Acesso Restrito">Nicole Nails 💅</h1>
+            <!-- GATILHO DO ADMIN -->
+            <h1 id="admin-trigger" title="N.N" style="cursor: pointer;">Nicole Nails 💅</h1>
             <nav class="main-nav-desktop">
                 <a href="#inicio">Início</a>
                 <a href="#sobre">Sobre</a>
@@ -355,9 +354,7 @@
                     
                     <form id="form-agendamento" class="booking-form">
                         
-                        <!-- ========================================== -->
                         <!-- PERGUNTA INTELIGENTE COM TRAVA DE "INÍCIO DO ZERO" -->
-                        <!-- ========================================== -->
                         <div class="input-group" style="background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #ffdde9;">
                             <label style="font-weight: 600; color: var(--deep-pink); display: block; margin-bottom: 10px; font-size: 1.05rem;">É sua primeira vez no Studio?</label>
                             <div style="display: flex; gap: 20px;">
@@ -370,7 +367,7 @@
                             </div>
                         </div>
 
-                        <!-- WHATSAPP PARA DIGITAR (COM MÁSCARA AUTOMÁTICA) -->
+                        <!-- WHATSAPP DE DIGITAR COM MÁSCARA AUTOMÁTICA -->
                         <div class="input-group">
                             <i class="fab fa-whatsapp"></i>
                             <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: (11) 99999-9999)" type="tel" inputmode="numeric" class="styled-input" required maxlength="15"/>
@@ -381,17 +378,15 @@
                             <input id="nome" name="nome" placeholder="Seu Nome Completo" type="text" class="styled-input" required/>
                         </div>
 
-                        <!-- ========================================== -->
-                        <!-- INÍCIO DO BLOCO DE ANAMNESE                -->
-                        <!-- ========================================== -->
+                        <!-- INÍCIO DO BLOCO DE ANAMNESE -->
                         <div id="bloco-anamnese" style="display: block; background: #fff5f8; border: 1px solid #ffdde9; border-radius: 15px; padding: 20px; margin-top: 10px; width: 100%;">
                             <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: var(--deep-pink); border-bottom: 2px solid #ffdde9; padding-bottom: 5px;">📋 Ficha de Saúde (Apenas 1ª Vez)</h3>
                             
                             <div style="margin-bottom: 20px;">
                                 <h4 style="font-size: 1rem; color: #444; margin-bottom: 10px;">Etapa 1: Dados Pessoais</h4>
                                 
-                                <!-- DATA DE NASCIMENTO PARA DIGITAR (COM MÁSCARA AUTOMÁTICA) -->
-                                <input type="tel" inputmode="numeric" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nasc. (Ex: 25/12/1990)" maxlength="10">
+                                <!-- DATA DE NASCIMENTO DE DIGITAR COM MÁSCARA AUTOMÁTICA -->
+                                <input type="tel" inputmode="numeric" id="ana_data_nasc" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Data de Nascimento (Ex: 25/12/1990)" maxlength="10">
                                 
                                 <input type="text" id="ana_profissao" class="styled-input" style="padding: 10px; margin-bottom:10px;" placeholder="Sua Profissão">
                                 <select id="ana_origem" class="styled-input" style="padding: 10px;">
@@ -436,10 +431,8 @@
                                 <label style="cursor: pointer;"><input type="checkbox" id="ana_aceite" required> <b>Li, aceito e concordo.</b></label>
                             </div>
                         </div>
-                        <!-- ========================================== -->
-                        <!-- FIM DO BLOCO DE ANAMNESE                   -->
-                        <!-- ========================================== -->
 
+                        <!-- AGENDAMENTO DA AGENDA ORIGINAL INTOCADA -->
                         <div class="input-group">
                             <i class="fas fa-gem"></i>
                             <select id="servico" name="procedimento" class="styled-input" required>
@@ -457,6 +450,7 @@
                             </select>
                         </div>
 
+                        <!-- DATA DO AGENDAMENTO COM FLATPICKR -->
                         <div class="input-group">
                             <i class="fas fa-calendar-alt"></i>
                             <input id="data" name="data" placeholder="Escolha a Data" required type="text" class="styled-input"/>
@@ -481,7 +475,7 @@
         <section id="localizacao-final" class="location-section">
             <div class="container">
                 <h2>Localização</h2>
-                <!-- ENDEREÇO CORRIGIDO -->
+                <!-- ENDEREÇO CORRIGIDO AQUI -->
                 <p>Rua Juqui, 60 - Conceição, Diadema - SP</p>
                 <p class="parking-info">🚗 Temos Estacionamento no Local!</p>
                 
@@ -498,6 +492,7 @@
             </div>
         </section>
 
+        <!-- CHAT DA IA GEMINI ATUALIZADO E À PROVA DE ERROS -->
         <section id="ajuda" class="ai-chat-section">
             <div class="ai-chat-outer-container">
                 <div class="ai-chat-header">
@@ -511,9 +506,6 @@
                 </form>
             </div>
         </section>
-        
-        <!-- Ocultado porque agora a IA usa a API do Gemini -->
-        <div id="ai-knowledge-base" style="display: none;"></div>
 
     </main>
 
@@ -539,7 +531,7 @@
             }
         });
 
-        // URL DO SCRIPT GOOGLE (INTOCADA!)
+        // URL DO SEU SCRIPT GOOGLE (INTOCADA!)
         const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxxRMBPB1MLzGYihoCkCLIyNxTjy2bxo3rbNL5wCIzuvTE94hw2ACHyZO-0H713IsXtmA/exec';
 
         function toggleMenu() {
@@ -548,7 +540,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            // FLATPICKR APENAS PARA A DATA DA AGENDA
+            // FLATPICKR APENAS PARA A DATA DA AGENDA 
             flatpickr("#data", {
                 locale: "pt", altInput: true, altFormat: "d/m/Y", dateFormat: "Y-m-d", minDate: "today",
                 disable: [ function(date) { return (date.getDay() === 0 || date.getDay() === 1); } ]
@@ -648,7 +640,7 @@
             });
 
             // ==========================================
-            // SEU CÓDIGO DO GOOGLE SCRIPT (MANTIDO INTACTO!)
+            // CÓDIGO DO GOOGLE SCRIPT DA SUA AGENDA (INTOCADO!)
             // ==========================================
             function buscarHorarios() {
                 const data = dataInput.value;
@@ -687,7 +679,7 @@
             dataInput.addEventListener("change", buscarHorarios);
 
             // ==========================================
-            // ENVIO DOS DADOS PARA ADMIN + GOOGLE SCRIPT
+            // ENVIO DOS DADOS PARA ADMIN E AGENDA
             // ==========================================
             formAgendamento.addEventListener("submit", function(e) {
                 e.preventDefault();
@@ -703,7 +695,7 @@
                     return;
                 }
 
-                // -> 1. SALVANDO OS DADOS NO ADMIN
+                // SALVANDO OS DADOS NO ADMIN
                 let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [], agenda: [], caixa: {entradas:0, saidas:0, historico:[]}, estoque_unhas:[], estoque_bijus:[], config: { metaMensal: 5000 } };
                 
                 if(clienteNova && zapValidado.length > 8) {
@@ -739,12 +731,9 @@
                 });
                 localStorage.setItem('nicoleNailsDB', JSON.stringify(dbLocal));
 
-                // -> 2. CHAMANDO A SUA INTEGRAÇÃO DO GOOGLE AGENDA (MANTIDO INTACTO)
+                // CHAMANDO A SUA INTEGRAÇÃO DO GOOGLE SCRIPT
                 const aceitou = confirm("🌸 Quase lá!\n\nPara confirmar seu horário com segurança e praticidade, precisamos que você envie o comprovante pelo WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?");
-                
-                if (!aceitou) {
-                    return; 
-                }
+                if (!aceitou) { return; }
 
                 btnAgendar.disabled = true;
                 btnAgendar.innerHTML = 'Agendando... <i class="fas fa-spinner fa-spin"></i>';
@@ -767,23 +756,17 @@
                     .then(d => {
                         if(d.result === 'sucesso') {
                             statusDiv.className = 'status-sucesso';
-                            
                             const dataFormatada = dataInput.value.split('-').reverse().join('/');
                             const mensagemZap = `Oii Nicole! Fiz um agendamento no site.%0A%0A*Nome:* ${nomeInput.value}%0A*Zap:* ${zapInput.value}%0A*Data:* ${dataFormatada} às ${horarioSelect.value}%0A%0A*Estou enviando o comprovante do agendamento agora!* 👇`;
                             
                             const linkZap = `https://wa.me/5511913554213?text=${mensagemZap}`;
                             
-                            statusDiv.innerHTML = `
-                                ✅ <b>Pré-Agendamento Realizado!</b><br>
-                                Clique abaixo para finalizar no WhatsApp:<br><br>
-                                <a href="${linkZap}" target="_blank" style="background:#25D366; color:white; padding:15px 20px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
-                                <i class="fab fa-whatsapp"></i> ENVIAR COMPROVANTE
-                                </a>`;
+                            statusDiv.innerHTML = `✅ <b>Pré-Agendamento Realizado!</b><br>Clique abaixo para finalizar no WhatsApp:<br><br><a href="${linkZap}" target="_blank" style="background:#25D366; color:white; padding:15px 20px; border-radius:50px; text-decoration:none; font-weight:bold; display:inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.2);"><i class="fab fa-whatsapp"></i> ENVIAR COMPROVANTE</a>`;
                             
                             formAgendamento.reset();
                             horarioSelect.disabled = true;
                             
-                            // Reseta a tela da anamnese pro próximo cliente
+                            // Reseta a tela da anamnese
                             document.querySelector('input[name="primeira_vez"][value="Sim"]').checked = true;
                             blocoAnamnese.style.display = 'block';
                             clienteNova = true;
@@ -801,7 +784,7 @@
                     });
             });
 
-            // Pinterest Logic
+            // PINTEREST LOGIC
             document.getElementById("pinterest-form").addEventListener("submit", function(e) {
                 e.preventDefault();
                 const q = document.getElementById("pinterest-query").value;
@@ -815,18 +798,16 @@
             });
 
             // ==========================================
-            // NOVA IA CHAT LOGIC (CONECTADA AO GOOGLE GEMINI)
+            // CHAT DE IA COM GEMINI À PROVA DE FALHAS
             // ==========================================
             const chatWindow = document.getElementById('ai-chat-window');
             const promptForm = document.getElementById('ai-prompt-form');
             const promptInput = document.getElementById('ai-prompt-input');
 
-            // Função para colocar os balõezinhos na tela
             function addBubble(text, type) {
                 const b = document.createElement('div');
                 b.className = `chat-bubble ${type}-bubble`;
                 if(type === 'ai') {
-                    // Substitui quebras de linha por <br> e coloca negrito onde a IA manda **texto**
                     let formatado = text.replace(/\*\*(.*?)\*\*/g, '<b>$1</b>').replace(/\n/g, '<br>');
                     b.innerHTML = `<div class="ai-avatar">💅</div><div class="ai-content" style="font-size: 0.95rem; line-height: 1.5; color: #444;">${formatado}</div>`;
                     b.className += ' ai-bubble';
@@ -837,7 +818,6 @@
                 chatWindow.scrollTop = chatWindow.scrollHeight;
             }
 
-            // Função que chama o Cérebro do Gemini
             async function processAI(perguntaUsuario) {
                 const loading = document.createElement('div');
                 loading.className = 'chat-bubble ai-bubble';
@@ -850,32 +830,41 @@
 
                 const instrucaoSistema = `Você é a assistente virtual inteligente do salão Nicole Nails. 
                 Sua personalidade é amigável, acolhedora e muito profissional. Use emojis fofos.
-                A especialidade do salão é: Alongamentos de unha (fibra, gel, blindagem) e Spa dos Pés regenerador (podologia e biossegurança).
-                Regras: Responda de forma curta (máximo 3 parágrafos), direta e focada no mundo das unhas e estética. Se perguntarem algo fora de estética/unhas, diga educadamente que só pode falar sobre os serviços do studio. Se a cliente quiser agendar, diga para ela preencher o formulário na página.
-                Pergunta da cliente: ${perguntaUsuario}`;
+                A especialidade do salão é: Alongamentos de unha (fibra, gel, blindagem) e Spa dos Pés regenerador.
+                Responda de forma curta (máximo 3 parágrafos), direta e focada no mundo das unhas e estética.`;
 
                 try {
                     const resposta = await fetch(url, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            contents: [{ parts: [{ text: instrucaoSistema }] }]
+                            system_instruction: { parts: [{ text: instrucaoSistema }] },
+                            contents: [{ parts: [{ text: perguntaUsuario }] }]
                         })
                     });
 
                     const dados = await resposta.json();
-                    
-                    if (dados.candidates && dados.candidates.length > 0) {
+                    chatWindow.removeChild(loading);
+
+                    // A MÁGICA DO ERRO FICA AQUI: O CHAT VAI TE AVISAR SE A CHAVE TIVER ERRADA
+                    if (resposta.ok && dados.candidates && dados.candidates.length > 0) {
                         const respostaGemini = dados.candidates[0].content.parts[0].text;
-                        chatWindow.removeChild(loading);
                         addBubble(respostaGemini, 'ai');
+                    } else if (dados.error) {
+                        console.error("Erro da API Gemini:", dados.error);
+                        if(dados.error.message.includes("API_KEY_INVALID")) {
+                            addBubble("⚠️ Erro no Sistema: A Chave da API do Google inserida no código é inválida ou expirou. Por favor, gere uma nova.", 'ai');
+                        } else {
+                            addBubble(`⚠️ Ops, ocorreu um erro na nuvem do Google: ${dados.error.message}`, 'ai');
+                        }
                     } else {
-                        throw new Error('Resposta vazia');
+                        addBubble("Desculpe, tive um pequeno branco! Pode perguntar de novo? 💖", 'ai');
                     }
 
                 } catch (erro) {
+                    console.error("Erro de rede/CORS:", erro);
                     chatWindow.removeChild(loading);
-                    addBubble("Desculpe, minha conexão com a internet falhou rapidinho! Tente perguntar de novo. 💖", 'ai');
+                    addBubble("Desculpe, minha conexão falhou! Verifique a internet e tente de novo. 💖", 'ai');
                 }
             }
 
@@ -885,10 +874,9 @@
                 if(!val) return;
                 addBubble(val, 'user');
                 promptInput.value = '';
-                processAI(val); // Envia para o Gemini
+                processAI(val); 
             });
 
-            // Mensagem de boas vindas automática
             setTimeout(() => addBubble("Olá! Sou a IA da Nicole Nails ✨<br>Fui treinada com o Google Gemini para tirar todas as suas dúvidas sobre unhas em gel, blindagem, fungos, alergias e nosso maravilhoso Spa dos Pés. Como posso te ajudar hoje?", 'ai'), 800);
         });
     </script>
