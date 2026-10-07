@@ -12,8 +12,8 @@ export const handler = async function(event, context) {
         const API_KEY = process.env.GEMINI_API_KEY;
         if (!API_KEY) return { statusCode: 500, body: JSON.stringify({ error: "Chave ausente no Netlify." }) };
 
-        // 1. Ordem de prioridade dos modelos sugerida
-        const modelos = ["gemini-3.8-flash", "gemini-3.7-flash", "gemini-3.6-flash"];
+        // 1. Ordem de prioridade dos modelos REAIS e ativos da Google
+        const modelos = ["gemini-1.5-flash", "gemini-1.5-pro"];
         
         // 2. Configurações de retentativa
         const maxTentativasPorModelo = 2; // Tenta a 1ª vez e faz até 2 repetições se der erro 503
@@ -33,12 +33,13 @@ export const handler = async function(event, context) {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",
-                            "x-goog-api-key": API_KEY // Chave enviada de forma segura no cabeçalho
+                            "x-goog-api-key": API_KEY // Chave enviada de forma segura
                         },
                         body: JSON.stringify({
                             system_instruction: {
                                 parts: [{ 
-                                    text: "Você é a assistente virtual oficial do salão Nicole Nails. Responda em português do Brasil. Seja educada, simpática, profissional e use respostas curtas. Especialidade: Unhas em Gel e Spa dos Pés. Não invente preços ou horários que não sabe." 
+                                    // Instrução melhorada para não cortar frases
+                                    text: "Você é a assistente virtual oficial do salão Nicole Nails. Responda em português do Brasil. Seja educada, simpática, profissional. Especialidade: Unhas em Gel e Spa dos Pés. Não invente preços ou horários que não sabe. Regra de Ouro: NUNCA deixe frases pela metade ou incompletas, termine sempre a sua explicação de forma clara e natural." 
                                 }]
                             },
                             contents: [{ 
@@ -47,7 +48,8 @@ export const handler = async function(event, context) {
                             }],
                             generationConfig: {
                                 temperature: 0.7,
-                                maxOutputTokens: 300
+                                // O LIMITE AUMENTADO PARA 1000 (evita que a frase seja cortada a meio)
+                                maxOutputTokens: 1000 
                             }
                         })
                     });
@@ -56,7 +58,10 @@ export const handler = async function(event, context) {
 
                     // Se a resposta for um SUCESSO (200 OK)
                     if (response.ok) {
-                        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || "";
+                        // Junta as partes do texto para evitar cortes na leitura
+                        const partes = data?.candidates?.[0]?.content?.parts || [];
+                        const text = partes.map(p => p.text || "").join("").trim();
+
                         if (!text) {
                             return { statusCode: 502, body: JSON.stringify({ error: "O Gemini não retornou texto." }) };
                         }
@@ -74,24 +79,23 @@ export const handler = async function(event, context) {
                         console.warn(`[${modelo}] Tentativa ${tentativa + 1} falhou (Ocupado). Status: ${response.status}.`);
                         
                         if (tentativa < maxTentativasPorModelo) {
-                            // Cálculo da espera progressiva: 1.5s, 3s...
                             const tempo = tempoEsperaBase * Math.pow(2, tentativa); 
                             console.log(`Esperando ${tempo}ms antes de tentar novamente...`);
                             await esperar(tempo);
-                            continue; // Volta para o início do loop e tenta o mesmo modelo
+                            continue; 
                         } else {
                             console.warn(`[${modelo}] Esgotou as tentativas. A avançar para o próximo modelo.`);
-                            break; // Sai do loop de retentativas e vai para o modelo da versão anterior
+                            break; 
                         }
                     }
 
-                    // Se for erro 404 (Modelo descontinuado/inexistente), passa diretamente para o próximo
+                    // Se for erro 404 (Modelo não encontrado), passa diretamente para o próximo
                     if (response.status === 404) {
                         console.warn(`[${modelo}] Modelo não encontrado (404). A testar a versão anterior...`);
                         break; 
                     } 
                     
-                    // Se for outro erro fatal (ex: Chave inválida), devolve o erro e desiste
+                    // Outro erro fatal
                     console.error(`Erro fatal da API Gemini no modelo ${modelo}:`, data);
                     return { statusCode: response.status, body: JSON.stringify({ error: data?.error?.message || "Erro interno da API." }) };
 
@@ -100,13 +104,13 @@ export const handler = async function(event, context) {
                     if (tentativa < maxTentativasPorModelo) {
                         await esperar(tempoEsperaBase * Math.pow(2, tentativa));
                     } else {
-                        break; // Vai para o próximo modelo
+                        break; 
                     }
                 }
             }
         }
 
-        // Se o código chegou até aqui, significa que testou o 3.8, o 3.7 e o 3.6 e TODOS falharam/estavam ocupados.
+        // Se falhou tudo
         return {
             statusCode: 503,
             headers: { "Content-Type": "application/json" },
