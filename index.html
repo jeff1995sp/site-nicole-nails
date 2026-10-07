@@ -355,6 +355,21 @@
                     
                     <form id="form-agendamento" class="booking-form">
                         
+                        <!-- ========================================== -->
+                        <!-- PERGUNTA INTELIGENTE COM TRAVA DE "INÍCIO DO ZERO" -->
+                        <!-- ========================================== -->
+                        <div class="input-group" style="background: rgba(255, 255, 255, 0.8); padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #ffdde9;">
+                            <label style="font-weight: 600; color: var(--deep-pink); display: block; margin-bottom: 10px; font-size: 1.05rem;">É sua primeira vez no Studio?</label>
+                            <div style="display: flex; gap: 20px;">
+                                <label style="cursor: pointer; color: #444; font-weight: 500;">
+                                    <input type="radio" name="primeira_vez" value="Sim" checked> Sim
+                                </label>
+                                <label style="cursor: pointer; color: #444; font-weight: 500;">
+                                    <input type="radio" name="primeira_vez" value="Não"> Não, já sou cliente
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="input-group">
                             <i class="fab fa-whatsapp"></i>
                             <input id="whatsapp_cliente" name="whatsapp" placeholder="Seu WhatsApp (Ex: 11 99999-9999)" type="tel" class="styled-input" required/>
@@ -366,9 +381,9 @@
                         </div>
 
                         <!-- ========================================== -->
-                        <!-- INÍCIO DO BLOCO DE ANAMNESE (Oculto)       -->
+                        <!-- INÍCIO DO BLOCO DE ANAMNESE                -->
                         <!-- ========================================== -->
-                        <div id="bloco-anamnese" style="display: none; background: #fff5f8; border: 1px solid #ffdde9; border-radius: 15px; padding: 20px; margin-top: 10px; width: 100%;">
+                        <div id="bloco-anamnese" style="display: block; background: #fff5f8; border: 1px solid #ffdde9; border-radius: 15px; padding: 20px; margin-top: 10px; width: 100%;">
                             <h3 style="font-size: 1.2rem; margin-bottom: 15px; color: var(--deep-pink); border-bottom: 2px solid #ffdde9; padding-bottom: 5px;">📋 Ficha de Saúde (Apenas 1ª Vez)</h3>
                             
                             <div style="margin-bottom: 20px;">
@@ -414,7 +429,7 @@
                                 <strong>Termo de Consentimento Eletrônico:</strong><br>
                                 Declaro que as informações de saúde são verdadeiras. Entendo que o alongamento exige manutenções periódicas e que omissão de dados ou remoção em casa podem causar danos à unha natural. Autorizo o procedimento.
                                 <br><br>
-                                <label style="cursor: pointer;"><input type="checkbox" id="ana_aceite"> <b>Li, aceito e concordo.</b></label>
+                                <label style="cursor: pointer;"><input type="checkbox" id="ana_aceite" required> <b>Li, aceito e concordo.</b></label>
                             </div>
                         </div>
                         <!-- ========================================== -->
@@ -569,21 +584,66 @@
             const statusDiv = document.getElementById("status-agendamento");
             const blocoAnamnese = document.getElementById("bloco-anamnese");
 
-            // ADICIONADO: VERIFICADOR INTELIGENTE DE CLIENTE EXISTENTE
-            let clienteNova = true;
+            // ==========================================
+            // Lógica da pergunta "Primeira Vez" com trava de "Sistema Novo"
+            // ==========================================
+            const radiosPrimeiraVez = document.querySelectorAll('input[name="primeira_vez"]');
+            let clienteNova = true; 
+
+            radiosPrimeiraVez.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    let zapDigitado = zapInput.value.replace(/\D/g,'');
+                    let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [] };
+                    let clienteExistente = dbLocal.clientes.find(c => c.zap.replace(/\D/g,'') === zapDigitado);
+
+                    if (this.value === 'Não') {
+                        if (zapDigitado.length > 8 && !clienteExistente) {
+                            alert("Que bom ter você de volta! 🥰 Como estamos inaugurando um SISTEMA NOVO hoje, pedimos que todas as clientes preencham a ficha só dessa vez para atualizar o cadastro, tá bom?");
+                            document.querySelector('input[name="primeira_vez"][value="Sim"]').checked = true;
+                            clienteNova = true;
+                            blocoAnamnese.style.display = 'block';
+                            document.getElementById('ana_aceite').required = true;
+                        } else {
+                            clienteNova = false;
+                            blocoAnamnese.style.display = 'none';
+                            document.getElementById('ana_aceite').required = false;
+                        }
+                    } else {
+                        clienteNova = true;
+                        blocoAnamnese.style.display = 'block';
+                        document.getElementById('ana_aceite').required = true;
+                    }
+                });
+            });
+
             zapInput.addEventListener('blur', function() {
                 let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [] };
-                let clienteExistente = dbLocal.clientes.find(c => c.zap.replace(/\D/g,'') === zapInput.value.replace(/\D/g,''));
+                let zapDigitado = zapInput.value.replace(/\D/g,'');
+                let clienteExistente = dbLocal.clientes.find(c => c.zap.replace(/\D/g,'') === zapDigitado);
                 
-                if(clienteExistente) {
-                    clienteNova = false;
-                    blocoAnamnese.style.display = 'none'; // Esconde anamnese para quem já é cliente
-                    if(!nomeInput.value) nomeInput.value = clienteExistente.nome; // Auto-preenche nome
-                } else if (zapInput.value.length > 8) {
-                    clienteNova = true;
-                    blocoAnamnese.style.display = 'block'; // Força anamnese aparecer
+                if(zapDigitado.length > 8) {
+                    if(clienteExistente) {
+                        if(!nomeInput.value) nomeInput.value = clienteExistente.nome; 
+                        if(clienteNova) {
+                            alert("Encontramos seu cadastro no Studio! 💖 Não precisa preencher a ficha médica novamente.");
+                            document.querySelector('input[name="primeira_vez"][value="Não"]').checked = true;
+                            clienteNova = false;
+                            blocoAnamnese.style.display = 'none';
+                            document.getElementById('ana_aceite').required = false;
+                        }
+                    } else {
+                        let disseQueEraVelha = document.querySelector('input[name="primeira_vez"][value="Não"]').checked;
+                        if (disseQueEraVelha) {
+                            alert("Que bom ter você de volta! 🥰 Como estamos inaugurando um SISTEMA NOVO hoje, precisamos que preencha a ficha de saúde só dessa vez para atualizar seu cadastro, tá bom?");
+                            document.querySelector('input[name="primeira_vez"][value="Sim"]').checked = true;
+                        }
+                        clienteNova = true;
+                        blocoAnamnese.style.display = 'block';
+                        document.getElementById('ana_aceite').required = true;
+                    }
                 }
             });
+            // ==========================================
 
             function buscarHorarios() {
                 const data = dataInput.value;
@@ -621,7 +681,6 @@
             servicoSelect.addEventListener("change", buscarHorarios);
             dataInput.addEventListener("change", buscarHorarios);
 
-            // Lógica de Agendamento (ATUALIZADA)
             formAgendamento.addEventListener("submit", function(e) {
                 e.preventDefault();
                 
@@ -629,13 +688,7 @@
                     alert("Por favor, preencha todos os campos, incluindo seu WhatsApp!"); return;
                 }
 
-                // ADICIONADO: Verifica se a cliente leu o termo médico
-                if(clienteNova && !document.getElementById('ana_aceite').checked && zapInput.value.length > 8) {
-                    alert("Você precisa ler e aceitar o Termo de Consentimento Eletrônico para prosseguir!"); 
-                    return;
-                }
-
-                // ADICIONADO: Salvando os dados médicos e agenda para o Painel Admin ver depois
+                // Salvando no Banco de Dados do Admin
                 let dbLocal = JSON.parse(localStorage.getItem('nicoleNailsDB')) || { clientes: [], agenda: [], caixa: {entradas:0, saidas:0, historico:[]}, estoque_unhas:[], estoque_bijus:[], config: { metaMensal: 5000 } };
                 
                 if(clienteNova && zapInput.value.length > 8) {
@@ -671,13 +724,11 @@
                 });
                 localStorage.setItem('nicoleNailsDB', JSON.stringify(dbLocal));
 
-                // --- NOVO POPUP ELEGANTE ---
                 const aceitou = confirm("🌸 Quase lá!\n\nPara confirmar seu horário com segurança e praticidade, precisamos que você envie o comprovante pelo WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?");
                 
                 if (!aceitou) {
                     return; 
                 }
-                // ---------------------------
 
                 btnAgendar.disabled = true;
                 btnAgendar.innerHTML = 'Agendando... <i class="fas fa-spinner fa-spin"></i>';
@@ -715,7 +766,11 @@
                             
                             formAgendamento.reset();
                             horarioSelect.disabled = true;
-                            blocoAnamnese.style.display = 'none'; // Esconde a anamnese depois de enviar
+                            
+                            // Reseta o visual da anamnese
+                            document.querySelector('input[name="primeira_vez"][value="Sim"]').checked = true;
+                            blocoAnamnese.style.display = 'block';
+                            clienteNova = true;
                         } else throw new Error(d.mensagem);
                     })
                     .catch(e => {
