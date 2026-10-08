@@ -151,7 +151,12 @@
         </ul>
         <div class="sidebar-footer">
             <div style="font-size: 0.75rem; color: #888; margin-bottom: 15px;">Segurança de Dados</div>
-            <button class="btn btn-sm" style="width:100%; margin-bottom:10px; background:#2b2b3f; color:white;" onclick="fazerBackup()"><i class="fas fa-cloud-download-alt"></i> Baixar BKP</button>
+            
+            <div style="background: rgba(27, 197, 189, 0.1); border: 1px solid var(--success); color: var(--success); text-align: center; padding: 10px; border-radius: 8px; margin-bottom: 15px; font-weight: bold; font-size: 0.85rem;">
+                <i class="fas fa-cloud-upload-alt"></i> Sincronizado em Tempo Real
+            </div>
+            
+            <button class="btn btn-sm" style="width:100%; margin-bottom:10px; background:#2b2b3f; color:white;" onclick="fazerBackup()"><i class="fas fa-download"></i> Baixar BKP Local</button>
             <button class="btn btn-sm btn-danger" style="width:100%;" onclick="sair()"><i class="fas fa-sign-out-alt"></i> Sair do Painel</button>
         </div>
     </aside>
@@ -392,41 +397,67 @@
         </div>
     </div>
 
-    <!-- SCRIPT GIGANTE E COMPLETO DO SISTEMA ERP -->
-    <script>
-        // ----------------------------------------------------------------------
-        // INICIALIZAÇÃO E BANCO DE DADOS (LOCALSTORAGE)
-        // ----------------------------------------------------------------------
-        let DB = JSON.parse(localStorage.getItem('nicoleNailsDB')) || {
-            clientes: [], agenda: [], estoque_unhas: [], estoque_bijus: [], 
-            caixa: { entradas: 0, saidas: 0, historico: [] }, config: { metaMensal: 6000 }
+    <!-- SCRIPT GIGANTE E COMPLETO COM FIREBASE REAL-TIME -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // CONFIGURAÇÃO OFICIAL DO SEU FIREBASE
+        const firebaseConfig = {
+            apiKey: "AIzaSyDm4YNEuPxXKQm5g_yPinNIcNNneLVf1Rg",
+            authDomain: "site-8dfaf.firebaseapp.com",
+            projectId: "site-8dfaf",
+            storageBucket: "site-8dfaf.firebasestorage.app",
+            messagingSenderId: "76689989548",
+            appId: "1:76689989548:web:5c86741e60ce385102a409"
         };
-        
-        let idFoco = null; // Usado para modais
-        let graficoInstance = null; // Para o Chart.js
 
-        function salvarDB() { localStorage.setItem('nicoleNailsDB', JSON.stringify(DB)); renderAll(); }
-        function sair() { window.location.href = "index.html"; }
-        function abrirModal(id) { document.getElementById(id).style.display = 'flex'; }
-        function fechaModal(id) { document.getElementById(id).style.display = 'none'; }
+        const app = initializeApp(firebaseConfig);
+        const bancoFirebase = getFirestore(app);
+        const docRef = doc(bancoFirebase, "nicole_app", "banco_de_dados");
 
-        // Navegação Visual do Menu
-        function switchTab(tabId, el) {
+        let DB = { clientes: [], agenda: [], estoque_unhas: [], estoque_bijus: [], caixa: {entradas:0, saidas:0, historico:[]}, config: { metaMensal: 6000 } };
+        let idFoco = null;
+        let graficoInstance = null;
+
+        // ESTA FUNÇÃO FICA OUVINDO O BANCO DE DADOS EM TEMPO REAL
+        onSnapshot(docRef, (docSnap) => {
+            if (docSnap.exists()) {
+                DB = docSnap.data();
+                localStorage.setItem('nicoleNailsDB', JSON.stringify(DB));
+                renderAll();
+                if(document.getElementById('mod_dash').classList.contains('active')) renderGrafico();
+            } else {
+                setDoc(docRef, DB);
+                renderAll();
+                renderGrafico();
+            }
+        });
+
+        window.salvarDB = async function() {
+            try {
+                await setDoc(docRef, DB);
+                localStorage.setItem('nicoleNailsDB', JSON.stringify(DB));
+            } catch (err) {
+                console.error("Erro ao salvar no banco", err);
+                alert("Erro ao salvar dados no banco da Google!");
+            }
+        };
+
+        window.sair = function() { window.location.href = "index.html"; };
+        window.abrirModal = function(id) { document.getElementById(id).style.display = 'flex'; };
+        window.fechaModal = function(id) { document.getElementById(id).style.display = 'none'; };
+
+        window.switchTab = function(tabId, el) {
             document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
             document.querySelectorAll('.nav-links li').forEach(l => l.classList.remove('active'));
             document.getElementById(tabId).classList.add('active');
             if(el) el.classList.add('active');
-            
-            // Re-render chart if switching to dash
             if(tabId === 'mod_dash') renderGrafico();
-        }
+        };
 
-        // Formatação de Moeda BRL
         const formataBRL = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-        // ----------------------------------------------------------------------
-        // MÓDULO 0: DASHBOARD E ALERTAS INTELIGENTES
-        // ----------------------------------------------------------------------
         function renderDashboard() {
             let vendasBiju = DB.caixa.historico.filter(x => x.desc.includes('Biju')).reduce((acc, curr) => acc + curr.valor, 0);
             
@@ -435,11 +466,8 @@
             document.getElementById('dash-vendas-biju').innerText = formataBRL(vendasBiju);
             document.getElementById('dash-agendados').innerText = DB.agenda.length;
 
-            // Alertas Críticos no Sino e no Painel
-            let numAlertas = 0;
-            let htmlAlertas = "";
+            let numAlertas = 0; let htmlAlertas = "";
 
-            // Verifica Estoque Baixo
             DB.estoque_unhas.forEach(u => {
                 if(u.qtd <= 2) {
                     numAlertas++;
@@ -447,7 +475,6 @@
                 }
             });
 
-            // Verifica Clientes Agendadas com Red Flags de Saúde (Diabética ou Alergia)
             DB.agenda.forEach(a => {
                 let cli = DB.clientes.find(c => c.nome === a.clienteNome);
                 if(cli && cli.risco === 1) {
@@ -457,27 +484,24 @@
             });
 
             if(numAlertas === 0) htmlAlertas = `<p style="color:var(--success)"><i class="fas fa-check-circle"></i> Tudo em ordem! Sem pendências graves hoje.</p>`;
-            
             document.getElementById('alert-count').innerText = numAlertas;
             document.getElementById('lista-alertas-dash').innerHTML = htmlAlertas;
         }
 
-        function mostrarAlertas() { switchTab('mod_dash', document.querySelector('.nav-links li')); }
+        window.mostrarAlertas = function() { switchTab('mod_dash', document.querySelector('.nav-links li')); };
 
         function renderGrafico() {
             const ctx = document.getElementById('graficoReceita').getContext('2d');
-            if(graficoInstance) graficoInstance.destroy(); // destroi o anterior para não bugar
+            if(graficoInstance) graficoInstance.destroy();
             
-            // Simulação de 7 dias baseados no histórico
             graficoInstance = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Hoje'],
                     datasets: [{
                         label: 'Faturamento Bruto',
-                        data: [120, 180, 150, 300, 450, 600, DB.caixa.entradas > 0 ? DB.caixa.entradas : 200], // Fake data base para estética, ultimo é real
-                        borderColor: '#ff66b2',
-                        backgroundColor: 'rgba(255,102,178,0.1)',
+                        data: [120, 180, 150, 300, 450, 600, DB.caixa.entradas > 0 ? DB.caixa.entradas : 200], 
+                        borderColor: '#ff66b2', backgroundColor: 'rgba(255,102,178,0.1)',
                         borderWidth: 3, fill: true, tension: 0.4, pointRadius: 5, pointBackgroundColor: '#d63384'
                     }]
                 },
@@ -485,17 +509,12 @@
             });
         }
 
-        // ----------------------------------------------------------------------
-        // MÓDULO 1: AGENDA E CHECKOUT
-        // ----------------------------------------------------------------------
         function renderAgenda() {
             const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
             if(DB.agenda.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum agendamento pendente.</td></tr>';
             
             DB.agenda.forEach(a => {
                 let statusPix = a.status === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
-                
-                // Puxa ficha da cliente pra ver se tem alerta
                 let cli = DB.clientes.find(c => c.nome === a.clienteNome);
                 let btnFicha = cli ? `<button class="btn btn-sm btn-info" onclick="abrirDossie(${cli.id}); switchTab('mod_crm')"><i class="fas fa-file-medical"></i> Ler Ficha</button>` : `<span class="badge" style="background:#eee;color:#888;">Cliente Antiga</span>`;
 
@@ -515,53 +534,41 @@
             });
         }
 
-        function baixarPix(id) { DB.agenda.find(x => x.id === id).status = 'Confirmado'; salvarDB(); }
+        window.baixarPix = function(id) { DB.agenda.find(x => x.id === id).status = 'Confirmado'; salvarDB(); };
 
-        let checkoutTempId = null;
-        let checkoutTempNome = "";
-        let checkoutTempServ = "";
+        let checkoutTempId = null; let checkoutTempNome = ""; let checkoutTempServ = "";
 
-        function iniciarCheckout(idAg, servico, nomeCli) {
+        window.iniciarCheckout = function(idAg, servico, nomeCli) {
             checkoutTempId = idAg; checkoutTempNome = nomeCli; checkoutTempServ = servico;
             document.getElementById('chk-cli-nome').innerText = nomeCli;
             document.getElementById('chk-serv').innerText = servico;
-            document.getElementById('chk-valor').value = "120.00"; // Sugestão padrão
+            document.getElementById('chk-valor').value = "120.00";
             abrirModal('modalCheckout');
-        }
+        };
 
-        function processarCheckout() {
+        window.processarCheckout = function() {
             let valor = parseFloat(document.getElementById('chk-valor').value);
             if(!isNaN(valor) && valor > 0) {
-                // Remove da fila
                 DB.agenda = DB.agenda.filter(x => x.id !== checkoutTempId);
-                // Entra grana no caixa
                 DB.caixa.entradas += valor;
                 DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Serviço: ${checkoutTempServ} (${checkoutTempNome})`, tipo: 'Entrada Serviço', valor: valor });
                 
-                // CRM Lógica: Adiciona visita e dinheiro no perfil
                 let cli = DB.clientes.find(c => c.nome === checkoutTempNome);
-                if(cli) { 
-                    cli.ltv = (cli.ltv || 0) + valor; 
-                    cli.visitas = (cli.visitas || 0) + 1;
-                }
+                if(cli) { cli.ltv = (cli.ltv || 0) + valor; cli.visitas = (cli.visitas || 0) + 1; }
                 
                 salvarDB(); fechaModal('modalCheckout');
                 alert("✨ Atendimento Concluído! O valor foi adicionado ao seu DRE mensal.");
             }
-        }
+        };
 
-        function faltaNoShow(idAg, nomeCli) {
+        window.faltaNoShow = function(idAg, nomeCli) {
             if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai liberar a vaga para a fila de espera. Continuar?`)) {
                 DB.agenda = DB.agenda.filter(x => x.id !== idAg); salvarDB();
             }
-        }
+        };
 
-        // ----------------------------------------------------------------------
-        // MÓDULO 2: SUPER CRM
-        // ----------------------------------------------------------------------
         function renderCRM(filtro = "") {
             const tbody = document.querySelector('#tabela-crm tbody'); tbody.innerHTML = '';
-            
             let lista = DB.clientes.filter(c => c.nome.toLowerCase().includes(filtro.toLowerCase()) || c.zap.includes(filtro));
             if(lista.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhuma cliente encontrada.</td></tr>';
 
@@ -577,7 +584,7 @@
                 if(flags === "") flags = `<span class="badge badge-green">Saudável</span>`;
 
                 let fidelidade = c.visitas ? c.visitas : 0;
-                let estrelas = "⭐".repeat(Math.min(fidelidade, 5)); // até 5 estrelas visuais
+                let estrelas = "⭐".repeat(Math.min(fidelidade, 5));
                 if(fidelidade === 0) estrelas = "🌱 Primeira Vez";
 
                 tbody.innerHTML += `
@@ -593,19 +600,16 @@
             });
         }
 
-        function filtrarCRM() { let txt = document.getElementById('buscaCRM').value; renderCRM(txt); }
+        window.filtrarCRM = function() { let txt = document.getElementById('buscaCRM').value; renderCRM(txt); };
 
-        function abrirDossie(id) {
+        window.abrirDossie = function(id) {
             let c = DB.clientes.find(x => x.id === id); idFoco = id;
-            
             document.getElementById('dos-avatar').innerText = c.nome.charAt(0).toUpperCase();
-            document.getElementById('dos-nome').innerText = c.nome;
-            document.getElementById('dos-zap').innerText = c.zap;
+            document.getElementById('dos-nome').innerText = c.nome; document.getElementById('dos-zap').innerText = c.zap;
             
             let fid = c.visitas || 0;
             document.getElementById('dos-estrelas').innerText = "⭐".repeat(Math.min(fid, 5)) + ` (${fid} visitas no Studio)`;
             
-            // Whats Link Automático
             let linkZap = `https://wa.me/55${c.zap.replace(/\D/g, '')}?text=Olá ${c.nome.split(' ')[0]}, tudo bem? Aqui é a Nicole Nails 💅`;
             document.getElementById('btn-zap-cli').setAttribute('onclick', `window.open('${linkZap}', '_blank')`);
 
@@ -614,7 +618,6 @@
             document.getElementById('dos-origem').innerText = c.origem || 'Não informado';
             document.getElementById('dos-ltv').innerText = formataBRL(c.ltv || 0);
 
-            // Popula os Alertas Médicos Críticos
             let liHTML = "";
             if(c.anamnese) {
                 if(c.anamnese.diabetes==="Sim") liHTML += `<li><b>Diabética:</b> Cuidado extremo na cutilagem contínua para evitar sangramentos.</li>`;
@@ -628,25 +631,21 @@
             
             document.getElementById('dos-saude').innerHTML = liHTML;
             document.getElementById('nota_secreta').value = c.notas_secretas || "";
-            
             abrirModal('modalFichaCli');
-        }
+        };
 
-        function salvarNotaSecreta() {
+        window.salvarNotaSecreta = function() {
             let n = document.getElementById('nota_secreta').value;
             DB.clientes.find(x => x.id === idFoco).notas_secretas = n;
             salvarDB(); fechaModal('modalFichaCli'); alert("✅ Segredo guardado a sete chaves!");
-        }
+        };
 
-        // ----------------------------------------------------------------------
-        // MÓDULO 3 & 4: CONTROLE DE ESTOQUES (UNHA E BIJUS)
-        // ----------------------------------------------------------------------
-        function salvarUnha() {
+        window.salvarUnha = function() {
             let n = document.getElementById('u_nome').value; let q = parseInt(document.getElementById('u_qtd').value); let v = document.getElementById('u_val').value;
             if(!n || !q) return alert("Preencha o Nome e Quantidade!");
             DB.estoque_unhas.push({ id: Date.now(), nome: n, qtd: q, validade: v || 'Sem data' });
             salvarDB(); fechaModal('modalAddUnha'); document.getElementById('u_nome').value=''; document.getElementById('u_qtd').value='';
-        }
+        };
 
         function renderEstoqueUnha() {
             const tbody = document.querySelector('#tabela-est-unha tbody'); tbody.innerHTML = '';
@@ -657,13 +656,13 @@
             });
         }
 
-        function baixaEstoqueUnha(id) {
+        window.baixaEstoqueUnha = function(id) {
             let item = DB.estoque_unhas.find(x=>x.id===id);
             if(item.qtd > 0) { item.qtd--; salvarDB(); }
             else { alert("Já está zerado!"); }
-        }
+        };
 
-        function salvarBiju() {
+        window.salvarBiju = function() {
             let n = document.getElementById('b_nome').value; let q = parseInt(document.getElementById('b_qtd').value); 
             let c = parseFloat(document.getElementById('b_custo').value); let v = parseFloat(document.getElementById('b_venda').value);
             if(!n || !q || isNaN(c) || isNaN(v)) return alert("Preencha todos os campos financeiros da Biju!");
@@ -672,7 +671,7 @@
             DB.estoque_bijus.push({ id: Date.now(), sku: sku, nome: n, qtd: q, custo: c, preco: v });
             salvarDB(); fechaModal('modalAddBiju'); 
             document.getElementById('b_nome').value=''; document.getElementById('b_qtd').value=''; document.getElementById('b_custo').value=''; document.getElementById('b_venda').value='';
-        }
+        };
 
         function renderEstoqueBiju() {
             const tbody = document.querySelector('#tabela-est-biju tbody'); tbody.innerHTML = '';
@@ -693,28 +692,23 @@
             });
         }
 
-        function venderBijuMesa(id) {
+        window.venderBijuMesa = function(id) {
             let b = DB.estoque_bijus.find(x=>x.id===id);
             if(b.qtd > 0) {
-                b.qtd--;
-                DB.caixa.entradas += b.preco; // O lucro sujo inteiro entra
-                // Pra ficar DRE correto, na Sangria a Nicole tem q lançar as compras que fez de Biju
+                b.qtd--; DB.caixa.entradas += b.preco;
                 DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Venda Biju: ${b.nome} (${b.sku})`, tipo: 'Entrada Biju', valor: b.preco });
                 salvarDB(); alert(`💎 Biju vendida com sucesso! ${formataBRL(b.preco)} somados ao DRE.`);
             } else { alert("Atenção: Essa peça zerou no estoque físico!"); }
-        }
+        };
 
-        // ----------------------------------------------------------------------
-        // MÓDULO 5: DRE, FINANCEIRO E SANGRIA
-        // ----------------------------------------------------------------------
-        function salvarSangria() {
+        window.salvarSangria = function() {
             let desc = document.getElementById('san_desc').value; let val = parseFloat(document.getElementById('san_valor').value);
             if(desc && val && val > 0) {
                 DB.caixa.saidas += val;
                 DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: desc, tipo: 'Despesa / Retirada', valor: val });
                 salvarDB(); fechaModal('modalSangria'); document.getElementById('san_desc').value=''; document.getElementById('san_valor').value='';
             }
-        }
+        };
 
         function renderFinanceiro() {
             let lucroReal = DB.caixa.entradas - DB.caixa.saidas;
@@ -723,12 +717,10 @@
             
             const tbody = document.querySelector('#tabela-caixa tbody'); tbody.innerHTML = '';
             
-            // Loop ao contrário para ver os últimos registros primeiro
             [...DB.caixa.historico].reverse().forEach(h => {
                 let isEntrada = h.tipo.includes('Entrada');
                 let cor = isEntrada ? 'color:var(--success)' : 'color:var(--danger)';
                 let icone = isEntrada ? '<i class="fas fa-plus-circle"></i>' : '<i class="fas fa-minus-circle"></i>';
-                
                 tbody.innerHTML += `
                     <tr>
                         <td>${h.data}</td>
@@ -740,34 +732,16 @@
             });
         }
 
-        // ----------------------------------------------------------------------
-        // SISTEMA DE NUVEM / BACKUP
-        // ----------------------------------------------------------------------
-        function fazerBackup() {
+        window.fazerBackup = function() {
             const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(DB));
             const a = document.createElement('a'); a.href = dataStr; a.download = "NICOLE_NAILS_ERP_BKP_" + new Date().getTime() + ".json";
             document.body.appendChild(a); a.click(); a.remove(); 
             alert("✅ BACKUP FEITO! Salve este arquivo em um PenDrive ou no seu Google Drive da Nicole Nails!");
-        }
+        };
 
-        function restaurarBackup(event) {
-            const file = event.target.files[0]; if (!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) { 
-                try { DB = JSON.parse(e.target.result); salvarDB(); alert("✨ SUCESSO ABSOLUTO! O sistema inteiro foi restaurado com os dados antigos!"); location.reload(); } 
-                catch (err) { alert("❌ ARQUIVO INVÁLIDO. O arquivo de backup foi corrompido."); } 
-            };
-            reader.readAsText(file);
-        }
-
-        // ----------------------------------------------------------------------
-        // BOOT DO SISTEMA
-        // ----------------------------------------------------------------------
         function renderAll() { 
             renderDashboard(); renderAgenda(); renderCRM(); renderEstoqueUnha(); renderEstoqueBiju(); renderFinanceiro(); 
         }
-        
-        window.onload = () => { renderAll(); renderGrafico(); };
 
     </script>
 </body>
