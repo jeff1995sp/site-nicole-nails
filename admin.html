@@ -164,7 +164,9 @@
     <!-- ÁREA PRINCIPAL -->
     <main class="main-content">
 
-        <!-- DASHBOARD -->
+        <!-- ===================================== -->
+        <!-- MÓDULO 0: DASHBOARD                   -->
+        <!-- ===================================== -->
         <section id="mod_dash" class="section active">
             <div class="cards-grid">
                 <div class="stat-card" style="border-bottom: 4px solid var(--primary);">
@@ -197,7 +199,9 @@
             </div>
         </section>
 
-        <!-- AGENDA -->
+        <!-- ===================================== -->
+        <!-- MÓDULO 1: AGENDA                      -->
+        <!-- ===================================== -->
         <section id="mod_agenda" class="section">
             <div class="panel">
                 <div class="panel-header">
@@ -211,7 +215,9 @@
             </div>
         </section>
 
-        <!-- CRM -->
+        <!-- ===================================== -->
+        <!-- MÓDULO 2: SUPER CRM                   -->
+        <!-- ===================================== -->
         <section id="mod_crm" class="section">
             <div class="panel">
                 <div class="panel-header">
@@ -228,7 +234,9 @@
             </div>
         </section>
 
-        <!-- ESTOQUE UNHAS -->
+        <!-- ===================================== -->
+        <!-- MÓDULO 3: ESTOQUE UNHAS (CMV)         -->
+        <!-- ===================================== -->
         <section id="mod_unhas" class="section">
             <div class="panel">
                 <div class="panel-header">
@@ -242,7 +250,9 @@
             </div>
         </section>
 
-        <!-- ESTOQUE BIJUS -->
+        <!-- ===================================== -->
+        <!-- MÓDULO 4: ESTOQUE BIJUS (PDV)         -->
+        <!-- ===================================== -->
         <section id="mod_bijus" class="section">
             <div class="panel">
                 <div class="panel-header">
@@ -256,7 +266,9 @@
             </div>
         </section>
 
-        <!-- FINANCEIRO -->
+        <!-- ===================================== -->
+        <!-- MÓDULO 5: RELATÓRIOS E FINANCEIRO     -->
+        <!-- ===================================== -->
         <section id="mod_relatorios" class="section">
             <div class="cards-grid">
                 <div class="stat-card" style="border: 1px solid var(--danger);">
@@ -283,7 +295,11 @@
 
     </main>
 
-    <!-- MODAL DOSSIÊ CRM -->
+    <!-- ========================================================================= -->
+    <!-- ÁREA DE MODAIS (POP-UPS) DE FUNÇÕES                                       -->
+    <!-- ========================================================================= -->
+
+    <!-- DOSSIÊ CRM -->
     <div class="modal-overlay" id="modalFichaCli">
         <div class="modal" style="max-width: 800px;">
             <i class="fas fa-times close-modal" onclick="fechaModal('modalFichaCli')"></i>
@@ -334,7 +350,7 @@
             </div>
             
             <div style="background: #fff4de; padding:10px; border-radius:8px; font-size:0.8rem; color:#ffa800; margin-bottom:20px; text-align:left;">
-                <i class="fas fa-lightbulb"></i> Lembrete: Abata os R$ 25 do sinal e subtraia as lixas gastas no módulo de Estoque.
+                <i class="fas fa-lightbulb"></i> Lembrete CMV: Subtraia as lixas e luvas gastas no módulo de Estoque.
             </div>
 
             <button class="btn btn-primary" style="width: 100%; padding:15px; font-size:1.1rem;" onclick="processarCheckout()">Concluir e Enviar para o Caixa</button>
@@ -370,6 +386,7 @@
         </div>
     </div>
 
+    
     <!-- MODAL SANGRIA -->
     <div class="modal-overlay" id="modalSangria">
         <div class="modal" style="max-width: 400px;">
@@ -381,21 +398,23 @@
         </div>
     </div>
 
-    <!-- MODAL VER COMPROVANTE -->
-    <div class="modal-overlay" id="modalVerComprovante">
-        <div class="modal" style="max-width: 400px; text-align: center;">
-            <i class="fas fa-times close-modal" onclick="fechaModal('modalVerComprovante')"></i>
-            <h2 style="color: var(--primary); margin-bottom: 15px;">Comprovante de Sinal</h2>
-            <img id="img-comprovante" src="" style="max-width: 100%; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
-            <p style="margin-top: 15px; color: var(--text-muted); font-size: 0.85rem;">Se a imagem for válida, você pode confirmar o recebimento do sinal na tela da agenda.</p>
+    <!-- MODAL COMPROVANTE PIX -->
+    <div class="modal-overlay" id="modalComprovante">
+        <div class="modal" style="max-width: 500px; text-align: center;">
+            <i class="fas fa-times close-modal" onclick="fechaModal('modalComprovante')"></i>
+            <h2 style="color: var(--primary); margin-bottom: 15px;"><i class="fas fa-receipt"></i> Comprovante Anexado</h2>
+            <img id="img-comprovante" src="" alt="Sem imagem" style="width: 100%; border-radius: 10px; max-height: 60vh; object-fit: contain; margin-bottom: 15px; border: 1px solid #eee;">
+            <button class="btn btn-success" style="width: 100%; padding: 10px;" onclick="fechaModal('modalComprovante')"><i class="fas fa-check"></i> Fechar</button>
         </div>
     </div>
 
-    <!-- SCRIPT FIREBASE -->
+
+    <!-- SCRIPT GIGANTE E COMPLETO COM FIREBASE REAL-TIME -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
         import { getFirestore, doc, setDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
+        // CONFIGURAÇÃO OFICIAL DO SEU FIREBASE
         const firebaseConfig = {
             apiKey: "AIzaSyDm4YNEuPxXKQm5g_yPinNIcNNneLVf1Rg",
             authDomain: "site-8dfaf.firebaseapp.com",
@@ -413,6 +432,7 @@
         let idFoco = null;
         let graficoInstance = null;
 
+        // ESTA FUNÇÃO FICA OUVINDO O BANCO DE DADOS EM TEMPO REAL
         onSnapshot(docRef, (docSnap) => {
             if (docSnap.exists()) {
                 DB = docSnap.data();
@@ -501,22 +521,12 @@
             });
         }
 
-        // MOSTRA A AGENDA COM A IMAGEM DO PIX
         function renderAgenda() {
             const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
             if(DB.agenda.length === 0) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum agendamento pendente.</td></tr>';
             
             DB.agenda.forEach(a => {
-                let statusPix = a.status === 'Confirmado' ? `<span class="badge badge-green">Sinal OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
-                
-                let acoesPix = `${statusPix}<br>`;
-                if(a.status === 'Pendente') {
-                    acoesPix += `<button class="btn btn-sm" style="background:var(--success); color:white; padding:2px 5px; margin-top:5px;" onclick="baixarPix(${a.id})" title="Confirmar Sinal na Conta"><i class="fas fa-check"></i> Recebido</button>`;
-                }
-                if(a.comprovante) {
-                    acoesPix += ` <button class="btn btn-sm btn-info" style="padding:2px 5px; margin-top:5px;" onclick="verComprovanteDB(${a.id})" title="Ver Comprovante Anexado pelo Site"><i class="fas fa-receipt"></i> Ver PIX</button>`;
-                }
-
+                let statusPix = a.status === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
                 let cli = DB.clientes.find(c => c.nome === a.clienteNome);
                 let btnFicha = cli ? `<button class="btn btn-sm btn-info" onclick="abrirDossie(${cli.id}); switchTab('mod_crm')"><i class="fas fa-file-medical"></i> Ler Ficha</button>` : `<span class="badge" style="background:#eee;color:#888;">Cliente Antiga</span>`;
 
@@ -525,26 +535,28 @@
                         <td style="font-weight:700; color:var(--primary);">${a.data.split('-').reverse().join('/')} <br><small style="color:var(--text-dark)">🕒 ${a.horario}</small></td>
                         <td><b>${a.clienteNome}</b><br><small style="color:var(--text-muted)">${a.clienteZap}</small></td>
                         <td>${a.servico}</td>
-                        <td style="text-align: center;">${acoesPix}</td>
+                        <td>${statusPix} ${a.status === 'Pendente' ? `<button class="btn btn-sm" style="background:var(--success); color:white; padding:2px 5px;" onclick="baixarPix(${a.id})" title="Confirmar Recebimento"><i class="fas fa-check"></i></button>` : ''}</td>
                         <td>${btnFicha}</td>
                         <td>
                             <button class="btn btn-sm btn-success" onclick="iniciarCheckout(${a.id}, '${a.servico}', '${a.clienteNome}')"><i class="fas fa-flag-checkered"></i> Concluir</button>
-                            <button class="btn btn-sm btn-danger" onclick="faltaNoShow(${a.id}, '${a.clienteNome}')" title="Cliente Faltou / Perdeu Sinal"><i class="fas fa-user-times"></i></button>
+                            <button class="btn btn-sm btn-danger" onclick="faltaNoShow(${a.id}, '${a.clienteNome}')" title="Cliente Faltou"><i class="fas fa-user-times"></i></button>
                         </td>
                     </tr>
                 `;
             });
         }
 
-        window.baixarPix = function(id) { DB.agenda.find(x => x.id === id).status = 'Confirmado'; salvarDB(); };
-
-        window.verComprovanteDB = function(id) {
+        
+        window.verComprovante = function(id) {
             let ag = DB.agenda.find(x => x.id === id);
             if(ag && ag.comprovante) {
                 document.getElementById('img-comprovante').src = ag.comprovante;
-                abrirModal('modalVerComprovante');
+                abrirModal('modalComprovante');
             }
         };
+
+        window.baixarPix = function(id) { DB.agenda.find(x => x.id === id).status = 'Confirmado'; salvarDB(); };
+
 
         let checkoutTempId = null; let checkoutTempNome = ""; let checkoutTempServ = "";
 
@@ -572,9 +584,7 @@
         };
 
         window.faltaNoShow = function(idAg, nomeCli) {
-            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?
-
-Como o sinal de dezembro não é reembolsável, ele fica retido. Isso vai liberar a vaga para a fila de espera. Continuar?`)) {
+            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai liberar a vaga para a fila de espera. Continuar?`)) {
                 DB.agenda = DB.agenda.filter(x => x.id !== idAg); salvarDB();
             }
         };
