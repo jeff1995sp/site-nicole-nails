@@ -68,7 +68,7 @@
 
         /* PANELS & TABLES */
         .panel { background: var(--white); padding: 25px; border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 30px; border: 1px solid #eee; }
-        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f1f1f4; padding-bottom: 15px; }
+        .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; border-bottom: 1px solid #f1f1f4; padding-bottom: 15px; flex-wrap: wrap; gap: 15px; }
         .panel-header h2 { font-size: 1.2rem; font-weight: 700; color: var(--text-dark); }
         
         table { width: 100%; border-collapse: collapse; }
@@ -213,11 +213,17 @@
                         <span style="font-size: 0.9rem; color: var(--text-muted);">Integração Ativa com Google Site</span>
                     </div>
                     <div style="display:flex; gap:10px; align-items:center;">
-                        <label style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark);">Buscar Data:</label>
+                        <label style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark);">Visualizar Data:</label>
                         <input type="date" id="filtro-data-agenda" class="form-control" style="width: auto; padding: 8px;" onchange="renderAgenda()">
                         <button class="btn btn-info btn-sm" onclick="abrirModalDiaSeguinte()"><i class="fab fa-whatsapp"></i> Confirmar Amanhã</button>
                     </div>
                 </div>
+                <!-- NOVIDADE: ABAS PARA SEPARAR PENDENTES DE CONCLUÍDOS/FALTAS -->
+                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    <button id="btn-tab-pendentes" class="btn btn-primary" onclick="setFiltroAgenda('pendentes')">Agendamentos</button>
+                    <button id="btn-tab-historico" class="btn" style="background:#e4e6ef; color:#3f4254;" onclick="setFiltroAgenda('historico')">Concluídos e Faltas (Hoje/Passado)</button>
+                </div>
+
                 <table id="tabela-agenda">
                     <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Procedimento</th><th>Sinal (PIX)</th><th>Status da Ficha</th><th>Ação na Mesa</th></tr></thead>
                     <tbody><!-- JS --></tbody>
@@ -323,6 +329,7 @@
                 <div style="margin-left: auto; display: flex; gap: 10px; flex-wrap: wrap;">
                     <button class="btn btn-warning" id="btn-manual-cli"><i class="fas fa-book"></i> Enviar Manual</button>
                     <button class="btn btn-primary" onclick="editarCliente()"><i class="fas fa-edit"></i> Editar</button>
+                    <button class="btn btn-danger" onclick="excluirCliente()"><i class="fas fa-trash"></i> Excluir</button>
                     <button class="btn btn-success" id="btn-zap-cli"><i class="fab fa-whatsapp"></i> Chamar</button>
                 </div>
             </div>
@@ -452,6 +459,7 @@
         let DB = { clientes: [], agenda: [], estoque_unhas: [], estoque_bijus: [], caixa: {entradas:0, saidas:0, historico:[]}, config: { metaMensal: 6000 } };
         let idFoco = null;
         let graficoInstance = null;
+        let filtroAgendaAtual = 'pendentes';
 
         // ESTA FUNÇÃO FICA OUVINDO O BANCO DE DADOS EM TEMPO REAL
         onSnapshot(docRef, (docSnap) => {
@@ -568,6 +576,18 @@
             });
         }
 
+        window.setFiltroAgenda = function(tipo) {
+            filtroAgendaAtual = tipo;
+            
+            document.getElementById('btn-tab-pendentes').style.background = tipo === 'pendentes' ? 'var(--primary)' : '#e4e6ef';
+            document.getElementById('btn-tab-pendentes').style.color = tipo === 'pendentes' ? 'white' : '#3f4254';
+            
+            document.getElementById('btn-tab-historico').style.background = tipo === 'historico' ? 'var(--primary)' : '#e4e6ef';
+            document.getElementById('btn-tab-historico').style.color = tipo === 'historico' ? 'white' : '#3f4254';
+            
+            renderAgenda();
+        };
+
         function renderAgenda() {
             const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
             
@@ -579,8 +599,14 @@
             
             let lista = DB.agenda.filter(a => a.data === dataFiltro);
 
+            if(filtroAgendaAtual === 'pendentes') {
+                lista = lista.filter(a => a.status !== 'Concluído' && a.status !== 'Faltou');
+            } else {
+                lista = lista.filter(a => a.status === 'Concluído' || a.status === 'Faltou');
+            }
+
             if(lista.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Nenhum agendamento para esta data.</td></tr>';
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Nenhum agendamento ${filtroAgendaAtual === 'pendentes' ? 'pendente' : 'no histórico'} para esta data.</td></tr>`;
             }
             
             lista.forEach(a => {
@@ -590,10 +616,16 @@
 
                 let acoes = '';
                 if(a.status === 'Concluído') {
-                    acoes = `<span class="badge badge-green"><i class="fas fa-check-double"></i> Concluído</span>`;
+                    acoes = `
+                        <span class="badge badge-green" style="margin-bottom: 5px; display: block;"><i class="fas fa-check-double"></i> Concluído</span>
+                        <button class="btn btn-sm btn-danger" onclick="excluirAgendamento(${a.id})" title="Excluir Histórico"><i class="fas fa-trash"></i></button>
+                    `;
                     statusPix = '-';
                 } else if(a.status === 'Faltou') {
-                    acoes = `<span class="badge badge-gray"><i class="fas fa-times"></i> Faltou</span>`;
+                    acoes = `
+                        <span class="badge badge-gray" style="margin-bottom: 5px; display: block;"><i class="fas fa-times"></i> Faltou</span>
+                        <button class="btn btn-sm btn-danger" onclick="excluirAgendamento(${a.id})" title="Excluir Histórico"><i class="fas fa-trash"></i></button>
+                    `;
                     statusPix = '-';
                 } else {
                     acoes = `
@@ -615,7 +647,14 @@
             });
         }
 
-        
+        window.excluirAgendamento = function(idAg) {
+            if(confirm("Tem certeza que deseja excluir esse registro permanentemente?")) {
+                DB.agenda = DB.agenda.filter(x => x.id !== idAg);
+                salvarDB();
+                renderAgenda();
+            }
+        };
+
         window.verComprovante = function(id) {
             let ag = DB.agenda.find(x => x.id === id);
             if(ag && ag.comprovante) {
@@ -650,13 +689,14 @@
                 if(cli) { cli.ltv = (cli.ltv || 0) + valor; cli.visitas = (cli.visitas || 0) + 1; }
                 
                 salvarDB(); fechaModal('modalCheckout');
-                alert("✨ Atendimento Concluído! O valor foi adicionado ao seu DRE mensal.");
+                alert("✨ Atendimento Concluído! A cliente agora aparecerá no Histórico e o valor foi pro DRE mensal.");
                 renderAgenda(); // update view
+                renderCRM(); // update visits in crm
             }
         };
 
         window.faltaNoShow = function(idAg, nomeCli) {
-            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai marcar a ficha dela como Falta. Continuar?`)) {
+            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai marcar a ficha dela como Falta (ela ficará no Histórico). Continuar?`)) {
                 let ag = DB.agenda.find(x => x.id === idAg);
                 if(ag) ag.status = 'Faltou';
                 salvarDB();
@@ -700,6 +740,16 @@
             abrirDossie(idFoco);
             renderCRM();
             alert("✅ Dados atualizados com sucesso!");
+        };
+
+        window.excluirCliente = function() {
+            if(confirm("🚨 ATENÇÃO: Tem certeza que deseja excluir esta cliente DEFINITIVAMENTE?\nEssa ação não pode ser desfeita.")) {
+                DB.clientes = DB.clientes.filter(x => x.id !== idFoco);
+                salvarDB();
+                fechaModal('modalFichaCli');
+                renderCRM();
+                alert("🗑️ Cliente excluída com sucesso.");
+            }
         };
 
         function renderCRM(filtro = "") {
