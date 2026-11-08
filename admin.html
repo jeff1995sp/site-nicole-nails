@@ -210,7 +210,7 @@
                 <div class="panel-header" style="flex-wrap: wrap; gap: 15px;">
                     <div>
                         <h2>Controle de Atendimentos</h2>
-                        <span style="font-size: 0.9rem; color: var(--text-muted);">Integração Ativa com Google Site</span>
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">Visualize todos os agendamentos, concluídos e faltas da data.</span>
                     </div>
                     <div style="display:flex; gap:10px; align-items:center;">
                         <label style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark);">Visualizar Data:</label>
@@ -218,12 +218,7 @@
                         <button class="btn btn-info btn-sm" onclick="abrirModalDiaSeguinte()"><i class="fab fa-whatsapp"></i> Confirmar Amanhã</button>
                     </div>
                 </div>
-                <!-- NOVIDADE: ABAS PARA SEPARAR PENDENTES DE CONCLUÍDOS/FALTAS -->
-                <div style="display: flex; gap: 10px; margin-bottom: 15px;">
-                    <button id="btn-tab-pendentes" class="btn btn-primary" onclick="setFiltroAgenda('pendentes')">Agendamentos</button>
-                    <button id="btn-tab-historico" class="btn" style="background:#e4e6ef; color:#3f4254;" onclick="setFiltroAgenda('historico')">Concluídos e Faltas (Hoje/Passado)</button>
-                </div>
-
+                
                 <table id="tabela-agenda">
                     <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Procedimento</th><th>Sinal (PIX)</th><th>Status da Ficha</th><th>Ação na Mesa</th></tr></thead>
                     <tbody><!-- JS --></tbody>
@@ -459,7 +454,6 @@
         let DB = { clientes: [], agenda: [], estoque_unhas: [], estoque_bijus: [], caixa: {entradas:0, saidas:0, historico:[]}, config: { metaMensal: 6000 } };
         let idFoco = null;
         let graficoInstance = null;
-        let filtroAgendaAtual = 'pendentes';
 
         // ESTA FUNÇÃO FICA OUVINDO O BANCO DE DADOS EM TEMPO REAL
         onSnapshot(docRef, (docSnap) => {
@@ -499,6 +493,12 @@
 
         const formataBRL = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
+        function getHojeBR() {
+            let data = new Date();
+            data.setMinutes(data.getMinutes() - data.getTimezoneOffset());
+            return data.toISOString().split('T')[0];
+        }
+
         function renderDashboard() {
             let vendasBiju = DB.caixa.historico.filter(x => x.desc.includes('Biju')).reduce((acc, curr) => acc + curr.valor, 0);
             
@@ -506,7 +506,7 @@
             document.getElementById('dash-clientes').innerText = DB.clientes.length;
             document.getElementById('dash-vendas-biju').innerText = formataBRL(vendasBiju);
             
-            let dataHoje = new Date().toISOString().split('T')[0];
+            let dataHoje = getHojeBR();
             let agendadosHoje = DB.agenda.filter(a => a.data === dataHoje && a.status !== 'Concluído' && a.status !== 'Faltou').length;
             document.getElementById('dash-agendados').innerText = agendadosHoje;
 
@@ -576,70 +576,67 @@
             });
         }
 
-        window.setFiltroAgenda = function(tipo) {
-            filtroAgendaAtual = tipo;
-            
-            document.getElementById('btn-tab-pendentes').style.background = tipo === 'pendentes' ? 'var(--primary)' : '#e4e6ef';
-            document.getElementById('btn-tab-pendentes').style.color = tipo === 'pendentes' ? 'white' : '#3f4254';
-            
-            document.getElementById('btn-tab-historico').style.background = tipo === 'historico' ? 'var(--primary)' : '#e4e6ef';
-            document.getElementById('btn-tab-historico').style.color = tipo === 'historico' ? 'white' : '#3f4254';
-            
-            renderAgenda();
-        };
-
         function renderAgenda() {
             const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
             
             let inputData = document.getElementById('filtro-data-agenda');
             if (!inputData.value) {
-                inputData.value = new Date().toISOString().split('T')[0];
+                // Seta o calendário para a data exata de hoje no fuso brasileiro
+                inputData.value = getHojeBR();
             }
             let dataFiltro = inputData.value;
             
-            let lista = DB.agenda.filter(a => a.data === dataFiltro);
+            // Puxa toda a agenda da data, independente de status, corrigindo possível diferença de slash pra traço
+            let lista = DB.agenda.filter(a => {
+                let d = a.data;
+                if(d && d.includes('/')) d = d.split('/').reverse().join('-');
+                return d === dataFiltro;
+            });
 
-            if(filtroAgendaAtual === 'pendentes') {
-                lista = lista.filter(a => a.status !== 'Concluído' && a.status !== 'Faltou');
-            } else {
-                lista = lista.filter(a => a.status === 'Concluído' || a.status === 'Faltou');
-            }
+            // Organiza do horário mais cedo pro mais tarde
+            lista.sort((a, b) => (a.horario > b.horario) ? 1 : -1);
 
             if(lista.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">Nenhum agendamento ${filtroAgendaAtual === 'pendentes' ? 'pendente' : 'no histórico'} para esta data.</td></tr>`;
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 25px; color: #888;">Nenhum agendamento (pendente, concluído ou falta) para esta data.</td></tr>';
             }
             
             lista.forEach(a => {
-                let statusPix = a.status === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
+                let statusA = a.status || 'Pendente'; // Trata fichas antigas sem status gravado
+                
+                let statusPix = statusA === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
                 let cli = DB.clientes.find(c => c.nome === a.clienteNome);
                 let btnFicha = cli ? `<button class="btn btn-sm btn-info" onclick="abrirDossie(${cli.id}); switchTab('mod_crm')"><i class="fas fa-file-medical"></i> Ler Ficha</button>` : `<span class="badge" style="background:#eee;color:#888;">Cliente Antiga</span>`;
 
                 let acoes = '';
-                if(a.status === 'Concluído') {
+                if(statusA === 'Concluído') {
                     acoes = `
-                        <span class="badge badge-green" style="margin-bottom: 5px; display: block;"><i class="fas fa-check-double"></i> Concluído</span>
-                        <button class="btn btn-sm btn-danger" onclick="excluirAgendamento(${a.id})" title="Excluir Histórico"><i class="fas fa-trash"></i></button>
+                        <span class="badge badge-green" style="margin-bottom: 5px; display: block; font-size:0.8rem;"><i class="fas fa-check-double"></i> Concluído</span>
+                        <button class="btn btn-sm btn-danger" onclick="excluirAgendamento(${a.id})" title="Apagar Registro"><i class="fas fa-trash"></i></button>
                     `;
                     statusPix = '-';
-                } else if(a.status === 'Faltou') {
+                } else if(statusA === 'Faltou') {
                     acoes = `
-                        <span class="badge badge-gray" style="margin-bottom: 5px; display: block;"><i class="fas fa-times"></i> Faltou</span>
-                        <button class="btn btn-sm btn-danger" onclick="excluirAgendamento(${a.id})" title="Excluir Histórico"><i class="fas fa-trash"></i></button>
+                        <span class="badge badge-gray" style="margin-bottom: 5px; display: block; font-size:0.8rem;"><i class="fas fa-times"></i> Faltou</span>
+                        <button class="btn btn-sm btn-danger" onclick="excluirAgendamento(${a.id})" title="Apagar Registro"><i class="fas fa-trash"></i></button>
                     `;
                     statusPix = '-';
                 } else {
                     acoes = `
                         <button class="btn btn-sm btn-success" onclick="iniciarCheckout(${a.id}, '${a.servico}', '${a.clienteNome}')"><i class="fas fa-flag-checkered"></i> Concluir</button>
-                        <button class="btn btn-sm btn-danger" onclick="faltaNoShow(${a.id}, '${a.clienteNome}')" title="Cliente Faltou"><i class="fas fa-user-times"></i></button>
+                        <button class="btn btn-sm btn-warning" style="margin-left: 5px; color:#fff;" onclick="faltaNoShow(${a.id}, '${a.clienteNome}')" title="Cliente Faltou"><i class="fas fa-user-times"></i></button>
                     `;
                 }
 
+                // Ajusta a exibição da data se estiver em traço
+                let displayDate = a.data;
+                if(displayDate.includes('-')) displayDate = displayDate.split('-').reverse().join('/');
+
                 tbody.innerHTML += `
                     <tr>
-                        <td style="font-weight:700; color:var(--primary);">${a.data.split('-').reverse().join('/')} <br><small style="color:var(--text-dark)">🕒 ${a.horario}</small></td>
+                        <td style="font-weight:700; color:var(--primary);">${displayDate} <br><small style="color:var(--text-dark); font-size:1.1rem;">🕒 ${a.horario}</small></td>
                         <td><b>${a.clienteNome}</b><br><small style="color:var(--text-muted)">${a.clienteZap}</small></td>
                         <td>${a.servico}</td>
-                        <td>${statusPix} ${(a.status === 'Pendente' || a.status === 'Confirmado') && a.status !== 'Concluído' && a.status !== 'Faltou' ? `<button class="btn btn-sm" style="background:var(--success); color:white; padding:2px 5px;" onclick="baixarPix(${a.id})" title="Confirmar Recebimento"><i class="fas fa-check"></i></button>` : ''}</td>
+                        <td>${statusPix} ${(statusA === 'Pendente' || statusA === 'Confirmado') ? `<button class="btn btn-sm" style="background:var(--success); color:white; padding:2px 5px;" onclick="baixarPix(${a.id})" title="Confirmar Recebimento PIX"><i class="fas fa-check"></i></button>` : ''}</td>
                         <td>${btnFicha}</td>
                         <td>${acoes}</td>
                     </tr>
@@ -648,7 +645,7 @@
         }
 
         window.excluirAgendamento = function(idAg) {
-            if(confirm("Tem certeza que deseja excluir esse registro permanentemente?")) {
+            if(confirm("Tem certeza que deseja excluir esse registro da agenda permanentemente?")) {
                 DB.agenda = DB.agenda.filter(x => x.id !== idAg);
                 salvarDB();
                 renderAgenda();
@@ -680,7 +677,7 @@
             let valor = parseFloat(document.getElementById('chk-valor').value);
             if(!isNaN(valor) && valor > 0) {
                 let ag = DB.agenda.find(x => x.id === checkoutTempId);
-                if(ag) ag.status = 'Concluído';
+                if(ag) ag.status = 'Concluído'; // Atualiza o status na mesma linha!
 
                 DB.caixa.entradas += valor;
                 DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Serviço: ${checkoutTempServ} (${checkoutTempNome})`, tipo: 'Entrada Serviço', valor: valor });
@@ -689,14 +686,14 @@
                 if(cli) { cli.ltv = (cli.ltv || 0) + valor; cli.visitas = (cli.visitas || 0) + 1; }
                 
                 salvarDB(); fechaModal('modalCheckout');
-                alert("✨ Atendimento Concluído! A cliente agora aparecerá no Histórico e o valor foi pro DRE mensal.");
-                renderAgenda(); // update view
-                renderCRM(); // update visits in crm
+                alert("✨ Atendimento Concluído! A cliente vai ficar verde na tabela e o valor foi pro seu DRE.");
+                renderAgenda(); // Atualiza a tela instantaneamente
+                renderCRM(); // Atualiza a pontuação dela
             }
         };
 
         window.faltaNoShow = function(idAg, nomeCli) {
-            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai marcar a ficha dela como Falta (ela ficará no Histórico). Continuar?`)) {
+            if(confirm(`⚠️ A cliente ${nomeCli} não apareceu?\n\nIsso vai marcar a ficha dela como Falta (cinza) para controle. Continuar?`)) {
                 let ag = DB.agenda.find(x => x.id === idAg);
                 if(ag) ag.status = 'Faltou';
                 salvarDB();
