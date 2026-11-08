@@ -210,11 +210,17 @@
                 <div class="panel-header" style="flex-wrap: wrap; gap: 15px;">
                     <div>
                         <h2>Controle de Atendimentos</h2>
-                        <span style="font-size: 0.9rem; color: var(--text-muted);">Visualize todos os agendamentos, concluídos e faltas da data.</span>
+                        <span style="font-size: 0.9rem; color: var(--text-muted);">Visualize todos os agendamentos, incluindo concluídos e faltas.</span>
                     </div>
-                    <div style="display:flex; gap:10px; align-items:center;">
-                        <label style="font-size: 0.85rem; font-weight: bold; color: var(--text-dark);">Visualizar Data:</label>
-                        <input type="date" id="filtro-data-agenda" class="form-control" style="width: auto; padding: 8px;" onchange="renderAgenda()">
+                    
+                    <div style="display:flex; gap:10px; align-items:center; flex-wrap: wrap;">
+                        <select id="filtro-tipo-agenda" class="form-control" style="width: auto; padding: 8px; font-weight: bold; color: var(--primary);" onchange="mudouFiltroTipo()">
+                            <option value="todos">📋 Mostrar Todos</option>
+                            <option value="hoje" selected>📅 Somente Hoje</option>
+                            <option value="futuros">⏩ Próximos (Futuro)</option>
+                            <option value="passados">⏪ Histórico (Passados)</option>
+                        </select>
+                        <input type="date" id="filtro-data-agenda" class="form-control" style="width: auto; padding: 8px;" title="Buscar data específica" onchange="document.getElementById('filtro-tipo-agenda').value='especifica'; renderAgenda()">
                         <button class="btn btn-info btn-sm" onclick="abrirModalDiaSeguinte()"><i class="fab fa-whatsapp"></i> Confirmar Amanhã</button>
                     </div>
                 </div>
@@ -499,6 +505,20 @@
             return data.toISOString().split('T')[0];
         }
 
+        window.mudouFiltroTipo = function() {
+            document.getElementById('filtro-data-agenda').value = '';
+            renderAgenda();
+        };
+
+        function normalizarData(d) {
+            if(!d) return "";
+            if(d.includes('/')) {
+                let p = d.split('/');
+                return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
+            }
+            return d;
+        }
+
         function renderDashboard() {
             let vendasBiju = DB.caixa.historico.filter(x => x.desc.includes('Biju')).reduce((acc, curr) => acc + curr.valor, 0);
             
@@ -507,7 +527,7 @@
             document.getElementById('dash-vendas-biju').innerText = formataBRL(vendasBiju);
             
             let dataHoje = getHojeBR();
-            let agendadosHoje = DB.agenda.filter(a => a.data === dataHoje && a.status !== 'Concluído' && a.status !== 'Faltou').length;
+            let agendadosHoje = DB.agenda.filter(a => normalizarData(a.data) === dataHoje && a.status !== 'Concluído' && a.status !== 'Faltou').length;
             document.getElementById('dash-agendados').innerText = agendadosHoje;
 
             let numAlertas = 0; let htmlAlertas = "";
@@ -542,7 +562,7 @@
                 }
             });
 
-            DB.agenda.filter(a => a.data === dataHoje).forEach(a => {
+            DB.agenda.filter(a => normalizarData(a.data) === dataHoje).forEach(a => {
                 let cli = DB.clientes.find(c => c.nome === a.clienteNome);
                 if(cli && cli.risco === 1 && a.status !== 'Concluído' && a.status !== 'Faltou') {
                     numAlertas++;
@@ -579,29 +599,36 @@
         function renderAgenda() {
             const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
             
-            let inputData = document.getElementById('filtro-data-agenda');
-            if (!inputData.value) {
-                // Seta o calendário para a data exata de hoje no fuso brasileiro
-                inputData.value = getHojeBR();
+            let tipo = document.getElementById('filtro-tipo-agenda').value;
+            let dataInput = document.getElementById('filtro-data-agenda').value;
+            let hoje = getHojeBR();
+
+            let lista = [...DB.agenda];
+
+            if(tipo === 'hoje') {
+                lista = lista.filter(a => normalizarData(a.data) === hoje);
+            } else if (tipo === 'futuros') {
+                lista = lista.filter(a => normalizarData(a.data) > hoje);
+            } else if (tipo === 'passados') {
+                lista = lista.filter(a => normalizarData(a.data) < hoje);
+            } else if (tipo === 'especifica' && dataInput) {
+                lista = lista.filter(a => normalizarData(a.data) === dataInput);
             }
-            let dataFiltro = inputData.value;
-            
-            // Puxa toda a agenda da data, independente de status, corrigindo possível diferença de slash pra traço
-            let lista = DB.agenda.filter(a => {
-                let d = a.data;
-                if(d && d.includes('/')) d = d.split('/').reverse().join('-');
-                return d === dataFiltro;
+
+            lista.sort((a, b) => {
+                let dA = normalizarData(a.data);
+                let dB = normalizarData(b.data);
+                if (dA > dB) return (tipo === 'futuros' || tipo === 'hoje') ? 1 : -1;
+                if (dA < dB) return (tipo === 'futuros' || tipo === 'hoje') ? -1 : 1;
+                return a.horario > b.horario ? 1 : -1;
             });
 
-            // Organiza do horário mais cedo pro mais tarde
-            lista.sort((a, b) => (a.horario > b.horario) ? 1 : -1);
-
             if(lista.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 25px; color: #888;">Nenhum agendamento (pendente, concluído ou falta) para esta data.</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 25px; color: #888;">Nenhum agendamento encontrado para este filtro.</td></tr>';
             }
             
             lista.forEach(a => {
-                let statusA = a.status || 'Pendente'; // Trata fichas antigas sem status gravado
+                let statusA = a.status || 'Pendente'; 
                 
                 let statusPix = statusA === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
                 let cli = DB.clientes.find(c => c.nome === a.clienteNome);
@@ -627,7 +654,6 @@
                     `;
                 }
 
-                // Ajusta a exibição da data se estiver em traço
                 let displayDate = a.data;
                 if(displayDate.includes('-')) displayDate = displayDate.split('-').reverse().join('/');
 
@@ -677,7 +703,7 @@
             let valor = parseFloat(document.getElementById('chk-valor').value);
             if(!isNaN(valor) && valor > 0) {
                 let ag = DB.agenda.find(x => x.id === checkoutTempId);
-                if(ag) ag.status = 'Concluído'; // Atualiza o status na mesma linha!
+                if(ag) ag.status = 'Concluído'; 
 
                 DB.caixa.entradas += valor;
                 DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Serviço: ${checkoutTempServ} (${checkoutTempNome})`, tipo: 'Entrada Serviço', valor: valor });
@@ -686,9 +712,9 @@
                 if(cli) { cli.ltv = (cli.ltv || 0) + valor; cli.visitas = (cli.visitas || 0) + 1; }
                 
                 salvarDB(); fechaModal('modalCheckout');
-                alert("✨ Atendimento Concluído! A cliente vai ficar verde na tabela e o valor foi pro seu DRE.");
-                renderAgenda(); // Atualiza a tela instantaneamente
-                renderCRM(); // Atualiza a pontuação dela
+                alert("✨ Atendimento Concluído! O status da cliente foi atualizado na tabela e o valor foi pro seu DRE.");
+                renderAgenda(); 
+                renderCRM(); 
             }
         };
 
@@ -706,7 +732,7 @@
             amanha.setDate(amanha.getDate() + 1);
             let dataAmanha = amanha.toISOString().split('T')[0];
             
-            let clientesAmanha = DB.agenda.filter(a => a.data === dataAmanha && a.status !== 'Concluído' && a.status !== 'Faltou');
+            let clientesAmanha = DB.agenda.filter(a => normalizarData(a.data) === dataAmanha && a.status !== 'Concluído' && a.status !== 'Faltou');
             
             let html = '';
             if(clientesAmanha.length === 0) {
