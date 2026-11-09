@@ -826,7 +826,8 @@
             let linkZap = `https://wa.me/55${c.zap.replace(/\D/g, '')}?text=Olá ${c.nome.split(' ')[0]}, tudo bem? Aqui é a Nicole Nails 💅`;
             document.getElementById('btn-zap-cli').setAttribute('onclick', `window.open('${linkZap}', '_blank')`);
 
-            let linkManual = `https://wa.me/55${c.zap.replace(/\D/g, '')}?text=Olá ${c.nome.split(' ')[0]}! Aqui é a Nicole Nails 💅%0A%0A*Seu Manual de Cuidados Pós-Procedimento:*%0A1. Evite contato com produtos químicos sem luvas.%0A2. Não use as unhas como ferramentas (abrir latas, etc).%0A3. Faça a manutenção no tempo correto (15 a 21 dias).%0A4. Hidrate as cutículas diariamente!%0A%0AQualquer dúvida estou à disposição! 💖`;
+            // --- NOVIDADE AQUI! Envio do PDF ao invés de texto ---
+            let linkManual = `https://wa.me/55${c.zap.replace(/\D/g, '')}?text=Olá ${c.nome.split(' ')[0]}! Aqui é a Nicole Nails 💅%0A%0AAqui está o seu *Manual de Cuidados Pós-Procedimento* em PDF com tudo que você precisa saber para manter suas unhas perfeitas:%0A%0Ahttps://jeff1995sp.github.io/site-nicole-nails/Manual%20de%20Cuidados%20P%C3%B3s-Procedimento.pdf`;
             document.getElementById('btn-manual-cli').setAttribute('onclick', `window.open('${linkManual}', '_blank')`);
 
             document.getElementById('dos-nasc').innerText = c.nascimento || 'Não informado';
