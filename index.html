@@ -250,6 +250,9 @@
             100% { left: 120vw; transform: scale(0.8) rotate(5deg) translateY(0); }
         }
     </style>
+    <link rel="stylesheet" href="assets/instagram-hero.css">
+    <script src="assets/instagram-hero.js" defer></script>
+    <link rel="stylesheet" href="assets/elegance.css">
 </head>
 <body>
 
@@ -273,7 +276,7 @@
                 <a href="#galeria">Galeria</a>
                 <a href="#agendamento">Agendamento</a>
             </nav>
-            <button class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
+            <button aria-label="Abrir menu" class="mobile-menu-btn" onclick="toggleMenu()">☰</button>
             <div class="social-icons">
                 <a href="https://www.instagram.com/nicolenails_freitas/" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/1384/1384063.png" alt="Insta"/></a>
                 <a href="https://wa.me/5511913554213" target="_blank"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="Whats"/></a>
@@ -542,7 +545,7 @@
                 <div id="ai-chat-window" class="ai-chat-window"></div>
                 <form id="ai-prompt-form" class="ai-prompt-form">
                     <input type="text" id="ai-prompt-input" placeholder="Ex: Quanto tempo dura a fibra?" required>
-                    <button type="submit" id="ai-prompt-submit">›</button>
+                    <button aria-label="Enviar pergunta" type="submit" id="ai-prompt-submit">›</button>
                 </form>
             </div>
         </section>

@@ -1,0 +1,117 @@
+/* Nicole Nails — visual editorial em rosa antigo e marfim. */
+:root { --pink:#a64d6b; --deep-pink:#853a54; --dark-gray:#30242a; --light-gray:#f8f3ef; --text-color:#44373d; --white:#fffdfb; --header-height:84px; }
+body { background:#fffdfb; color:var(--text-color); -webkit-font-smoothing:antialiased; }
+h1,h2,h3 { color:#763e53; }
+h2 { font-size:clamp(2rem,4vw,3rem); letter-spacing:-.035em; line-height:1.2; }
+section { padding:88px 24px; }
+.site-header { background:rgba(255,253,251,.97); border-bottom:1px solid #e8dcd9; box-shadow:none; }
+.site-header h1 { color:#763e53; letter-spacing:-.04em; }
+.main-nav-desktop { gap:28px; }
+.main-nav-desktop a { font-size:12px; font-weight:600; letter-spacing:.06em; }
+.social-icons img { width:24px; height:24px; }
+.mobile-nav { background:#fffdfb; }
+.hero-section { height: min(790px,90svh); min-height:560px; }
+.hero-section::after { background:linear-gradient(90deg,rgba(33,20,26,.72),rgba(33,20,26,.32))!important; }
+.hero-content { width: min(1100px,100%); padding:60px 24px; text-align:left; }
+.hero-content::before { content:'NICOLE NAILS  /  STUDIO DE BELEZA'; display:block; color:#f4d7dc; font-size:11px; font-weight:600; letter-spacing:.24em; margin-bottom:24px; }
+.hero-content h2 { max-width:680px; font-size:clamp(2.8rem,5.5vw,5rem); line-height:1.08; text-align:left; text-shadow:none; margin-bottom:25px; }
+.hero-content p { max-width:430px; color:#f8eeee; font-size:16px; line-height:1.8; }
+.cta-button { background:#fff6ef; border-color:#fff6ef; color:#653448; border-radius:8px; padding:16px 28px; font-size:13px; box-shadow:none; }
+.cta-button:hover { background:#edd6d8; border-color:#edd6d8; color:#653448; }
+.visit-counter-badge { background:transparent; backdrop-filter:none; border:0; box-shadow:none; padding:0; font-size:11px; margin-top:24px; color:#ebdce1; }
+.visit-counter-badge span { font-size:12px; }.visit-counter-badge i { color:#edc7d3; }
+.about-section { background:#f8f3ef; }
+.about-content { max-width:800px; }
+.about-text p { line-height:1.95; color:#716168; }
+.about-text ul { display:grid; grid-template-columns:1fr 1fr; gap:16px 36px; margin-top:32px; }
+.about-text ul li { font-size:13px; padding-left:22px; }
+.about-text ul li::before { content:'✦'; color:#a87380; }
+.gallery-section { background:#fffdfb; }
+.gallery-grid { grid-template-columns:repeat(4,minmax(0,1fr)); gap:20px; }
+.gallery-item { overflow:hidden; border-radius:80px 80px 12px 12px; background:#f3e8e7; }
+.gallery-item img { display:block; height:330px; border-radius:0; box-shadow:none; transition:transform .5s; }
+#avaliacoes { background:#382a31!important; padding:70px 24px!important; }
+#avaliacoes h2 { color:#f2d8df!important; text-shadow:none!important; }
+#avaliacoes p { font-size:16px!important; }
+#avaliacoes a { background:#a64d6b!important; border-radius:8px!important; box-shadow:none!important; font-size:14px!important; }
+.pinterest-section { background:#f5ece9; }
+.pinterest-section h2 { font-size:2rem; }
+#pinterest-query { border-radius:8px; background:#fffdfb; min-width:0; font:inherit; font-size:14px; }
+#pinterest-submit { background:#853a54; border-radius:8px; font:inherit; font-size:13px; }
+.suggestion-tag { border-color:#dbc5cc; color:#794759; background:transparent; font-size:12px; }
+.booking-section { background:#f6eeeb; }
+.booking-section::before,.booking-section::after { display:none; }
+.booking-container { max-width:860px; }
+.booking-card { background:#fffdfb; backdrop-filter:none; border:1px solid #e9dbd8; border-radius:20px; padding:48px; box-shadow:0 18px 55px #7148580b; }
+.booking-card h2 { font-size:clamp(2rem,4vw,2.8rem); }
+.booking-subtitle { color:#89747d; font-size:14px; margin:14px 0 28px; }
+.attention-notice { background:#f8f0ed; border-left:3px solid #b47b8c; padding:18px; font-size:12px; color:#6c555f; border-radius:6px; }
+.booking-form { gap:18px; }
+.styled-input { background:#fff!important; border:1px solid #e3d6d9; border-radius:9px; padding:16px 16px 16px 45px; color:#44373d; font-size:14px; box-shadow:none; min-height:50px; }
+.styled-input:focus { border-color:#a64d6b; box-shadow:0 0 0 3px #a64d6b15; }
+.styled-input::placeholder { color:#8b7981; opacity:1; }
+.input-group i { color:#ac7789; font-size:14px; }
+input[type=radio],input[type=checkbox] { accent-color:#98516a; width:16px; height:16px; vertical-align:middle; margin-right:4px; }
+#bloco-anamnese { background:#faf6f3!important; border:1px solid #eadedb!important; border-radius:12px!important; padding:24px!important; }
+#bloco-anamnese h3 { color:#794759!important; font-family:'Playfair Display',serif; font-size:21px!important; border-bottom:1px solid #e4d5d7!important; padding-bottom:16px!important; }
+#bloco-anamnese h4 { color:#794759!important; font-size:13px!important; margin:20px 0 16px!important; letter-spacing:.02em; }
+#bloco-anamnese > div { margin-bottom:20px!important; }
+#bloco-anamnese > div > div { font-size:13px!important; line-height:2.1; padding:8px 0; border-bottom:1px solid #eee3e1; }
+#bloco-anamnese label { display:inline-block; white-space:normal; }
+#bloco-anamnese .styled-input { font-size:14px!important; padding:12px!important; }
+#bloco-anamnese > div:last-child { background:white!important; border:1px solid #e4d5d7!important; padding:20px!important; color:#715e67!important; line-height:1.85; font-size:12px!important; }
+.submit-button { background:#853a54; border-radius:9px; box-shadow:0 6px 16px #853a5418; font-size:15px; padding:19px; }
+.submit-button:hover { background:#713047; box-shadow:0 8px 20px #853a5424; transform:translateY(-1px); }
+.ai-chat-section { background:#fffdfb; }
+.ai-chat-header p { color:#89747d; font-size:14px; }
+.ai-chat-window { border:1px solid #e8dcdf; box-shadow:0 12px 40px #71485808; border-radius:16px; height:400px; padding:24px; }
+.chat-bubble { box-shadow:none; }.ai-bubble { background:#f6efed; }.user-bubble { background:#96536b; }
+#ai-prompt-input { min-width:0; width:0; border-radius:10px; font-size:14px; padding:14px; }
+#ai-prompt-submit { flex-shrink:0; width:50px; height:50px; border-radius:10px; background:#853a54; }
+.site-footer { background:#30242a; padding:55px 20px; }.site-footer h3 { color:#eac4d2; font-size:26px; }.site-footer p { font-size:12px; color:#dbcbd1; margin-top:14px; }.footer-bottom { background:#281e23; }
+/* Decoração sazonal discreta, sem encobrir os formulários. */
+.snowflake { font-size:14px; opacity:.3; }.tree-bottom-right,.gift-bottom-left,.santa-sleigh { display:none; }
+:focus-visible { outline:3px solid #b47b8c; outline-offset:3px; }
+@media(max-width:768px) {
+ :root { --header-height:72px; }
+ section { padding:58px 18px; }.container { padding:0; }
+ .site-header h1 { font-size:1.45rem; }.social-icons { gap:12px; }.social-icons img { width:22px; height:22px; }
+ .hero-section { min-height:550px; height:80svh; padding-inline:20px; }
+ .hero-content { padding:50px 0; }.hero-content h2 { font-size:clamp(2.7rem,10vw,4rem); }.hero-content::before { font-size:9px; letter-spacing:.18em; }.hero-content p { font-size:14px; max-width:310px; }
+ .about-text ul { grid-template-columns:1fr; gap:8px; }.about-text p { font-size:14px; }
+ .gallery-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }.gallery-item { border-radius:50px 50px 8px 8px; }.gallery-item img { height:240px; }
+ .booking-card { padding:26px 18px; border-radius:16px; }.booking-section { padding-inline:12px; }
+ #bloco-anamnese { padding:16px!important; }#bloco-anamnese > div > div { font-size:13px!important; }#bloco-anamnese label { margin-top:4px; }
+ .styled-input,#bloco-anamnese .styled-input { font-size:16px!important; }#pinterest-query,#ai-prompt-input { font-size:16px; }
+ .ai-chat-window { padding:14px; }.chat-bubble { max-width:94%; }
+ #avaliacoes .container > div { padding:24px 18px!important; }
+}
+@media(max-width:380px) { .social-icons { gap:8px; }.site-header h1 { font-size:1.2rem; }.gallery-item img { height:190px; } }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior:auto; } *,*::before,*::after { animation:none!important; transition:none!important; } }
+/* Botões com relevo, reflexo delicado e resposta ao toque. */
+.cta-button,.submit-button,#pinterest-submit,#ai-prompt-submit,#avaliacoes a {
+ position:relative; overflow:hidden; transform:translateY(0); transition:transform .25s ease,box-shadow .25s ease,filter .25s ease;
+ border-top:1px solid #ffffff60!important; border-bottom:1px solid #653047!important;
+ box-shadow:0 5px 0 #653047,0 12px 22px #65304725!important;
+ background:linear-gradient(145deg,#b47088,#853a54)!important; color:white!important;
+}
+.cta-button { background:linear-gradient(145deg,#fffdfb,#edd9d2)!important; color:#653448!important; box-shadow:0 5px 0 #b58d91,0 14px 28px #15091030!important; }
+.cta-button::after,.submit-button::after,#pinterest-submit::after,#avaliacoes a::after { content:''; position:absolute; top:-60%; left:-70%; width:40%; height:220%; background:linear-gradient(90deg,transparent,#ffffff35,transparent); transform:rotate(25deg); transition:left .65s; pointer-events:none; }
+@media(hover:hover) {
+ .cta-button:hover,.submit-button:hover,#pinterest-submit:hover,#ai-prompt-submit:hover,#avaliacoes a:hover { transform:translateY(-3px); filter:brightness(1.05); box-shadow:0 8px 0 #653047,0 18px 28px #65304730!important; }
+ .cta-button:hover::after,.submit-button:hover::after,#pinterest-submit:hover::after,#avaliacoes a:hover::after { left:135%; }
+ .gallery-item:hover { transform:translateY(-6px); box-shadow:0 20px 30px #71485820; }
+ .suggestion-tag:hover { background:#853a54; color:white; transform:translateY(-2px); }
+}
+.cta-button:active,.submit-button:active,#pinterest-submit:active,#ai-prompt-submit:active { transform:translateY(4px); box-shadow:0 1px 0 #653047,0 3px 8px #65304715!important; }
+.submit-button:disabled { transform:none; filter:grayscale(1); opacity:.65; }
+.gallery-item,.suggestion-tag { transition:transform .35s,box-shadow .35s,background .25s; }
+.about-section h2::before,.gallery-section h2::before,.booking-card h2::before,.ai-chat-header h2::before { display:block; font-family:'Montserrat',sans-serif; font-size:10px; font-weight:600; letter-spacing:.24em; margin-bottom:18px; color:#ac7789; }
+.about-section h2::before { content:'BELEZA EM CADA DETALHE'; }.gallery-section h2::before { content:'NOSSO PORTFÓLIO'; }.booking-card h2::before { content:'UM MOMENTO PARA VOCÊ'; }.ai-chat-header h2::before { content:'ESTAMOS AQUI PARA AJUDAR'; }
+.hero-video { z-index:1; }
+@keyframes elegantEntry { from { opacity:.2; transform:translateY(20px); } to { opacity:1; transform:none; } }
+.hero-content { animation:elegantEntry .9s ease both; }
+@supports(animation-timeline:view()) {
+ .about-content,.gallery-item,.pinterest-container,.ai-chat-header { animation:elegantEntry linear both; animation-timeline:view(); animation-range:entry 0% entry 25%; }
+}
+@media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation:none!important; transition:none!important; } }
