@@ -956,7 +956,7 @@ generate.onclick=async()=>{const color=el("nn-custom-color").value.trim()||el("n
         const statusDiv = document.getElementById("status-agendamento");
         const blocoAnamnese = document.getElementById("bloco-anamnese");
         const dataNascInput = document.getElementById("ana_data_nasc");
-        if(studioConfig?.services){Array.from(servicoSelect.options).forEach(o=>{const s=studioConfig.services[o.value];if(s?.price>0){const original=o.value;o.value=original;o.textContent=original+" · "+s.price.toLocaleString("pt-BR",{style:"currency",currency:"BRL"});}})}
+        if(studioConfig?.services){const configured=studioConfig.services,originals=new Set(Array.from(servicoSelect.options,o=>o.value));function labelService(name,s){const mins=Number(s.duration)||60;const duration=(mins>=60?Math.floor(mins/60)+"h":"")+(mins%60?mins%60+"min":"");return name.replace(/\s+–\s+\d+h?(?:\d+min)?$|\s+–\s+\d+min$/,"")+" · "+duration+(s.price>0?" · "+s.price.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"")}Array.from(servicoSelect.options).forEach(o=>{const s=configured[o.value];if(!s||!o.value)return;if(s.active===false){o.remove();return}const original=o.value;o.value=original;o.textContent=labelService(original,s)});for(const [name,s] of Object.entries(configured)){if(originals.has(name)||s.active!==true)continue;const option=document.createElement("option");option.value=name;option.textContent=labelService(name,s);servicoSelect.append(option)}}
 
         // MÁSCARAS E VALIDAÇÕES
         zapInput.addEventListener('input', function (e) {
