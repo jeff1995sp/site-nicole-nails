@@ -1,0 +1,1 @@
+importScripts("/assets/nn-push-sw.js");
