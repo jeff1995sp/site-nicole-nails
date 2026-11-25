@@ -150,6 +150,7 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
 @media(max-width:760px){.nn-config-grid,.nn-health-grid{grid-template-columns:1fr}.nn-ficha-kpis{gap:5px}.nn-ficha-kpis>div{padding:8px}.nn-ficha-kpis strong{font-size:.86rem}.nn-ficha-kpis small{font-size:.55rem}.nn-dossier .dossier-header{padding:13px;gap:10px}.nn-dossier .dossier-avatar{width:52px;height:52px;font-size:1.6rem}.nn-dossier .dossier-info h2{font-size:1.2rem}.nn-dossier .dossier-header>div:last-child{margin-left:0!important}.nn-dossier .dossier-header .btn{font-size:.73rem}.nn-ficha-panel{padding:12px}}
 </style>
 <style id="nn-crm-clean">.nn-crm-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:15px 0}.nn-crm-stats>div{background:#fffaf2;border:1px solid #e5d6c2;border-radius:13px;padding:15px}.nn-crm-stats small{font-size:.7rem;color:#786056;font-weight:700}.nn-crm-stats strong{display:block;font-size:1.6rem;color:#851c35;margin-top:4px}.nn-crm-toolbar{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:14px 0;font-size:.76rem;color:#695750}.nn-crm-toolbar select{padding:8px;border:1px solid #e5d6c2;border-radius:8px;background:#fffdf9;color:#422d35;font:inherit}.nn-crm-toolbar #nn-crm-count{margin-left:auto}.nn-crm-scroll{overflow-x:auto}.nn-crm-client{display:flex;align-items:center;gap:10px}.nn-crm-avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#f5e5df;color:#8b2840;font-weight:700;flex-shrink:0}.nn-crm-client strong{display:block;color:#791c35}.nn-crm-client small{font-size:.67rem;color:#966b42}.nn-crm-extra{display:block;font-size:.72rem;padding:5px 0;border:0;background:none;color:#8d4e29;text-decoration:underline;cursor:pointer}.nn-crm-duplicate td{background:#fff6e6!important}.nn-crm-risk{display:inline-block;font-size:.72rem;color:#83603b;background:#f5ece0;padding:5px 8px;border-radius:6px}.nn-crm-risk.attention{background:#fce6e8;color:#9c3046}.nn-crm-mobile-note{font-size:.72rem;color:#785c4d;margin:8px 0}@media(max-width:700px){.nn-crm-stats{gap:5px}.nn-crm-stats>div{padding:8px}.nn-crm-stats small{font-size:.62rem}.nn-crm-stats strong{font-size:1.25rem}.nn-crm-scroll table{min-width:690px}.nn-crm-toolbar{gap:5px}.nn-crm-toolbar #nn-crm-count{width:100%;margin-left:0}}</style>
+<style id="nn-agenda-visual">.nn-agenda-tools{width:100%;display:grid;gap:13px}.nn-agenda-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.nn-agenda-tabs button{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;padding:12px 8px;background:#fffaf2;color:#73364a;border:1px solid #e8d4c0;border-radius:11px;font:700 .8rem Montserrat,sans-serif;cursor:pointer}.nn-agenda-tabs button span{font-size:.68rem;background:#f0e2d3;padding:4px 7px;border-radius:20px;color:#73364a}.nn-agenda-tabs button.active{background:linear-gradient(135deg,#a12a45,#76172f);color:#fff8e7;border-color:#c38d60;box-shadow:0 3px 0 #591427}.nn-agenda-tabs button.active span{background:#ffffff24;color:#fff}.nn-agenda-actions{display:flex;align-items:end;gap:12px;flex-wrap:wrap;justify-content:space-between}.nn-agenda-actions label{font-size:.75rem;color:#786052;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nn-agenda-actions input{width:auto;min-height:40px}.nn-agenda-actions button{min-height:40px}.nn-agenda-tools p{font-size:.75rem;color:#7c6456;margin:0}.nn-agenda-table-wrap{overflow:auto}.nn-agenda-table-wrap table{min-width:690px}.nn-agenda-day td{background:#efe4d4!important;color:#7e233b;font-weight:700;font-size:.76rem;letter-spacing:.035em;padding:10px!important}.nn-agenda-day i{margin-right:7px}@media(max-width:650px){.nn-agenda-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.nn-agenda-actions{align-items:stretch}.nn-agenda-actions label{width:100%}.nn-agenda-actions input{flex:1}.nn-agenda-actions button{width:100%}}</style>
 </head>
 <body>
 
@@ -245,22 +246,13 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
                         <span style="font-size: 0.9rem; color: var(--text-muted);">Visualize todos os agendamentos, incluindo concluídos e faltas.</span>
                     </div>
                     
-                    <div style="display:flex; gap:10px; align-items:center; flex-wrap: wrap;">
-                        <select id="filtro-tipo-agenda" class="form-control" style="width: auto; padding: 8px; font-weight: bold; color: var(--primary);" onchange="mudouFiltroTipo()">
-                            <option value="todos">📋 Mostrar Todos</option>
-                            <option value="hoje" selected>📅 Somente Hoje</option>
-                            <option value="futuros">⏩ Próximos (Futuro)</option>
-                            <option value="passados">⏪ Histórico (Passados)</option>
-                        </select>
-                        <input type="date" id="filtro-data-agenda" class="form-control" style="width: auto; padding: 8px;" title="Buscar data específica" onchange="document.getElementById('filtro-tipo-agenda').value='especifica'; renderAgenda()">
-                        <button class="btn btn-info btn-sm" onclick="abrirModalDiaSeguinte()"><i class="fab fa-whatsapp"></i> Confirmar Amanhã</button>
-                    </div>
+                    <div class="nn-agenda-tools"><div class="nn-agenda-tabs" role="group" aria-label="Período da agenda"><button type="button" data-period="hoje" onclick="selecionarPeriodoAgenda('hoje')"><i class="far fa-calendar-check"></i> Hoje <span id="nn-ag-hoje">0</span></button><button type="button" data-period="futuros" onclick="selecionarPeriodoAgenda('futuros')"><i class="far fa-clock"></i> Próximos <span id="nn-ag-futuros">0</span></button><button type="button" data-period="passados" onclick="selecionarPeriodoAgenda('passados')"><i class="fas fa-history"></i> Histórico <span id="nn-ag-passados">0</span></button><button type="button" data-period="todos" onclick="selecionarPeriodoAgenda('todos')"><i class="fas fa-list"></i> Todos <span id="nn-ag-todos">0</span></button></div><select id="filtro-tipo-agenda" hidden aria-label="Período"><option value="hoje" selected>Hoje</option><option value="futuros">Próximos</option><option value="passados">Histórico</option><option value="todos">Todos</option><option value="especifica">Data específica</option></select><div class="nn-agenda-actions"><label><i class="far fa-calendar-alt"></i> Buscar por data <input type="date" id="filtro-data-agenda" class="form-control" onchange="selecionarPeriodoAgenda(this.value?'especifica':'hoje',true)"></label><button type="button" class="btn btn-info btn-sm" onclick="abrirModalDiaSeguinte()"><i class="fab fa-whatsapp"></i> Confirmar amanhã</button></div><p id="nn-agenda-description" aria-live="polite"></p></div>
                 </div>
                 
-                <table id="tabela-agenda">
+                <div class="nn-agenda-table-wrap"><table id="tabela-agenda">
                     <thead><tr><th>Data/Hora</th><th>Cliente</th><th>Procedimento</th><th>Sinal (PIX)</th><th>Status da Ficha</th><th>Ação na Mesa</th></tr></thead>
                     <tbody><!-- JS --></tbody>
-                </table>
+                </table></div>
             </div>
         </section>
 
@@ -524,25 +516,20 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
 
         const formataBRL = (valor) => valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
 
-        function getHojeBR() {
-            let data = new Date();
-            data.setMinutes(data.getMinutes() - data.getTimezoneOffset());
-            return data.toISOString().split('T')[0];
-        }
+        function getHojeBR(){return new Intl.DateTimeFormat("sv-SE",{timeZone:"America/Sao_Paulo",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());}
 
-        window.mudouFiltroTipo = function() {
-            document.getElementById('filtro-data-agenda').value = '';
-            renderAgenda();
-        };
-
-        function normalizarData(d) {
-            if(!d) return "";
-            if(d.includes('/')) {
-                let p = d.split('/');
-                return `${p[2]}-${p[1].padStart(2,'0')}-${p[0].padStart(2,'0')}`;
-            }
-            return d;
+        window.selecionarPeriodoAgenda=function(tipo,keepDate=false){const filter=document.getElementById('filtro-tipo-agenda');filter.value=tipo;if(!keepDate)document.getElementById('filtro-data-agenda').value='';renderAgenda();};
+        window.mudouFiltroTipo=function(){selecionarPeriodoAgenda(document.getElementById('filtro-tipo-agenda').value);};
+        function normalizarData(d){
+            const s=String(d??"").trim();
+            let m=s.match(/^(\d{4})-(\d{1,2})-(\d{1,2})(?:$|[T\s])/);
+            if(!m){const r=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:$|\s)/);if(r)m=[r[0],r[3],r[2],r[1]];}
+            if(!m)return "";
+            const y=Number(m[1]),mo=Number(m[2]),day=Number(m[3]),dt=new Date(Date.UTC(y,mo-1,day));
+            if(dt.getUTCFullYear()!==y||dt.getUTCMonth()!==mo-1||dt.getUTCDate()!==day)return "";
+            return String(y).padStart(4,"0")+"-"+String(mo).padStart(2,"0")+"-"+String(day).padStart(2,"0");
         }
+        function horaAgenda(a){const m=String(a.horario||"").match(/(\d{1,2}):(\d{2})/);return m?Number(m[1])*60+Number(m[2]):1440;}
 
         function renderDashboard() {
             let vendasBiju = DB.caixa.historico.filter(x => x.desc.includes('Biju')).reduce((acc, curr) => acc + curr.valor, 0);
@@ -624,35 +611,25 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
         function renderAgenda() {
             const tbody = document.querySelector('#tabela-agenda tbody'); tbody.innerHTML = '';
             
-            let tipo = document.getElementById('filtro-tipo-agenda').value;
-            let dataInput = document.getElementById('filtro-data-agenda').value;
-            let hoje = getHojeBR();
-
-            let lista = [...DB.agenda];
-
-            if(tipo === 'hoje') {
-                lista = lista.filter(a => normalizarData(a.data) === hoje);
-            } else if (tipo === 'futuros') {
-                lista = lista.filter(a => normalizarData(a.data) > hoje);
-            } else if (tipo === 'passados') {
-                lista = lista.filter(a => normalizarData(a.data) < hoje);
-            } else if (tipo === 'especifica' && dataInput) {
-                lista = lista.filter(a => normalizarData(a.data) === dataInput);
-            }
-
-            lista.sort((a, b) => {
-                let dA = normalizarData(a.data);
-                let dB = normalizarData(b.data);
-                if (dA > dB) return (tipo === 'futuros' || tipo === 'hoje') ? 1 : -1;
-                if (dA < dB) return (tipo === 'futuros' || tipo === 'hoje') ? -1 : 1;
-                return a.horario > b.horario ? 1 : -1;
-            });
-
+            const tipo=document.getElementById('filtro-tipo-agenda').value||"hoje";
+            const dataInput=document.getElementById('filtro-data-agenda').value,hoje=getHojeBR(),all=Array.isArray(DB.agenda)?DB.agenda:[];
+            const dated=all.filter(a=>normalizarData(a.data));
+            const groups={hoje:dated.filter(a=>normalizarData(a.data)===hoje),futuros:dated.filter(a=>normalizarData(a.data)>hoje),passados:dated.filter(a=>normalizarData(a.data)<hoje),todos:all};
+            Object.entries(groups).forEach(([key,rows])=>{document.getElementById("nn-ag-"+key).textContent=rows.length});
+            document.querySelectorAll(".nn-agenda-tabs button").forEach(b=>{const active=b.dataset.period===tipo;b.classList.toggle("active",active);b.setAttribute("aria-pressed",String(active))});
+            let lista=(tipo==="especifica"?dated.filter(a=>normalizarData(a.data)===dataInput):groups[tipo]||groups.hoje).slice();
+            const descending=tipo==="passados"||tipo==="todos";
+            lista.sort((a,b)=>{const x=normalizarData(a.data),y=normalizarData(b.data);if(!x||!y)return x?-1:y?1:0;return (descending?y.localeCompare(x):x.localeCompare(y))||(descending?horaAgenda(b)-horaAgenda(a):horaAgenda(a)-horaAgenda(b));});
+            const labels={hoje:"Atendimentos de hoje",futuros:"Agendamentos após hoje",passados:"Histórico de todos os dias anteriores a hoje",todos:"Todos os registros",especifica:"Agendamentos da data selecionada"};
+            document.getElementById("nn-agenda-description").textContent=labels[tipo]+" · "+lista.length+" registro(s)"+(tipo==="todos"&&all.length!==dated.length?" · "+(all.length-dated.length)+" sem data válida":"");
+            let lastDay=null;
             if(lista.length === 0) {
                 tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 25px; color: #888;">Nenhum agendamento encontrado para este filtro.</td></tr>';
             }
             
             lista.forEach(a => {
+                const day=normalizarData(a.data);
+                if(day!==lastDay){const tr=document.createElement("tr");tr.className="nn-agenda-day";const td=document.createElement("td");td.colSpan=6;td.textContent=day?new Intl.DateTimeFormat("pt-BR",{dateStyle:"full",timeZone:"UTC"}).format(new Date(day+"T12:00:00Z")):"Data não informada";tr.append(td);tbody.append(tr);lastDay=day;}
                 let statusA = a.status || 'Pendente'; 
                 
                 let statusPix = statusA === 'Confirmado' ? `<span class="badge badge-green">OK</span>` : `<span class="badge badge-yellow">Sem Sinal</span>`;
@@ -679,8 +656,7 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
                     `;
                 }
 
-                let displayDate = a.data;
-                if(displayDate.includes('-')) displayDate = displayDate.split('-').reverse().join('/');
+                let displayDate = normalizarData(a.data); displayDate=displayDate?displayDate.split('-').reverse().join('/'):'Sem data válida';
 
                 tbody.innerHTML += `
                     <tr>
@@ -755,9 +731,7 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
         };
 
         window.abrirModalDiaSeguinte = function() {
-            let amanha = new Date();
-            amanha.setDate(amanha.getDate() + 1);
-            let dataAmanha = amanha.toISOString().split('T')[0];
+            let amanha=new Date(getHojeBR()+'T12:00:00Z'); amanha.setUTCDate(amanha.getUTCDate()+1); let dataAmanha=amanha.toISOString().slice(0,10);
             
             let clientesAmanha = DB.agenda.filter(a => normalizarData(a.data) === dataAmanha && a.status !== 'Concluído' && a.status !== 'Faltou');
             
