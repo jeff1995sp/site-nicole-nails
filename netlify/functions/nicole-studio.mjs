@@ -1,7 +1,7 @@
 import { getStore } from "@netlify/blobs";
 import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
 export const config={rateLimit:{windowLimit:60,windowSize:60,aggregateBy:["ip","domain"]}};
-const base={theme:"natal",animations:true,notice:"",music:"",photos:[],promotion:"",deposit:25,closedDays:[0,1],blockedDates:[],hoursFrom:"09:00",hoursTo:"19:00",interval:0,services:{},pointsPerVisit:10,referralBonus:10,birthdayBonus:10};
+const base={theme:"natal",animations:true,notice:"",music:"",photos:[],promotion:"",deposit:25,closedDays:[0,1],blockedDates:[],hoursFrom:"00:00",hoursTo:"23:59",interval:0,services:{},pointsPerVisit:10,referralBonus:10,birthdayBonus:10};
 const reply=(data,status=200)=>Response.json(data,{status,headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
 const digest=s=>createHash("sha256").update(s).digest();
 const safeUrl=s=>{if(!s)return "";try{const u=new URL(String(s));return u.protocol==="https:"&&u.href.length<=1000?u.href:""}catch{return ""}};
@@ -26,7 +26,7 @@ const auth=req.headers.get("authorization")||"";if(!timingSafeEqual(digest(auth)
 if(Number(req.headers.get("content-length")||0)>50000)return reply({error:"Dados muito grandes."},413);
 const data=await req.json();
 if(action==="settings"){const value=normalize(data);await store.setJSON("settings",value);return reply(value)}
-if(action==="issue"){const id=str(data.id,80);if(!/^\d+$/.test(id))return reply({error:"Cliente inválida."},400);const mapKey="client/"+createHmac("sha256",secret).update(id).digest("hex");const prev=await store.get(mapKey,{type:"json"});const code=prev?.code||randomBytes(24).toString("hex");const key="card/"+digest(code).toString("hex");const old=await store.get(key,{type:"json"});const settings=normalize(await store.get("settings",{type:"json"}));const visits=Math.floor(number(data.visits,0,100000,0));const referrals=Math.floor(number(data.referrals??old?.referrals,0,10000,0));const birthday=Boolean(data.birthday??old?.birthday);const points=visits*settings.pointsPerVisit+referrals*settings.referralBonus+(birthday?settings.birthdayBonus:0);
+if(action==="issue"||action==="sync"){const id=str(data.id,80);if(!/^\d+$/.test(id))return reply({error:"Cliente inválida."},400);const mapKey="client/"+createHmac("sha256",secret).update(id).digest("hex");const prev=await store.get(mapKey,{type:"json"});if(action==="sync"&&!prev?.code)return reply({skipped:true});const code=prev?.code||randomBytes(24).toString("hex");const key="card/"+digest(code).toString("hex");const old=await store.get(key,{type:"json"});const settings=normalize(await store.get("settings",{type:"json"}));const visits=Math.floor(number(data.visits,0,100000,0));const referrals=Math.floor(number(data.referrals??old?.referrals,0,10000,0));const birthday=Boolean(data.birthday??old?.birthday);const points=visits*settings.pointsPerVisit+referrals*settings.referralBonus+(birthday?settings.birthdayBonus:0);
 await store.setJSON(key,{visits,referrals,birthday,points});await store.setJSON(mapKey,{code});return reply({code,visits,referrals,birthday,points})}
 return reply({error:"Ação inválida."},400)
 }catch(e){return reply({error:e?.message==="Horário inicial deve ser anterior ao final."?e.message:"Não foi possível concluir. Verifique a configuração do Netlify."},500)}
