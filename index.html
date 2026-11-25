@@ -847,6 +847,7 @@ generate.onclick=async()=>{if(!photo||!el("nn-consent").checked){state.textConte
             e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
         });
 
+        zapInput.addEventListener('paste', e=>{const pasted=e.clipboardData?.getData('text')||'';const n=normalizarZap(pasted);if(/^\d{10,11}$/.test(n)){e.preventDefault();zapInput.value=n;zapInput.dispatchEvent(new Event('input',{bubbles:true}));}});
         if(dataNascInput) {
             dataNascInput.addEventListener('input', function (e) {
                 let v = e.target.value.replace(/\D/g, '');
@@ -989,6 +990,14 @@ generate.onclick=async()=>{if(!photo||!el("nn-consent").checked){state.textConte
                 alert("Você precisa ler e aceitar o Termo de Consentimento Eletrônico para prosseguir!"); btnAgendar.disabled=false; return;
             }
 
+            // Confirmação antes da gravação, evitando pré-reserva abandonada.
+            const isDezembro = dataInput.value.includes("-12-") && studioDeposit > 0;
+            let msgAlerta = isDezembro 
+                ? "🌸 Quase lá!\n\nComo o agendamento é para Dezembro, precisamos que você envie o comprovante do sinal de " + studioDepositText + " pelo WhatsApp agora para segurar a vaga.\n\nPodemos abrir o WhatsApp para finalizar?"
+                : "🌸 Quase lá!\n\nPara confirmar seu horário com segurança, precisamos que você nos chame no WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?";
+            const aceitou = confirm(msgAlerta);
+            if (!aceitou) {btnAgendar.disabled=false;return;} 
+
             // 1. SALVANDO NO BANCO DE DADOS FIREBASE (EM TEMPO REAL)
             try {
                 const resultado = await runTransaction(bancoFirebase, async tx => {
@@ -1027,14 +1036,7 @@ generate.onclick=async()=>{if(!photo||!el("nn-consent").checked){state.textConte
                 dbLocal=resultado.banco;
             } catch(err) { console.error("Erro ao salvar no Firebase",err);alert("Não foi possível verificar o cadastro. Tente novamente.");btnAgendar.disabled=false;return; }
 
-            // 2. ENVIANDO PARA O CALENDÁRIO GOOGLE (Não mexemos aqui)
-            const isDezembro = dataInput.value.includes("-12-") && studioDeposit > 0;
-            let msgAlerta = isDezembro 
-                ? "🌸 Quase lá!\n\nComo o agendamento é para Dezembro, precisamos que você envie o comprovante do sinal de " + studioDepositText + " pelo WhatsApp agora para segurar a vaga.\n\nPodemos abrir o WhatsApp para finalizar?"
-                : "🌸 Quase lá!\n\nPara confirmar seu horário com segurança, precisamos que você nos chame no WhatsApp agora.\n\nPodemos abrir o WhatsApp para finalizar?";
-            const aceitou = confirm(msgAlerta);
-            if (!aceitou) {btnAgendar.disabled=false;return;} 
-
+            // 2. ENVIANDO PARA O CALENDÁRIO GOOGLE
             btnAgendar.disabled = true; btnAgendar.innerHTML = 'Agendando... <i class="fas fa-spinner fa-spin"></i>';
             statusDiv.style.display = 'block'; statusDiv.className = 'status-loading'; statusDiv.textContent = "Processando agendamento...";
 
