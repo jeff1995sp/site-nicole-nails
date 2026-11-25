@@ -1,2 +1,2 @@
-// Nicole Nails · lembretes v2
+// Nicole Nails · lembretes v3
 importScripts("/assets/nn-push-sw.js");
