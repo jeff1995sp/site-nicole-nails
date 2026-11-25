@@ -526,6 +526,31 @@ html.nn-seasonal{--pink:var(--season-primary);--deep-pink:var(--season-primary);
 @media(max-width:600px){.nn-seasonal .hero-section{min-height:570px;padding-bottom:90px}.nn-season-sparkles span:nth-child(even){display:none}.nn-reminder-content{padding:18px}}
 @media(prefers-reduced-motion:reduce){.nn-season-sparkles span,.nn-reminder-star{animation:none!important}}
 </style>
+<style id="nn-natal-details">
+/* Tipografia festiva complementar: só atua no Natal aprovado. */
+html:not(.nn-seasonal) .holiday-kicker,html:not(.nn-seasonal) .nn-eyebrow{font-family:'Mountains of Christmas',Georgia,serif;font-size:1.02rem;letter-spacing:.065em;text-transform:none;font-weight:700}
+html:not(.nn-seasonal) .booking-card>.holiday-kicker{border:1px solid #e6cba1;background:linear-gradient(120deg,#fff4df,#f4e4cb);color:#8e263c}
+html:not(.nn-seasonal) .journey-title h3,html:not(.nn-seasonal) .nn-try-step strong,html:not(.nn-seasonal) .nn-reminder-content h3{font-family:'Berkshire Swash',Georgia,serif;font-weight:400;font-size:clamp(1.35rem,2.3vw,1.85rem);line-height:1.25;color:#8c2038}
+html:not(.nn-seasonal) .nn-try-step strong::after{content:" ✦";color:#b68b4e;font-family:Georgia,serif;font-size:.65em;vertical-align:super}
+html:not(.nn-seasonal) .journey-progress-head,html:not(.nn-seasonal) .journey-rail div{font-family:'Mountains of Christmas',Georgia,serif;font-size:.88rem;font-weight:700;letter-spacing:.01em}
+html:not(.nn-seasonal) .journey-rail i,html:not(.nn-seasonal) .nn-try-step b{border:1px solid #d7b378;box-shadow:0 2px 7px #8a27331a}
+html:not(.nn-seasonal) .journey-rail .is-current i,html:not(.nn-seasonal) .nn-try-step b{background:linear-gradient(145deg,#b62943,#79162c);color:#ffe6aa}
+html:not(.nn-seasonal) .journey-field>label,html:not(.nn-seasonal) .journey-identity-choice>label,html:not(.nn-seasonal) .nn-extra>label:not(.nn-consent),html:not(.nn-seasonal) .nn-extra .nn-pair>label{font-family:Georgia,serif;font-size:.93rem;font-weight:700;color:#8c233b}
+html:not(.nn-seasonal) .journey-field>label::before{content:"✦ ";color:#b18a50;font-size:.72em}
+html:not(.nn-seasonal) .wonder-links strong,html:not(.nn-seasonal) .attention-notice strong,html:not(.nn-seasonal) .nn-photo-actions strong{font-family:'Mountains of Christmas',Georgia,serif;font-size:1.03rem;font-weight:700}
+html:not(.nn-seasonal) .wonder-links a i,html:not(.nn-seasonal) .journey-title>i{background:linear-gradient(135deg,#fff0d9,#f4dfc9);border:1px solid #e1c29a;color:#a52640}
+html:not(.nn-seasonal) .main-nav-desktop a,html:not(.nn-seasonal) .mobile-nav a{font-family:'Mountains of Christmas',Georgia,serif;font-size:.95rem;letter-spacing:.01em}
+html:not(.nn-seasonal) .main-nav-desktop .nn-book-link{font-size:1.02rem}
+html:not(.nn-seasonal) .journey-navigation button,html:not(.nn-seasonal) .cta-button,html:not(.nn-seasonal) .submit-button,html:not(.nn-seasonal) #nn-generate,html:not(.nn-seasonal) .nn-reminder-content a{font-family:'Mountains of Christmas',Georgia,serif!important;font-size:1.08rem!important;font-weight:700;letter-spacing:.025em}
+html:not(.nn-seasonal) .nn-try-step{border-top:1px solid #dcbc8a}
+html:not(.nn-seasonal) .nn-push-banner strong{font-size:1.2rem}
+html:not(.nn-seasonal) .nn-try-card,html:not(.nn-seasonal) .booking-card{background-image:linear-gradient(135deg,#fffdf7,#fff8ed);border-color:#d8b77d}
+html:not(.nn-seasonal) .nn-try-card .styled-input,html:not(.nn-seasonal) .journey-field .styled-input{border-color:#dec9ae}
+html:not(.nn-seasonal) .nn-reminder-top::before,html:not(.nn-seasonal) .nn-reminder-top::after{content:"✦  ❄  ✦";position:absolute;left:0;right:0;color:#e9c78f;font-size:.8rem;letter-spacing:9px;pointer-events:none}
+html:not(.nn-seasonal) .nn-reminder-top::before{top:6px}html:not(.nn-seasonal) .nn-reminder-top::after{bottom:5px}
+@media(max-width:600px){html:not(.nn-seasonal) .journey-rail div{font-size:.76rem}html:not(.nn-seasonal) .journey-progress-head{font-size:.9rem}html:not(.nn-seasonal) .nn-try-step strong{font-size:1.3rem}html:not(.nn-seasonal) .journey-title h3{font-size:1.35rem}html:not(.nn-seasonal) .journey-field>label{font-size:.9rem}}
+@media(max-width:360px){html:not(.nn-seasonal) .journey-rail div{font-size:.66rem}html:not(.nn-seasonal) .journey-title h3{font-size:1.2rem}}
+</style>
 </head>
 <body>
 
