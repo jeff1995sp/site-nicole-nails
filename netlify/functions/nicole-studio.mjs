@@ -1,5 +1,5 @@
 import { getStore } from "@netlify/blobs";
-import { createHash, createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import { createHash, timingSafeEqual } from "node:crypto";
 export const config={rateLimit:{windowLimit:60,windowSize:60,aggregateBy:["ip","domain"]}};
 const base={theme:"natal",animations:true,notice:"",music:"",photos:[],promotion:"",deposit:25,closedDays:[0,1],blockedDates:[],hoursFrom:"00:00",hoursTo:"23:59",interval:0,services:{},pointsPerVisit:10,referralBonus:10,birthdayBonus:10};
 const reply=(data,status=200)=>Response.json(data,{status,headers:{"Cache-Control":"no-store","X-Content-Type-Options":"nosniff"}});
@@ -19,15 +19,12 @@ const store=getStore({name:"nicole-studio-"+scope,consistency:"strong"});
 const url=new URL(req.url),action=url.searchParams.get("action")||"settings";
 try{
 if(req.method==="GET"&&action==="settings")return reply(normalize(await store.get("settings",{type:"json"})));
-if(req.method==="GET"&&action==="card"){const code=url.searchParams.get("code")||"";if(!/^[a-f0-9]{48}$/.test(code))return reply({error:"Código inválido."},400);const card=await store.get("card/"+digest(code).toString("hex"),{type:"json"});if(!card)return reply({error:"Cartão não encontrado."},404);return reply({points:card.points,visits:card.visits,referrals:card.referrals,birthday:card.birthday})}
 if(req.method!=="POST")return reply({error:"Método não permitido."},405);
 if(secret.length<24)return reply({error:"Configure NICOLE_ADMIN_KEY no Netlify (mínimo 24 caracteres)."},503);
 const auth=req.headers.get("authorization")||"";if(!timingSafeEqual(digest(auth),digest("Bearer "+secret)))return reply({error:"Chave administrativa inválida."},401);
 if(Number(req.headers.get("content-length")||0)>50000)return reply({error:"Dados muito grandes."},413);
 const data=await req.json();
 if(action==="settings"){const value=normalize(data);await store.setJSON("settings",value);return reply(value)}
-if(action==="issue"||action==="sync"){const id=str(data.id,80);if(!/^\d+$/.test(id))return reply({error:"Cliente inválida."},400);const mapKey="client/"+createHmac("sha256",secret).update(id).digest("hex");const prev=await store.get(mapKey,{type:"json"});if(action==="sync"&&!prev?.code)return reply({skipped:true});const code=prev?.code||randomBytes(24).toString("hex");const key="card/"+digest(code).toString("hex");const old=await store.get(key,{type:"json"});const settings=normalize(await store.get("settings",{type:"json"}));const visits=Math.floor(number(data.visits,0,100000,0));const referrals=Math.floor(number(data.referrals??old?.referrals,0,10000,0));const birthday=Boolean(data.birthday??old?.birthday);const points=visits*settings.pointsPerVisit+referrals*settings.referralBonus+(birthday?settings.birthdayBonus:0);
-await store.setJSON(key,{visits,referrals,birthday,points});await store.setJSON(mapKey,{code});return reply({code,visits,referrals,birthday,points})}
 return reply({error:"Ação inválida."},400)
 }catch(e){return reply({error:e?.message==="Horário inicial deve ser anterior ao final."?e.message:"Não foi possível concluir. Verifique a configuração do Netlify."},500)}
 }
