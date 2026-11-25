@@ -24,3 +24,5 @@ Gere um par VAPID em um computador com Node usando `npx web-push generate-vapid-
 - 12 testes de lógica executados com dependências simuladas: configuração padrão, credencial incorreta, gravação e leitura, consentimento da foto, cor/decoração personalizada, push de teste, rejeição de endpoint externo, data passada, antecedência de uma hora, desativação e processamento dos lembretes vencidos/futuros. Todos passaram. Não são testes reais de rede, Firebase ou navegador.
 - Sintaxe e IDs HTML conferidos. Nenhuma reserva real foi criada nesta revisão.
 - A publicação oficial fica bloqueada até autenticar o admin, revisar regras Firebase e configurar variáveis Netlify com credenciais privadas. Não utilizar a senha embutida no HTML como proteção de dados.
+
+- Novo deploy da prévia solicitado após configuração das variáveis de ambiente pelo responsável. A validação real das funções depende da resposta do deploy.
