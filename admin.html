@@ -502,9 +502,11 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
             try {
                 await setDoc(docRef, DB);
                 localStorage.setItem('nicoleNailsDB', JSON.stringify(DB));
+                return true;
             } catch (err) {
                 console.error("Erro ao salvar no banco", err);
                 alert("Erro ao salvar dados no banco da Google!");
+                return false;
             }
         };
 
@@ -722,19 +724,22 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
             abrirModal('modalCheckout');
         };
 
-        window.processarCheckout = function() {
+        window.processarCheckout = async function() {
             let valor = parseFloat(document.getElementById('chk-valor').value);
             if(!isNaN(valor) && valor > 0) {
                 let ag = DB.agenda.find(x => x.id === checkoutTempId);
-                if(ag) ag.status = 'Concluído'; 
+                if(!ag||ag.status==='Concluído')return; ag.status = 'Concluído'; 
 
                 DB.caixa.entradas += valor;
                 DB.caixa.historico.push({ data: new Date().toLocaleDateString('pt-BR'), desc: `Serviço: ${checkoutTempServ} (${checkoutTempNome})`, tipo: 'Entrada Serviço', valor: valor });
                 
-                let cli = DB.clientes.find(c => c.nome === checkoutTempNome);
+                const checkoutZap=String(ag.clienteZap||"").replace(/\D/g,"");
+                let cli=checkoutZap?DB.clientes.find(c=>String(c.zap||"").replace(/\D/g,"")===checkoutZap):null;
+                if(!cli&&!checkoutZap){const found=DB.clientes.filter(c=>c.nome===checkoutTempNome);if(found.length===1)cli=found[0];}
                 if(cli) { cli.ltv = (cli.ltv || 0) + valor; cli.visitas = (cli.visitas || 0) + 1; }
                 
-                salvarDB(); fechaModal('modalCheckout');
+                const saved=await salvarDB(); if(saved===false)return; fechaModal('modalCheckout');
+                if(cli&&nnKey){try{await nnRequest('sync',{id:cli.id,visits:cli.visitas||0})}catch(e){alert('Atendimento salvo. Atualize o cartão do Clube manualmente na ficha: '+e.message)}}
                 alert("✨ Atendimento Concluído! O status da cliente foi atualizado na tabela e o valor foi pro seu DRE.");
                 renderAgenda(); 
                 renderCRM(); 
