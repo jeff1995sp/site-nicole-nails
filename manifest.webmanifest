@@ -1,0 +1,19 @@
+{
+  "id": "/index.html",
+  "name": "Nicole Nails",
+  "short_name": "Nicole Nails",
+  "lang": "pt-BR",
+  "start_url": "/index.html",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#fff8ee",
+  "theme_color": "#851c35",
+  "icons": [
+    {
+      "src": "/assets/nn-app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
