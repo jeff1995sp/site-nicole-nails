@@ -322,7 +322,68 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 1.5rem}.container{max-width:1160px}
 @media(max-width:370px){#bloco-anamnese .journey-question{grid-template-columns:1fr}.journey-answers{justify-content:flex-end}.journey-identity-choice>div>label{font-size:.72rem!important}}
 @media(prefers-reduced-motion:reduce){.wonder-star,.wonder-flake{animation:none!important}.wonder-flake{display:none}.journey-progress-track span{transition:none}}
 
+
+
+/* Natal Rubi Encantado — camada visual independente */
+:root{--pink:#b8223d;--deep-pink:#80182d;--dark-gray:#461021;--evergreen:#891c32;--gold:#edc684;--paper:#fff9ef;--line:#ead4c4;--text-color:#43292e}
+body{background:#fff8ee;color:#43292e}
+h1,h2,h3{font-family:'Berkshire Swash',Georgia,serif;font-weight:400;color:#981b32;letter-spacing:0}
+.site-header{background:linear-gradient(105deg,#4f0d20,#9a1b31 50%,#581021);border-bottom:2px solid #d9af69}
+.site-header h1{font-family:'Berkshire Swash',Georgia,serif;color:#ffe5ae;font-size:clamp(1.5rem,3vw,2.4rem);letter-spacing:0;text-shadow:0 2px 8px #2d0011;white-space:nowrap}
+.main-nav-desktop a,.mobile-menu-btn{color:#fff4de}
+.hero-section{min-height:clamp(730px,96svh,1000px);padding-bottom:clamp(185px,23vw,330px);background:#3b0918}
+.hero-section::after{background:linear-gradient(90deg,#410917f7 0%,#630e24dc 40%,#3f081866 78%,#21071333 100%),linear-gradient(0deg,#3b0918 0%,transparent 65%)!important}
+.hero-content h2{font-family:'Berkshire Swash',Georgia,serif;letter-spacing:-.015em;font-weight:400;color:#fff9e8;font-size:clamp(3.5rem,7.3vw,7rem);line-height:1.06}
+.hero-content h2 em{font-family:'Great Vibes',cursive;font-size:1.14em;font-weight:400;font-style:normal;color:#ffd58b;display:inline-block;padding:.07em .14em .13em 0;line-height:1.1;text-shadow:none}
+@supports(background-clip:text){.hero-content h2 em,.site-header h1{background:linear-gradient(105deg,#ffe9bc 0%,#edb970 30%,#fff9e7 47%,#e9b267 62%,#ffe9bc 100%);background-size:260% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;animation:natalLetterGlow 5s linear infinite}}
+@keyframes natalLetterGlow{to{background-position:-260% center}}
+.hero-content h2 .letter-spark{display:inline-block;color:#ffe3a2;font:400 .38em Georgia,serif;vertical-align:top;animation:letterSpark 2.7s ease-in-out infinite alternate}
+@keyframes letterSpark{from{opacity:.35;transform:translateY(4px) rotate(-12deg)}to{opacity:1;transform:translateY(-5px) rotate(12deg);text-shadow:0 0 20px #ffdb8b}}
+.holiday-kicker,.hero-note{color:#ffe4ac}.cta-button,.submit-button,#pinterest-submit,#ai-prompt-submit,#avaliacoes a{background:linear-gradient(145deg,#d63b4d,#921b31)!important;border-color:#f0b87b!important;color:#fff!important;box-shadow:0 5px 0 #641021,0 13px 28px #4c091c44!important}
+.cta-button{border-radius:30px!important}
+.wonder-land .village-scene{position:absolute;bottom:0;left:0;width:100%;height:auto;min-height:0;max-height:none;aspect-ratio:1440/355}
+.wonder-land .festive-fall{position:absolute;top:-12%;left:var(--x);bottom:auto;width:var(--size);height:auto;min-height:0;max-height:none;opacity:.85;filter:drop-shadow(0 2px 4px #30081388);animation:festiveFall var(--duration) linear infinite;animation-delay:var(--delay)}
+@keyframes festiveFall{0%{transform:translate(0,-8vh) rotate(-18deg)}100%{transform:translate(var(--drift),115vh) rotate(210deg)}}
+.wonder-moon{box-shadow:0 0 85px #efc67e77}
+.village-story{position:absolute;left:50%;bottom:clamp(8px,1.4vw,20px);transform:translateX(-50%);color:#781a30;font:700 clamp(.85rem,1.7vw,1.5rem) 'Mountains of Christmas',Georgia,serif;white-space:nowrap;text-shadow:0 1px 0 #fff3dc}
+.santa-moving{animation:santaTrip 24s linear infinite}
+@keyframes santaTrip{0%{transform:translate(-200px,62px)}15%{transform:translate(340px,70px)}23%,30%{transform:translate(440px,77px)}44%,51%{transform:translate(720px,62px)}65%,72%{transform:translate(1000px,80px)}95%,100%{transform:translate(1650px,20px)}}
+.santa-bob{animation:santaBob 2s ease-in-out infinite alternate}@keyframes santaBob{to{transform:translateY(-5px)}}
+.santa-drop{opacity:0;animation:giftDrop 24s linear infinite}.drop-two{animation-name:giftDropTwo}.drop-three{animation-name:giftDropThree}
+@keyframes giftDrop{0%,23%{opacity:0;transform:translateY(-94px)}24%{opacity:1;transform:translateY(-94px)}30%,32%{opacity:1;transform:translateY(0)}34%,100%{opacity:0;transform:translateY(0)}}
+@keyframes giftDropTwo{0%,44%{opacity:0;transform:translateY(-92px)}45%{opacity:1;transform:translateY(-92px)}51%,53%{opacity:1;transform:translateY(0)}55%,100%{opacity:0;transform:translateY(0)}}
+@keyframes giftDropThree{0%,65%{opacity:0;transform:translateY(-93px)}66%{opacity:1;transform:translateY(-93px)}72%,74%{opacity:1;transform:translateY(0)}76%,100%{opacity:0;transform:translateY(0)}}
+.delivered-one{animation:deliveredOne 24s linear infinite}.delivered-two{animation:deliveredTwo 24s linear infinite}.delivered-three{animation:deliveredThree 24s linear infinite}
+@keyframes deliveredOne{0%,29%{opacity:0}31%,98%{opacity:1}100%{opacity:0}}
+@keyframes deliveredTwo{0%,50%{opacity:0}52%,98%{opacity:1}100%{opacity:0}}
+@keyframes deliveredThree{0%,71%{opacity:0}73%,98%{opacity:1}100%{opacity:0}}
+.festive-lights{position:absolute;top:0;left:0;right:0;height:27px;display:flex;justify-content:space-around;gap:7px;padding:0 12px;border-top:2px solid #d4a35e80;pointer-events:none}
+.festive-lights span{width:8px;height:14px;border-radius:0 0 50% 50%;background:var(--bulb);box-shadow:0 0 15px var(--bulb);transform:rotate(var(--tilt));animation:lightBlink 2s ease-in-out infinite alternate;animation-delay:var(--delay)}
+@keyframes lightBlink{from{opacity:.42}to{opacity:1}}
+.holiday-ribbon{background:#8c1b31;color:#ffe5b1;border-color:#d4a45d;font-family:'Mountains of Christmas',Georgia,serif;font-size:1.17rem;letter-spacing:.065em;text-transform:none}
+.wonder-intro,.about-section,.pinterest-section{background:#fffaf1}.wonder-links a{background:#fff4e6;border-color:#e4c6aa;color:#7e1b2e}.wonder-links a i{background:#a52139;color:#ffe4b3}
+.about-text ul li{background:#fff3e8;border-color:#e8d0b6}.gallery-section{background:#f6e5d7}.gallery-item{border-color:#d9ac76}
+#avaliacoes{background:linear-gradient(125deg,#8d192f,#490b20)!important}
+.booking-section{background:radial-gradient(ellipse at 8% 8%,#efba753a,transparent 48%),linear-gradient(135deg,#5e1022,#9a253b 58%,#4e1021)}
+.booking-card{background:#fffaf3;border-color:#d5ab72}
+.booking-card>.holiday-kicker{background:#fae8d2;color:#8c402e}
+.booking-card h2{font-family:'Berkshire Swash',Georgia,serif;color:#8e1c32}
+.journey-title h3{font-family:'Berkshire Swash',Georgia,serif;font-size:1.65rem;font-weight:400;color:#8e1c32}
+.journey-title>i{background:#f7e7dc;color:#a2243b}.journey-progress-head{color:#8e1c32}.journey-progress-track span{background:linear-gradient(90deg,#a52139,#e2b56c)}
+.journey-rail .is-current i{background:#a52139;color:#ffe3a4;border-color:#a52139}.journey-rail div.is-current{color:#8e1c32}
+.journey-field>label,.journey-identity-choice>label{color:#77283a!important}.journey-field .input-group i{color:#a44e5d}
+.journey-identity-choice>div>label{grid-template-columns:25px minmax(0,1fr);min-width:0;overflow-wrap:anywhere}
+.journey-identity-choice>div>label>i{color:#aa3049}.journey-identity-choice>div>label:has(input:checked){background:#fbe9e6;border-color:#b43b50;box-shadow:0 0 0 1px #b43b50}.journey-identity-choice>div>label>input{accent-color:#a52139}
+.journey-question-text i{background:#f8e9df;color:#a52139}.journey-navigation .journey-next{background:#a52139;border-color:#a52139;box-shadow:0 4px 0 #6e1225;color:#fff7e3}.journey-navigation button{color:#8e1c32}
+.journey-summary strong{color:#8e1c32}.site-footer{background:#70162a}.footer-bottom{background:#4b101f}.ai-chat-section{background:#fff3e6}
+.about-section h2::after,.gallery-section h2::after,.booking-card h2::after,.ai-chat-header h2::after{content:"✦  ❄  ✦";display:block;color:#b48a4f;font:400 13px Georgia,serif;letter-spacing:7px;margin-top:10px;animation:letterSpark 3s ease-in-out infinite alternate}
+.festive-toggle{position:absolute;bottom:20px;left:16px;z-index:4;border:1px solid #fff8;background:#531022eb;color:#fff;border-radius:24px;padding:9px 13px;font:500 11px 'Montserrat',sans-serif;cursor:pointer}
+html.festive-paused :is(.wonder-land *, .hero-content h2 em,.letter-spark,.site-header h1,.festive-lights span,.about-section h2::after,.gallery-section h2::after,.booking-card h2::after,.ai-chat-header h2::after){animation-play-state:paused!important}
+@media(max-width:768px){.site-header h1{font-size:1.55rem}.hero-section{min-height:640px;padding:calc(var(--header-height) + 38px) 18px 125px}.hero-section::after{background:linear-gradient(90deg,#590d22ef,#6b172bc0),linear-gradient(0deg,#420817,transparent 55%)!important}.hero-content h2{font-size:clamp(3rem,10vw,4.9rem)}.hero-content h2 em{font-size:1.14em}.wonder-land .village-scene{width:100%;left:0;height:auto}.village-story{font-size:.8rem;bottom:5px}.holiday-ribbon{font-size:.88rem}.journey-title h3{font-size:1.32rem}.festive-fall:nth-of-type(even){display:none}.festive-toggle{bottom:32px;font-size:10px;padding:6px 8px}.hero-pause{bottom:32px}}
+@media(prefers-reduced-motion:reduce){.festive-fall,.santa-drop{display:none!important}.santa-moving{transform:translate(720px,62px)}[class^="delivered-"]{opacity:1}}
+
 </style>
+<link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Great+Vibes&family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -363,10 +424,25 @@ section{padding:clamp(3.5rem,7vw,6.5rem) 1.5rem}.container{max-width:1160px}
 
     <main>
         <section id="inicio" class="hero-section">
-            <div class="wonder-land" aria-hidden="true"><div class="wonder-moon"></div><svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wonderSnow" x2="0" y2="1"><stop stop-color="#d5e0d6"/><stop offset="1" stop-color="#78998d"/></linearGradient><linearGradient id="wonderRoof" x2="0" y2="1"><stop stop-color="#fff6e7"/><stop offset="1" stop-color="#d2d9cf"/></linearGradient><g id="pine"><path d="M0 0L-18 34H-9L-29 65H-16L-39 100H-5V117H5V100H39L16 65H29L9 34H18Z" fill="#1a4c3e"/><path d="M0 0L-18 34H-5L-29 65H-12L-39 100H-24L0 65L-8 65L12 34H3Z" fill="#c5ddd1" opacity=".72"/></g><g id="house"><path d="M-28 0H28V50H-28Z" fill="#723e3b"/><path d="M-35 3L0 -31L35 3Z" fill="#542c2e"/><path d="M-39 3L0 -35L39 3L31 6L0 -24L-31 6Z" fill="url(#wonderRoof)"/><rect x="-18" y="10" width="13" height="16" rx="2" fill="#ffdc86"/><rect x="7" y="10" width="13" height="16" rx="2" fill="#ffdc86"/><rect x="-6" y="30" width="12" height="20" rx="5" fill="#3a2a28"/><path d="M-11 10V26M-18 18H-5M13 10V26M7 18H20" stroke="#b27d4b" stroke-width="1.5"/></g></defs><path d="M0 220Q200 115 420 202T850 188T1440 166V300H0Z" fill="#173e34"/><path d="M0 257Q250 180 470 234T880 219T1440 205V300H0Z" fill="url(#wonderSnow)" opacity=".94"/><g opacity=".94"><use href="#pine" transform="translate(42 132) scale(1.55)"/><use href="#pine" transform="translate(106 171) scale(1)"/><use href="#pine" transform="translate(190 195) scale(.7)"/><use href="#pine" transform="translate(960 161) scale(.95)"/><use href="#pine" transform="translate(1040 128) scale(1.3)"/><use href="#pine" transform="translate(1398 112) scale(1.65)"/><use href="#pine" transform="translate(1340 166) scale(1)"/></g><g><use href="#house" transform="translate(1110 225) scale(1.1)"/><use href="#house" transform="translate(1200 207) scale(1.42)"/><use href="#house" transform="translate(1290 230) scale(.9)"/></g><path d="M0 281Q230 258 465 286T920 276T1440 270V300H0Z" fill="#eef2e8"/><g fill="#f8d28b"><circle cx="42" cy="182" r="3"/><circle cx="54" cy="205" r="3"/><circle cx="29" cy="226" r="3"/><circle cx="1041" cy="182" r="3"/><circle cx="1025" cy="208" r="3"/><circle cx="1400" cy="163" r="4"/><circle cx="1384" cy="196" r="3"/><circle cx="1418" cy="220" r="3"/></g></svg></div>
+            <div class="wonder-land" aria-hidden="true"><div class="festive-lights"></div><div class="wonder-moon"></div><svg class="village-scene" viewBox="0 0 1440 355" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs>
+<linearGradient id="rubysnow" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe9db"/><stop offset="1" stop-color="#dab5ad"/></linearGradient>
+<linearGradient id="rubysleigh" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#ff5663"/><stop offset="1" stop-color="#8b142b"/></linearGradient>
+<g id="rubyTree"><path d="M0 0L-21 40H-10L-34 78H-17L-45 117H-6V133H6V117H45L17 78H34L10 40H21Z" fill="#244f43"/><path d="M0 0L-21 40H-10L-34 78H-17L-45 117H-28L3 78H-6L15 40H4Z" fill="#fae8db" opacity=".84"/><g fill="#ffd18a"><circle cx="3" cy="30" r="3"/><circle cx="-12" cy="65" r="3"/><circle cx="19" cy="93" r="3"/><circle cx="-27" cy="106" r="3"/></g><g fill="#e84451"><circle cx="11" cy="52" r="4"/><circle cx="-5" cy="89" r="4"/></g></g>
+<g id="rubyHouse"><rect x="-49" y="-2" width="98" height="82" rx="3" fill="#a43c49"/><rect x="29" y="-49" width="16" height="38" fill="#7b263b"/><path d="M-60 0L0 -54L60 0Z" fill="#6a1d30"/><path d="M-66 1L0 -61L66 1L54 6L0 -45L-54 6Z" fill="#fff3e6"/><rect x="-34" y="14" width="22" height="26" rx="3" fill="#ffe09a"/><rect x="12" y="14" width="22" height="26" rx="3" fill="#ffe09a"/><path d="M-23 14V40M-34 27H-12M23 14V40M12 27H34" stroke="#bb774d" stroke-width="2"/><path d="M-11 80V51Q0 40 11 51V80" fill="#5c2432"/><circle cx="5" cy="66" r="1.7" fill="#ffd08c"/><path d="M-46 3H46" stroke="#f5d6a3" stroke-width="3"/><g fill="#ffcf75"><circle cx="-38" cy="5" r="2"/><circle cx="-20" cy="5" r="2"/><circle cx="0" cy="5" r="2"/><circle cx="20" cy="5" r="2"/><circle cx="38" cy="5" r="2"/></g></g>
+<g id="rubyPolish"><rect x="-6" y="-25" width="12" height="11" rx="2" fill="#b18a50"/><rect x="-10" y="-15" width="20" height="22" rx="5" fill="#e94159" stroke="#ffd38e" stroke-width="1.3"/><path d="M-5 -10V2" stroke="#ffb7b7" stroke-width="2" stroke-linecap="round"/><rect x="-7" y="-6" width="14" height="7" rx="1" fill="#fff3df"/><path d="M0 -5L1 -2L4 -2L2 0L3 2L0 1L-3 2L-2 0L-4 -2L-1 -2Z" fill="#ba283e"/></g>
+<g id="rubyGift"><rect x="-12" y="-12" width="24" height="21" rx="2" fill="#b92a40" stroke="#f6c879"/><path d="M0 -12V9M-12 -4H12M0 -12Q-17 -24 -9 -15L0 -12Q17 -24 9 -15Z" fill="none" stroke="#f6c879" stroke-width="2"/></g>
+<g id="rubySanta"><path d="M-78 27Q-68 39 -40 38H38Q60 38 65 26" fill="none" stroke="#e9b765" stroke-width="4" stroke-linecap="round"/><path d="M-73 -1Q-65 28 -45 29H43Q57 26 66 8L69 -2H56Q50 8 39 8H-22L-38 -5Z" fill="url(#rubysleigh)" stroke="#ffd088" stroke-width="2"/><path d="M-71 -4Q-84 -38 -57 -39Q-34 -35 -28 -4Z" fill="#a7644a" stroke="#edc184"/><use href="#rubyGift" transform="translate(-56 -31) scale(.75)"/><use href="#rubyPolish" transform="translate(-40 -17) scale(.7)"/><ellipse cx="9" cy="-6" rx="24" ry="22" fill="#d93649"/><path d="M-10 -4H28V3H-10Z" fill="#3a2630"/><rect x="6" y="-4" width="9" height="7" rx="1" fill="#edc581"/><circle cx="11" cy="-41" r="16" fill="#f6c9ac"/><path d="M-3 -42Q-10 -11 13 -16Q34 -16 27 -42Q21 -24 12 -30Q2 -25 -3 -42Z" fill="#fff9ee"/><path d="M-8 -50Q-6 -78 19 -66L35 -48Z" fill="#d72e42"/><path d="M-9 -51Q12 -57 31 -48L28 -42Q9 -48 -8 -44Z" fill="#fff7e8"/><circle cx="20" cy="-67" r="6" fill="#fff7e8"/><circle cx="7" cy="-42" r="1.8" fill="#442b31"/><circle cx="19" cy="-42" r="1.8" fill="#442b31"/><circle cx="13" cy="-36" r="4" fill="#df9a80"/><path d="M28 -14Q39 -13 46 0" stroke="#d93649" stroke-width="12" stroke-linecap="round"/><circle cx="46" cy="0" r="6" fill="#fff4e5"/><path d="M46 0L105 -11" stroke="#d4ac75" stroke-width="1.7" fill="none"/><g transform="translate(108 -12)"><ellipse cx="0" cy="4" rx="24" ry="12" fill="#ad7953"/><path d="M14 0L26 -16L40 -16L45 -8L32 -2L27 8" fill="#ad7953"/><circle cx="44" cy="-9" r="4" fill="#e94555"/><circle cx="34" cy="-13" r="1.8" fill="#38232a"/><path d="M25 -17L20 -29L13 -34M25 -22L31 -34M33 -17L38 -27L44 -30" stroke="#d7ad75" stroke-width="2.5" stroke-linecap="round" fill="none"/><path d="M-12 10L-18 25M-4 12L-1 26M12 10L20 22M18 6L28 18" stroke="#ad7953" stroke-width="4" stroke-linecap="round"/><path d="M18 1L25 9" stroke="#d63c4e" stroke-width="4"/></g></g></defs>
+<path d="M0 190Q230 113 470 191T880 177T1440 156V355H0Z" fill="#692438"/><path d="M0 255Q240 172 470 243T930 222T1440 195V355H0Z" fill="url(#rubysnow)"/>
+<use href="#rubyTree" transform="translate(40 136) scale(1.16)"/><use href="#rubyTree" transform="translate(132 161) scale(0.8)"/><use href="#rubyTree" transform="translate(238 136) scale(1.16)"/><use href="#rubyTree" transform="translate(570 161) scale(0.8)"/><use href="#rubyTree" transform="translate(855 136) scale(1.16)"/><use href="#rubyTree" transform="translate(1165 161) scale(0.8)"/><use href="#rubyTree" transform="translate(1290 136) scale(1.16)"/><use href="#rubyTree" transform="translate(1400 161) scale(0.8)"/>
+<use href="#rubyHouse" transform="translate(440 212) scale(1.08)"/><use href="#rubyHouse" transform="translate(720 198) scale(1.3)"/><use href="#rubyHouse" transform="translate(1000 215) scale(1.02)"/>
+<path d="M0 321Q230 303 465 326T920 319T1440 310V355H0Z" fill="#fff3e5"/>
+<g class="santa-moving"><g class="santa-bob"><use href="#rubySanta"/></g></g>
+<g transform="translate(440 189)"><g class="santa-drop "><use href="#rubyPolish" transform="scale(1.15)"/><path d="M-17 -25L-13 -15M13 -25L17 -15" stroke="#ffe9b4" stroke-width="2"/></g></g><g transform="translate(460 293.4)"><g class="delivered-one"><use href="#rubyGift"/><use href="#rubyPolish" transform="translate(0 -6) scale(.65)"/><path d="M-20 -10L-24 -16M18 -12L23 -20" stroke="#e4af61" stroke-width="2.5"/></g></g><g transform="translate(720 175)"><g class="santa-drop drop-two"><use href="#rubyPolish" transform="scale(1.15)"/><path d="M-17 -25L-13 -15M13 -25L17 -15" stroke="#ffe9b4" stroke-width="2"/></g></g><g transform="translate(740 297)"><g class="delivered-two"><use href="#rubyGift"/><use href="#rubyPolish" transform="translate(0 -6) scale(.65)"/><path d="M-20 -10L-24 -16M18 -12L23 -20" stroke="#e4af61" stroke-width="2.5"/></g></g><g transform="translate(1000 192)"><g class="santa-drop drop-three"><use href="#rubyPolish" transform="scale(1.15)"/><path d="M-17 -25L-13 -15M13 -25L17 -15" stroke="#ffe9b4" stroke-width="2"/></g></g><g transform="translate(1020 291.6)"><g class="delivered-three"><use href="#rubyGift"/><use href="#rubyPolish" transform="translate(0 -6) scale(.65)"/><path d="M-20 -10L-24 -16M18 -12L23 -20" stroke="#e4af61" stroke-width="2.5"/></g></g>
+</svg><span class="village-story">Papai Noel espalhando beleza pela vila ✦</span></div>
+            <button class="festive-toggle" id="festive-toggle" type="button" aria-pressed="false">❄ Pausar enfeites</button>
             <div class="hero-content">
                 <span class="holiday-kicker">Nicole Nails · Natal Encantado</span>
-                <h2>O encanto começa<br><em>nas suas mãos.</em></h2>
+                <h2>O encanto começa <span class="letter-spark" aria-hidden="true">✦</span><br><em>nas suas mãos.</em></h2>
                 <p>Entre em um mundo de luz, delicadeza e magia. Neste Natal, reserve um momento só seu.</p>
                 <a href="#agendamento" class="cta-button">Escolher meu horário <span aria-hidden="true">✦</span></a>
                 <span class="hero-note">Uma experiência especial para as festas de fim de ano.</span>
@@ -1087,6 +1163,19 @@ form.addEventListener('reset',()=>setTimeout(()=>{pix.style.display='none';show(
 show('identity');
 })();
 
+</script>
+<script id="festive-ruby">
+(()=>{const land=document.querySelector('.wonder-land'),lights=document.querySelector('.festive-lights'),button=document.getElementById('festive-toggle');if(!land||!lights||!button)return;
+const ns='http://www.w3.org/2000/svg',pieces=[
+'<path d="M12 1V5M8 5H16V9H8Z" stroke="#e8c389" stroke-width="2" fill="#d6a75f"/><circle cx="12" cy="16" r="8" fill="#cb2942"/><path d="M5 13Q12 19 19 13" stroke="#ffd99b" stroke-width="1.6" fill="none"/><circle cx="9" cy="12" r="2" fill="#fff5da"/>',
+'<rect x="3" y="8" width="18" height="14" rx="2" fill="#bc2941"/><path d="M12 8V22M3 13H21M12 8Q0 -2 5 5L12 8Q24 -2 19 5Z" stroke="#ffe1a0" stroke-width="2" fill="none"/>',
+'<path d="M8 21V8C8 0 20 0 20 8" stroke="#fff5e7" stroke-width="6" stroke-linecap="round" fill="none"/><path d="M8 18V21M8 11V14M10 4L13 2M17 4L19 7" stroke="#d6374f" stroke-width="5" fill="none"/>',
+'<path d="M12 1L15 8L23 9L17 14L19 22L12 18L5 22L7 14L1 9L9 8Z" fill="#efc777" stroke="#fff1c7" stroke-width="1"/>',
+'<rect x="9" y="1" width="6" height="6" rx="1" fill="#c49e60"/><rect x="5" y="7" width="14" height="15" rx="4" fill="#db3953" stroke="#ffd5a0"/><rect x="7" y="11" width="10" height="5" rx="1" fill="#fff1df"/>'
+];for(let i=0;i<20;i++){const s=document.createElementNS(ns,'svg');s.setAttribute('viewBox','0 0 24 24');s.setAttribute('class','festive-fall');s.innerHTML=pieces[i%pieces.length];s.style.setProperty('--x',((i*37+11)%97)+'%');s.style.setProperty('--size',(13+i%5*4)+'px');s.style.setProperty('--duration',(12+i%7)+'s');s.style.setProperty('--delay',-(i*1.37)+'s');s.style.setProperty('--drift',(i%2?42:-35)+'px');land.append(s)}
+for(let i=0;i<36;i++){const s=document.createElement('span');s.style.setProperty('--bulb',['#ffca75','#fb6372','#fff4d0','#75c29c'][i%4]);s.style.setProperty('--tilt',(i%2?10:-10)+'deg');s.style.setProperty('--delay',-(i%6)*.4+'s');lights.append(s)}
+button.addEventListener('click',()=>{const paused=document.documentElement.classList.toggle('festive-paused');button.setAttribute('aria-pressed',String(paused));button.textContent=paused?'▶ Animar enfeites':'❄ Pausar enfeites'});
+})();
 </script>
 </body>
 </html>
