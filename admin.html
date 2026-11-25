@@ -120,6 +120,31 @@
         .dossier-info h2 { font-size: 1.6rem; color: var(--text-dark); margin-bottom: 5px; }
         .loyalty-stars { color: #ffa800; font-size: 1.2rem; }
     </style>
+<style id="natal-couture-admin">
+
+/* Nicole Nails — Natal Couture ERP | Visual independente do banco e das rotinas. */
+:root{--primary:#9c304d;--primary-dark:#73243b;--sidebar-bg:#173e34;--sidebar-hover:#285246;--bg-color:#f7f1eb;--text-dark:#352c30;--text-muted:#75676b;--success:#21765b;--danger:#b92b45;--warning:#9a630b;--info:#765099;--radius:18px;--shadow:0 9px 30px #432a2310}
+body{background:var(--bg-color)}
+.sidebar{background:linear-gradient(170deg,#143b31,#1d493c 60%,#102d27);border-right:1px solid #bda16d;box-shadow:6px 0 24px #16342b15}
+.logo-area{padding:28px 14px 24px;border-bottom:1px solid #d7b57340}.logo-area h2{font-family:Georgia,serif;letter-spacing:.02em;font-size:1.7rem;color:#ffe2aa}.logo-area span{color:#e1ccb1;font-size:.68rem}.nav-links{padding:14px 10px}.nav-links li{margin:5px 0;border-radius:12px;padding:13px 12px;color:#f1e5d7;font-size:.85rem}.nav-links li.active{background:linear-gradient(135deg,#a53a55,#73243b);box-shadow:0 6px 15px #081f1a55;border:1px solid #d7b57366}
+.sidebar-footer{border-color:#d7b57340;padding:15px}.sidebar-footer>div:first-child{color:#e1ccb1!important}
+.top-header{background:#fffaf4;border-bottom:2px solid #d7b573;box-shadow:0 5px 25px #432a2310}.page-title{font-family:Georgia,serif;font-size:1.65rem;color:#73243b}.user-profile{background:#f3e8d4;border-color:#dec497}.notification-btn{color:#73243b}.notification-btn .badge{position:absolute;padding:2px 5px}
+.main-content{padding:100px 30px 30px}
+.cards-grid{gap:16px;grid-template-columns:repeat(auto-fit,minmax(205px,1fr))}
+.stat-card,.panel{border:1px solid #eadbca;border-radius:18px;background:#fffdf9;box-shadow:var(--shadow)}
+.stat-card{padding:20px;gap:10px}.stat-card:hover{transform:translateY(-2px)}.stat-info{min-width:0}.stat-info h2{font-size:clamp(1.2rem,2vw,1.8rem);overflow-wrap:anywhere}.stat-info h3{font-size:.73rem;letter-spacing:.04em}.stat-icon{flex-shrink:0;width:48px;height:48px;border-radius:14px;font-size:1.4rem}
+.panel{padding:22px;min-width:0;overflow-x:auto}.panel-header{border-color:#eadbca}.panel-header h2{font-family:Georgia,serif;font-size:1.25rem;color:#73243b}
+th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{border-color:#ede4db;font-size:.86rem}tr:hover td{background:#faf3ec}.grid-2>*{min-width:0}
+.btn{border-radius:10px;min-height:37px}.btn-primary{background:linear-gradient(145deg,#a63b56,#76243c);box-shadow:0 3px 0 #5f1d32}.btn-primary:hover{background:#8e2c47}.btn-primary:active{transform:translateY(2px);box-shadow:none}
+.form-control,.search-box{border:1px solid #dfd1c2;border-radius:11px;background:#fffdf9}.form-control:focus{border-color:#9c304d;box-shadow:0 0 0 3px #9c304d20}.modal{background:#fffaf4;border:1px solid #d7b573;border-radius:22px;padding:clamp(18px,3vw,35px)}.dossier-avatar{background:linear-gradient(145deg,#9c304d,#73243b)}.dossier-header{border-color:#d7b573}.loyalty-stars{color:#9a630b}
+.badge-green{color:#176045;background:#e1f0e8;border-color:#a6d0bc}.badge-yellow{color:#815408;background:#fff0d5;border-color:#e8c991}.badge-red{color:#a02a42;background:#fce8e9;border-color:#ecc0c6}
+.holiday-admin-banner{padding:18px 24px;margin-bottom:22px;border:1px solid #d7b573;border-radius:18px;background:linear-gradient(120deg,#173e34,#285246);color:#fff2dc;display:flex;align-items:center;justify-content:space-between;gap:18px;flex-wrap:wrap}.holiday-admin-banner h2{font-family:Georgia,serif;font-size:1.55rem;font-weight:normal;color:#ffe3b0}.holiday-admin-banner p{font-size:.82rem;margin-top:4px}.holiday-admin-banner span{font-size:.7rem;letter-spacing:.13em;text-transform:uppercase;color:#ffe3b0}
+:where(button,input,select,textarea,a):focus-visible{outline:3px solid #b58a47;outline-offset:3px}
+@media(max-width:1000px){.cards-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-2{grid-template-columns:1fr}.main-content{padding:90px 18px 24px}}
+@media(max-width:760px){body{height:100dvh;display:block;overflow:hidden}.top-header{position:fixed;left:0;height:60px;padding:0 12px;z-index:30}.page-title{font-size:1.08rem;min-width:0}.header-actions{gap:12px}.user-profile{padding:4px 7px}.user-profile img{width:25px;height:25px}.user-profile span{display:none}.sidebar{position:fixed;top:60px;left:0;right:0;width:100%;height:100px;display:flex;flex-direction:column;border:0;z-index:25}.logo-area{display:none}.nav-links{display:flex;align-items:center;overflow-x:auto;overflow-y:hidden;white-space:nowrap;padding:5px 8px;flex:1;gap:5px}.nav-links li{flex:0 0 auto;margin:0;padding:10px 11px;font-size:.73rem;gap:5px}.nav-links li i{font-size:.85rem;width:auto}.sidebar-footer{display:flex;align-items:center;gap:8px;padding:4px 10px;border:0}.sidebar-footer>div{display:none!important}.sidebar-footer .btn{flex:1;min-height:29px;margin:0!important;justify-content:center;font-size:.7rem}.main-content{position:absolute;top:160px;margin:0;width:100%;height:calc(100dvh - 160px);padding:14px 10px 30px;overflow:auto}.cards-grid{gap:9px;margin-bottom:15px}.stat-card{padding:12px;gap:5px}.stat-info h2{font-size:1.12rem}.stat-info h3{font-size:.62rem}.stat-icon{width:33px;height:33px;font-size:1rem;border-radius:9px}.panel{padding:13px;margin-bottom:15px}.panel-header h2{font-size:1.12rem}.panel table{min-width:600px}.search-box{width:100%;max-width:300px}.holiday-admin-banner{padding:13px 15px;margin-bottom:14px}.holiday-admin-banner h2{font-size:1.2rem}.modal{width:96%;max-height:88dvh}.modal .form-control{font-size:16px}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}}
+
+</style>
 </head>
 <body>
 
@@ -142,7 +167,7 @@
     <aside class="sidebar">
         <div class="logo-area">
             <h2>NICOLE NAILS</h2>
-            <span>ERP Sistema Pro v3.0</span>
+            <span>Studio ERP · Edição Natal</span>
         </div>
         <ul class="nav-links">
             <li class="active" onclick="switchTab('mod_dash', this)"><i class="fas fa-chart-line"></i> Dashboard</li>
@@ -171,6 +196,7 @@
         <!-- MÓDULO 0: DASHBOARD                   -->
         <!-- ===================================== -->
         <section id="mod_dash" class="section active">
+            <div class="holiday-admin-banner"><div><h2>Seu studio, em boas mãos.</h2><p>Agenda, clientes, estoque e financeiro em um só lugar.</p></div><span>✦ Edição especial de Natal</span></div>
             <div class="cards-grid">
                 <div class="stat-card" style="border-bottom: 4px solid var(--primary);">
                     <div class="stat-info"><h3>Faturamento Bruto</h3><h2 id="dash-faturou">R$ 0,00</h2></div>
