@@ -382,6 +382,17 @@ html.festive-paused :is(.wonder-land *, .hero-content h2 em,.letter-spark,.site-
 @media(max-width:768px){.site-header h1{font-size:1.55rem}.hero-section{min-height:640px;padding:calc(var(--header-height) + 38px) 18px 125px}.hero-section::after{background:linear-gradient(90deg,#590d22ef,#6b172bc0),linear-gradient(0deg,#420817,transparent 55%)!important}.hero-content h2{font-size:clamp(3rem,10vw,4.9rem)}.hero-content h2 em{font-size:1.14em}.wonder-land .village-scene{width:100%;left:0;height:auto}.village-story{font-size:.8rem;bottom:5px}.holiday-ribbon{font-size:.88rem}.journey-title h3{font-size:1.32rem}.festive-fall:nth-of-type(even){display:none}.festive-toggle{bottom:32px;font-size:10px;padding:6px 8px}.hero-pause{bottom:32px}}
 @media(prefers-reduced-motion:reduce){.festive-fall,.santa-drop{display:none!important}.santa-moving{transform:translate(720px,62px)}[class^="delivered-"]{opacity:1}}
 
+
+
+/* Brilho natalino suave nos títulos das seções, mantendo a leitura dos formulários. */
+@supports(background-clip:text){
+.about-section h2,.gallery-section h2,.pinterest-section h2,.booking-card h2,.ai-chat-header h2,.journey-title h3{
+background:linear-gradient(105deg,#7e172d 0%,#b72943 33%,#a07130 49%,#b72943 65%,#7e172d 100%);background-size:240% 100%;background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;animation:natalLetterGlow 8s linear infinite}
+.about-section h2::before,.gallery-section h2::before,.ai-chat-header h2::before,.about-section h2::after,.gallery-section h2::after,.booking-card h2::after,.ai-chat-header h2::after{-webkit-text-fill-color:#a07130}
+}
+html.festive-paused .about-section h2,html.festive-paused .gallery-section h2,html.festive-paused .pinterest-section h2,html.festive-paused .booking-card h2,html.festive-paused .ai-chat-header h2,html.festive-paused .journey-title h3,html.festive-paused .about-section h2::after,html.festive-paused .gallery-section h2::after,html.festive-paused .booking-card h2::after,html.festive-paused .ai-chat-header h2::after{animation-play-state:paused!important}
+@media(max-width:768px){.wonder-land .village-scene{width:142%;left:-21%;max-width:none}.hero-section{padding-bottom:145px}}
+
 </style>
 <link href="https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Great+Vibes&family=Mountains+of+Christmas:wght@700&display=swap" rel="stylesheet">
 </head>
