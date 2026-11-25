@@ -153,6 +153,7 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
 <style id="nn-agenda-visual">.nn-agenda-tools{width:100%;display:grid;gap:13px}.nn-agenda-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}.nn-agenda-tabs button{display:flex;align-items:center;justify-content:center;gap:7px;min-width:0;padding:12px 8px;background:#fffaf2;color:#73364a;border:1px solid #e8d4c0;border-radius:11px;font:700 .8rem Montserrat,sans-serif;cursor:pointer}.nn-agenda-tabs button span{font-size:.68rem;background:#f0e2d3;padding:4px 7px;border-radius:20px;color:#73364a}.nn-agenda-tabs button.active{background:linear-gradient(135deg,#a12a45,#76172f);color:#fff8e7;border-color:#c38d60;box-shadow:0 3px 0 #591427}.nn-agenda-tabs button.active span{background:#ffffff24;color:#fff}.nn-agenda-actions{display:flex;align-items:end;gap:12px;flex-wrap:wrap;justify-content:space-between}.nn-agenda-actions label{font-size:.75rem;color:#786052;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}.nn-agenda-actions input{width:auto;min-height:40px}.nn-agenda-actions button{min-height:40px}.nn-agenda-tools p{font-size:.75rem;color:#7c6456;margin:0}.nn-agenda-table-wrap{overflow:auto}.nn-agenda-table-wrap table{min-width:690px}.nn-agenda-day td{background:#efe4d4!important;color:#7e233b;font-weight:700;font-size:.76rem;letter-spacing:.035em;padding:10px!important}.nn-agenda-day i{margin-right:7px}@media(max-width:650px){.nn-agenda-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}.nn-agenda-actions{align-items:stretch}.nn-agenda-actions label{width:100%}.nn-agenda-actions input{flex:1}.nn-agenda-actions button{width:100%}}</style>
 <style id="nn-settings-v2">.nn-settings-intro{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#f8efdf;border:1px solid #dfc69e;border-radius:14px;padding:16px;color:#74354a}.nn-settings-intro p{font-size:.8rem;margin:6px 0}.nn-settings-intro span{font-size:.72rem;white-space:nowrap}.nn-theme-preview{display:flex;align-items:center;gap:13px;margin:12px 0;padding:16px;border-radius:14px;background:var(--theme-preview,#851c35);color:var(--theme-accent,#ffe0a8)}.nn-theme-preview>span{font-size:2rem}.nn-theme-preview strong,.nn-theme-preview small{display:block}.nn-theme-preview small{font-size:.72rem;margin-top:4px}.nn-service-table{min-width:600px}.nn-service-table td label{white-space:nowrap}.nn-service-table tr[data-custom="true"] td:first-child::after{content:"Novo";display:block;color:#91613d;font-size:.7rem}.nn-service-active{accent-color:#216344}@media(max-width:700px){.nn-settings-intro{display:block}.nn-settings-intro span{display:block;margin-top:8px}}</style>
 <script src="/assets/nn-themes.js"></script>
+<style id="nn-confirm-polish">.nn-confirm-row{display:grid;gap:9px;border:1px solid #e6cfc8;background:#fffaf4;border-radius:14px;padding:15px;margin-bottom:11px}.nn-confirm-row strong{color:#892740;font-family:Georgia,serif;font-size:1.08rem}.nn-confirm-row small{color:#7d625e;font-size:.78rem}.nn-confirm-row summary{cursor:pointer;color:#923c57;font-size:.78rem;padding:6px 0}.nn-confirm-row textarea{margin-top:8px;white-space:pre-wrap;line-height:1.5;min-height:160px}.nn-confirm-row button{justify-self:start;min-height:40px}#modalDiaSeguinte .modal{max-height:85vh;overflow:auto}</style>
 </head>
 <body>
 
@@ -378,7 +379,7 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
     <div class="modal-overlay" id="modalDiaSeguinte">
         <div class="modal" style="max-width: 500px;">
             <i class="fas fa-times close-modal" onclick="fechaModal('modalDiaSeguinte')"></i>
-            <h2 style="color: var(--primary); margin-bottom: 20px;">Confirmar Agenda de Amanhã</h2>
+            <h2 style="color: var(--primary); margin-bottom: 20px;">Confirmar Agenda de Amanhã</h2><p style="font-size:.8rem;color:#846b67;margin:0 0 15px">Confira a mensagem personalizada antes de abrir o WhatsApp. O envio é feito por você.</p>
             <div id="lista-amanha"></div>
         </div>
     </div>
@@ -732,26 +733,18 @@ th{color:#6c514b;background:#f4e9db;font-size:.72rem;letter-spacing:.04em}td{bor
             }
         };
 
-        window.abrirModalDiaSeguinte = function() {
-            let amanha=new Date(getHojeBR()+'T12:00:00Z'); amanha.setUTCDate(amanha.getUTCDate()+1); let dataAmanha=amanha.toISOString().slice(0,10);
-            
-            let clientesAmanha = DB.agenda.filter(a => normalizarData(a.data) === dataAmanha && a.status !== 'Concluído' && a.status !== 'Faltou');
-            
-            let html = '';
-            if(clientesAmanha.length === 0) {
-                html = '<p style="text-align:center; color:#888;">Nenhum agendamento pendente para amanhã.</p>';
-            } else {
-                clientesAmanha.forEach(a => {
-                    let msg = `Olá ${a.clienteNome.split(' ')[0]}, tudo bem? Aqui é da Nicole Nails 💅%0APassando para confirmar nosso horário amanhã às ${a.horario} para o seu procedimento. Podemos confirmar? 🥰`;
-                    let link = `https://wa.me/55${a.clienteZap.replace(/\D/g, '')}?text=${msg}`;
-                    html += `<div style="display:flex; justify-content:space-between; align-items:center; padding:15px; border-bottom:1px solid #eee; background:#f9f9f9; border-radius:8px; margin-bottom:10px;">
-                        <div><b style="color:var(--primary-dark);">${a.clienteNome}</b><br><small style="color:#666;"><i class="fas fa-clock"></i> ${a.horario} - ${a.servico}</small></div>
-                        <button class="btn btn-sm btn-success" onclick="window.open('${link}', '_blank')"><i class="fab fa-whatsapp"></i> Chamar</button>
-                    </div>`;
-                });
-            }
-            document.getElementById('lista-amanha').innerHTML = html;
-            abrirModal('modalDiaSeguinte');
+        function mensagemConfirmacaoNicole(a){
+            const first=String(a.clienteNome||"").trim().split(/\s+/)[0]||"";
+            const date=normalizarData(a.data).split("-").reverse().join("/");
+            return "Olá"+(first?", "+first:"")+"! Tudo bem? \uD83C\uDF38\n\nAqui é a Nicole, do *Nicole Nails*. Estou passando para confirmar seu momento de beleza de amanhã.\n\n*Data:* "+date+"\n*Horário:* "+a.horario+"\n*Procedimento:* "+a.servico+"\n\nEstá tudo certo para o nosso atendimento? Se precisar alterar o horário ou tiver algum imprevisto, por favor, me avise com antecedência.\n\nEstou te esperando com muito carinho! \u2764\uFE0F\n*Nicole Nails*";
+        }
+        window.abrirModalDiaSeguinte = function(){
+            const amanha=new Date(getHojeBR()+"T12:00:00Z");amanha.setUTCDate(amanha.getUTCDate()+1);const dataAmanha=amanha.toISOString().slice(0,10);
+            const list=document.getElementById("lista-amanha");list.replaceChildren();
+            const rows=DB.agenda.filter(a=>normalizarData(a.data)===dataAmanha&&!/conclu|faltou|cancel|exclu/i.test(String(a.status||""))).sort((a,b)=>horaAgenda(a)-horaAgenda(b));
+            if(!rows.length){const p=document.createElement("p");p.textContent="Nenhum atendimento para confirmar amanhã.";list.append(p);}
+            for(const a of rows){const row=document.createElement("div");row.className="nn-confirm-row";const title=document.createElement("strong");title.textContent=a.clienteNome;const desc=document.createElement("small");desc.textContent=a.horario+" · "+a.servico;const details=document.createElement("details");const summary=document.createElement("summary");summary.textContent="Conferir ou editar mensagem";const input=document.createElement("textarea");input.className="form-control";input.rows=9;input.value=mensagemConfirmacaoNicole(a);input.setAttribute("aria-label","Mensagem para "+a.clienteNome);details.append(summary,input);const btn=document.createElement("button");btn.type="button";btn.className="btn btn-sm btn-success";btn.innerHTML='<i class="fab fa-whatsapp"></i> Abrir WhatsApp';btn.onclick=()=>{const n=normalizarZap(a.clienteZap);if(!/^\d{10,11}$/.test(n)){alert("Confira o número da cliente.");return}if(!input.value.trim()){alert("Escreva a mensagem.");return}window.open("https://wa.me/55"+n+"?text="+encodeURIComponent(input.value),"_blank","noopener,noreferrer");};row.append(title,desc,details,btn);list.append(row);}
+            abrirModal("modalDiaSeguinte");
         };
 
         window.editarCliente = async function() {
