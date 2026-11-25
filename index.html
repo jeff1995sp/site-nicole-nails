@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-BR" data-natal="matrix">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -255,209 +255,72 @@
     <link rel="stylesheet" href="assets/elegance.css">
 <style id="natal-couture">
 
-/* Laboratorio visual de Natal — isolado da mecânica original */
-html[data-natal="matrix"]{--bg:#071610;--panel:#10251b;--ink:#f0fff4;--muted:#a1beaa;--accent:#75ff95;--deep:#0d482c;--spark:#d3ffad;--surface:#081a10;--surfaceInk:#d8ffe3}
-html[data-natal="neon"]{--bg:#110d24;--panel:#211338;--ink:#fff3ff;--muted:#d2b9dc;--accent:#ff66d9;--deep:#7c2ca7;--spark:#74ebff;--surface:#1b1132;--surfaceInk:#fff1ff}
-html[data-natal="ruby"]{--bg:#30090f;--panel:#48121c;--ink:#fff1e8;--muted:#eac0b7;--accent:#f3c28c;--deep:#a12a3e;--spark:#ffddac;--surface:#3e1018;--surfaceInk:#fff0e7}
-html[data-natal="gold"]{--bg:#10100e;--panel:#1d1b16;--ink:#fff8e7;--muted:#d1c3a7;--accent:#e9c982;--deep:#816127;--spark:#f8dc9e;--surface:#17150f;--surfaceInk:#fff6e1}
-html[data-natal="rose"]{--bg:#fff4f6;--panel:#f6e0e8;--ink:#542b40;--muted:#765263;--accent:#a33768;--deep:#7b254b;--spark:#a85a7a;--surface:#fffafd;--surfaceInk:#542b40}
-html[data-natal="snow"]{--bg:#edf7ff;--panel:#dbeaf8;--ink:#193a55;--muted:#486278;--accent:#28618e;--deep:#1c4566;--spark:#367ca6;--surface:#fbfdff;--surfaceInk:#193a55}
-html[data-natal="forest"]{--bg:#0c211d;--panel:#173b32;--ink:#fff4d9;--muted:#c9d6b8;--accent:#e7bd71;--deep:#35674d;--spark:#cbe49b;--surface:#102a22;--surfaceInk:#fff1d4}
-html[data-natal="midnight"]{--bg:#0b1532;--panel:#18254d;--ink:#f3f2ff;--muted:#b8c6eb;--accent:#b5c9ff;--deep:#394d9a;--spark:#d6b7ff;--surface:#111e40;--surfaceInk:#f4f3ff}
-html[data-natal="candy"]{--bg:#fff5ec;--panel:#ffdce6;--ink:#592439;--muted:#7c4157;--accent:#b52e54;--deep:#82213e;--spark:#257a69;--surface:#fffdfa;--surfaceInk:#592439}
-html[data-natal="aurora"]{--bg:#10152b;--panel:#152d3e;--ink:#f1fff9;--muted:#bdd5e2;--accent:#80f2c3;--deep:#316d85;--spark:#d6a6ff;--surface:#132438;--surfaceInk:#f1fff9}
-html[data-natal]{--pink:var(--accent);--deep-pink:var(--deep);--header-height:76px;--dark-gray:var(--panel);--text-color:var(--ink);--white:var(--surface);--light-gray:var(--panel);--line:color-mix(in srgb,var(--accent) 26%,transparent);color-scheme:light}
-html[data-natal] body{background:var(--bg);color:var(--ink);line-height:1.7;overflow-x:hidden}
-html[data-natal] h1,html[data-natal] h2,html[data-natal] h3{color:var(--ink)}
-html[data-natal] h2{font-size:clamp(2rem,4vw,3.3rem);line-height:1.12}
-html[data-natal] section{padding:clamp(3.2rem,7vw,6rem) 1.35rem}
-html[data-natal] .container{max-width:1200px}
-html[data-natal] .site-header{background:var(--bg);color:var(--ink);border-bottom:1px solid var(--line);box-shadow:0 4px 30px #0002;padding-inline:clamp(12px,4vw,45px)}
-html[data-natal] .site-header h1{font-size:clamp(1.15rem,2.5vw,1.85rem);color:var(--ink)}
-html[data-natal] .main-nav-desktop a,html[data-natal] .mobile-nav a{color:var(--ink)}
-html[data-natal] .mobile-nav{background:var(--bg)}
-html[data-natal] .social-icons a{border:1px solid var(--line);padding:8px;border-radius:50%;display:grid;place-items:center}
-html[data-natal] .social-icons img{width:22px;height:22px}
-.natal-lab{margin-top:var(--header-height);background:#161619;color:#fff;border-bottom:1px solid #ffffff33;padding:10px clamp(12px,4vw,40px);display:flex;align-items:center;gap:12px;flex-wrap:wrap;font:600 12px 'Montserrat',sans-serif;position:relative;z-index:2}
-.natal-lab strong{letter-spacing:.06em;text-transform:uppercase;color:#ffe1ac}
-.natal-lab label{font-size:11px;color:#ddd}
-.natal-lab select{background:#29292e;color:white;border:1px solid #ffffff55;border-radius:8px;padding:9px;flex:1;min-width:150px;max-width:340px;font:inherit}
-.natal-lab button{color:white;background:#35353c;border:1px solid #ffffff44;border-radius:8px;padding:8px 12px;cursor:pointer;font:inherit}
-.natal-lab small{color:#c2c2cc;font-weight:400}
-html[data-natal] .hero-section{position:relative;isolation:isolate;min-height:650px;height:auto;background-color:var(--bg);padding:clamp(4rem,9vw,9rem) 2rem;overflow:hidden}
-html[data-natal] .hero-section::after{z-index:-1;background:linear-gradient(90deg,#06080bea,#06080b8c 54%,#06080b20)!important}
-html[data-natal] .hero-content{padding:0;max-width:1150px;width:100%;position:relative;z-index:2;text-align:left}
-html[data-natal] .hero-content::before{display:none}
-html[data-natal] .holiday-kicker{display:inline-block;border:1px solid var(--spark);padding:.5rem .9rem;color:var(--spark);background:#10101860;letter-spacing:.19em;font-size:10px;font-weight:700;border-radius:99px;text-transform:uppercase;backdrop-filter:blur(8px)}
-html[data-natal] .hero-content h2{color:#fffdf7;text-align:left;font-size:clamp(3.5rem,7.5vw,7rem);line-height:.99;letter-spacing:-.05em;max-width:790px;margin:25px 0;text-shadow:0 5px 28px #0008}
-html[data-natal] .hero-content p{color:#fff5f2;max-width:480px;font-size:clamp(.96rem,1.6vw,1.15rem)}
-html[data-natal] .hero-note{display:block;color:#f6ece4;font-size:.78rem;margin-top:1.2rem}
-html[data-natal] .visit-counter-badge{color:#f4eee8;opacity:.9}
-html[data-natal] .visit-counter-badge i{color:var(--spark)}
-html[data-natal] :is(.cta-button,.submit-button,#pinterest-submit,#ai-prompt-submit,#avaliacoes a){background:linear-gradient(140deg,var(--accent),var(--deep))!important;color:#fff!important;border:1px solid var(--spark)!important;border-radius:13px!important;box-shadow:0 5px 0 var(--deep),0 12px 32px color-mix(in srgb,var(--accent) 35%,transparent)!important;font-weight:700;transition:transform .2s,filter .2s}
-html[data-natal] .cta-button{padding:18px 30px;font-size:.95rem}
-html[data-natal] :is(.cta-button,.submit-button,#pinterest-submit,#ai-prompt-submit):hover{filter:brightness(1.14);transform:translateY(-2px)}
-html[data-natal] .submit-button:disabled{opacity:.55;transform:none}
-html[data-natal] .hero-pause{z-index:4}
-.natal-fx{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
-.natal-fx canvas{width:100%;height:100%;display:none;opacity:.52}
-.natal-fx .sparkle{position:absolute;top:var(--y);left:var(--x);color:var(--spark);font-size:var(--s);opacity:.7;animation:natalTwinkle 3.8s ease-in-out infinite alternate;animation-delay:var(--d);text-shadow:0 0 18px currentColor}
-@keyframes natalTwinkle{from{opacity:.14;transform:scale(.8)}to{opacity:.8;transform:scale(1.12)}}
-html[data-natal] .christmas-decor{display:none}
-.holiday-ribbon{background:var(--panel);color:var(--ink);border-block:1px solid var(--line);padding:15px 12px;text-align:center;display:flex;align-items:center;justify-content:center;gap:12px;font-size:.74rem;letter-spacing:.13em;text-transform:uppercase;font-weight:700}
-html[data-natal] :is(.about-section,.pinterest-section,.ai-chat-section){background:var(--bg);color:var(--ink)}
-html[data-natal] .gallery-section{background:var(--panel);border-block:1px solid var(--line)}
-html[data-natal] :is(.about-text p,.ai-chat-header p){color:var(--muted)}
-html[data-natal] :is(.about-section h2,.gallery-section h2,.ai-chat-header h2)::before{color:var(--accent)}
-html[data-natal] .about-text ul{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:2rem}
-html[data-natal] .about-text ul li{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 12px 16px 38px;margin:0;color:var(--ink)}
-html[data-natal] .about-text ul li::before{color:var(--accent);left:15px;top:15px}
-html[data-natal] .gallery-grid{gap:14px;grid-template-columns:repeat(4,minmax(0,1fr))}
-html[data-natal] .gallery-item{border:1px solid var(--line);border-radius:18px;background:var(--bg);padding:5px;box-shadow:0 12px 32px #0002;animation:none}
-html[data-natal] .gallery-item img{border-radius:12px;height:clamp(160px,25vw,350px);object-fit:cover}
-html[data-natal] #avaliacoes{background:var(--panel)!important;color:var(--ink)!important;border-block:1px solid var(--line)}
-html[data-natal] #avaliacoes h2{color:var(--ink)!important}
-html[data-natal] #avaliacoes :is(p,ol,h3){color:var(--ink)!important}
-html[data-natal] #avaliacoes .container>div{border:1px solid var(--line)!important;background:var(--surface)!important;color:var(--surfaceInk)!important}
-html[data-natal] #avaliacoes .container>div :is(ol,h3){color:var(--surfaceInk)!important}
-html[data-natal] .suggestion-tag{border:1px solid var(--line);color:var(--ink);background:var(--panel)}
-html[data-natal] .booking-section{background:radial-gradient(ellipse at 15% 10%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),var(--panel);border-block:1px solid var(--line)}
-html[data-natal] .booking-container{max-width:930px}
-html[data-natal] .booking-card{background:#fffdf9;color:#322b35;border:1px solid var(--accent);border-radius:26px;padding:clamp(18px,4vw,48px);box-shadow:0 24px 80px #0003}
-html[data-natal] .booking-card h2{color:var(--deep);font-size:clamp(2rem,4vw,3.25rem)}
-html[data-natal] .booking-card h2::before{display:none}
-html[data-natal] .booking-card .holiday-kicker{display:table;margin:0 auto 12px;background:#f4eef0;color:#503747;border-color:#e1d4d9}
-html[data-natal] .booking-subtitle{color:#655962;font-size:.95rem}
-html[data-natal] .attention-notice{background:#f8f0e8!important;border:1px solid #e6d6c5!important;color:#624c32!important}
-html[data-natal] .booking-form{gap:16px}
-html[data-natal] .styled-input{background:#fff!important;border:1px solid #ded4d8;color:#322b35;box-shadow:none;min-height:54px;border-radius:12px;font-size:16px}
-html[data-natal] .input-group i{color:#806171}
-html[data-natal] #bloco-anamnese{background:#f7f2f2!important;border-color:#e3d5dc!important;border-radius:18px!important;padding:clamp(13px,3vw,24px)!important}
-html[data-natal] #bloco-anamnese h3{color:#553b4b!important}
-html[data-natal] #bloco-anamnese>div{background:#fff!important;border:1px solid #e7dce0;border-radius:12px;padding:14px!important;margin:12px 0!important}
-html[data-natal] #bloco-anamnese h4{color:#553b4b!important}
-html[data-natal] #bloco-anamnese h4~div{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:8px 0!important}
-html[data-natal] #bloco-anamnese label{display:inline-flex;align-items:center;gap:3px;background:#fff;border:1px solid #e0d3d8;border-radius:8px;padding:5px 8px;min-height:38px;margin-right:0!important}
-html[data-natal] #bloco-anamnese label:has(input:checked){background:#eee5ed;border-color:#8b627a}
-html[data-natal] .booking-form input[type=radio],html[data-natal] .booking-form input[type=checkbox]{accent-color:#80516d;width:19px;height:19px}
-html[data-natal] #bloco-pix-dezembro{background:#f9f1eb!important;border-color:#b78a75!important}
-html[data-natal] .ai-chat-window{background:#fffdf9;border:1px solid var(--line);box-shadow:0 16px 42px #0003;color:#322b35}
-html[data-natal] .ai-bubble{background:#f0ebf1}
-html[data-natal] .user-bubble{background:var(--deep);color:#fff}
-html[data-natal] .site-footer{background:var(--panel);border-top:1px solid var(--line)}
-html[data-natal] .site-footer :is(h3,p){color:var(--ink)}
-html[data-natal] .footer-bottom{background:var(--bg);color:var(--muted)}
-html[data-natal] :focus-visible{outline:3px solid #8a7191;outline-offset:3px}
-/* 01: Matrix — HUD, scanlines, rain */
-html[data-natal="matrix"] .hero-section::after{background:linear-gradient(90deg,#03110df7,#03110dbb 50%,#03110d38)!important}
-html[data-natal="matrix"] .hero-content h2{font-family:monospace;font-weight:800;letter-spacing:-.08em;color:#d2ffdc;text-shadow:0 0 24px #40ff7b55}
-html[data-natal="matrix"] .natal-fx canvas{display:block}
-html[data-natal="matrix"] .natal-fx{background:repeating-linear-gradient(0deg,#4fff9010 0 1px,transparent 1px 6px);border:1px solid #75ff9560}
-html[data-natal="matrix"] .hero-content{border-left:2px solid #75ff95;padding-left:28px}
-html[data-natal="matrix"] .gallery-item{border-radius:3px;box-shadow:0 0 16px #75ff9522}
-html[data-natal="matrix"] .gallery-item img{border-radius:0}
-html[data-natal="matrix"] .cta-button{background:#8affaa!important;color:#062318!important;border-radius:4px!important;box-shadow:0 0 30px #75ff9560!important}
-html[data-natal="matrix"] .submit-button{background:#146b41!important;color:white!important}
-html[data-natal="matrix"] .holiday-ribbon{font-family:monospace;letter-spacing:.2em}
-/* 02: Neon Cyber — luminous frame, electric diagonal */
-html[data-natal="neon"] .hero-section::after{background:linear-gradient(125deg,#100920f5,#3f0b5577 58%,#060c2f25)!important}
-html[data-natal="neon"] .hero-content{max-width:1050px;border:1px solid #fd81f077;border-radius:36px;padding:clamp(24px,6vw,70px);background:linear-gradient(130deg,#150c27bd,#1b103a33);box-shadow:0 0 35px #ff47d944,inset 0 0 22px #83eaff22;backdrop-filter:blur(3px)}
-html[data-natal="neon"] .hero-content h2{font-family:'Montserrat',sans-serif;font-weight:800;font-style:italic;letter-spacing:-.08em;color:#fff4ff;text-shadow:0 0 30px #ff52d5}
-html[data-natal="neon"] .natal-fx{background:repeating-linear-gradient(125deg,transparent 0 84px,#f271ff15 85px 87px,transparent 88px 170px)}
-html[data-natal="neon"] .gallery-item{border-radius:30px 5px;box-shadow:0 0 18px #ff66d933}
-html[data-natal="neon"] .cta-button{background:linear-gradient(115deg,#a92198,#6332bf)!important}
-/* 03: Ruby — velvet editorial, centered medallion */
-html[data-natal="ruby"] .hero-section::after{background:linear-gradient(0deg,#330711e8,#35091177 60%,#360a0f7a)!important}
-html[data-natal="ruby"] .hero-content{text-align:center;max-width:850px;border-block:1px solid #eec99480;padding:30px 0}
-html[data-natal="ruby"] .hero-content h2{text-align:center;margin-inline:auto;font-style:italic;font-weight:700}
-html[data-natal="ruby"] .hero-content p{margin-inline:auto}
-html[data-natal="ruby"] .natal-fx{background:radial-gradient(ellipse at 50% 5%,#ffcc8555,transparent 45%),repeating-linear-gradient(100deg,transparent 0 35px,#a52c4212 36px 50px)}
-html[data-natal="ruby"] .gallery-item{border-radius:120px 120px 8px 8px;border-color:#f3c28c88}
-html[data-natal="ruby"] .gallery-item img{border-radius:110px 110px 4px 4px}
-html[data-natal="ruby"] .cta-button{background:#a12a3e!important}
-/* 04: Gold — editorial split and gilded frame */
-html[data-natal="gold"] .hero-section::after{background:linear-gradient(90deg,#10100efc 0 42%,#10100e20 75%)!important}
-html[data-natal="gold"] .hero-content{border:1px solid #e9c98277;padding:35px;max-width:1160px}
-html[data-natal="gold"] .hero-content h2{max-width:650px;font-weight:400;letter-spacing:-.045em;color:#fff2c6}
-html[data-natal="gold"] .natal-fx{background:linear-gradient(115deg,transparent 65%,#d4b37630 66%,transparent 67%),linear-gradient(115deg,transparent 73%,#d4b37650 74%,transparent 75%)}
-html[data-natal="gold"] .gallery-item{border-radius:0;border-color:#c5a763}
-html[data-natal="gold"] .gallery-item img{border-radius:0}
-html[data-natal="gold"] .cta-button{background:linear-gradient(145deg,#f3db9e,#c19b55)!important;color:#21180b!important;border-radius:0!important}
-/* 05: Rose — magazine cover */
-html[data-natal="rose"] .hero-section::after{background:linear-gradient(90deg,#ffe3ecf5,#f6d4e4e0 43%,#f6d4e428 72%)!important}
-html[data-natal="rose"] .hero-content h2{color:#542b40;text-shadow:none;max-width:620px;font-style:italic}
-html[data-natal="rose"] .hero-content p,html[data-natal="rose"] .hero-note,html[data-natal="rose"] .visit-counter-badge{color:#684557}
-html[data-natal="rose"] .holiday-kicker{color:#71344e;background:#fff6f7;border-color:#a85a7a}
-html[data-natal="rose"] .natal-fx{background:radial-gradient(circle at 78% 12%,#fff9 0 3%,transparent 15%)}
-html[data-natal="rose"] .gallery-item{border-radius:120px 120px 18px 18px;padding:7px 7px 20px;background:#fff}
-html[data-natal="rose"] .gallery-item img{border-radius:110px 110px 8px 8px}
-html[data-natal="rose"] .cta-button{border-radius:99px!important}
-/* 06: Snow — icy center glass */
-html[data-natal="snow"] .hero-section::after{background:linear-gradient(120deg,#c4e5fff0,#eaf6ff88 56%,#b3d9f840)!important}
-html[data-natal="snow"] .hero-content{text-align:center;max-width:820px;background:#f7fcffc9;border:1px solid white;border-radius:40px;backdrop-filter:blur(10px);padding:clamp(24px,5vw,60px);box-shadow:0 0 65px #d4f1ffbb}
-html[data-natal="snow"] .hero-content h2{text-align:center;color:#193a55;text-shadow:0 0 26px white;font-weight:400}
-html[data-natal="snow"] .hero-content p{color:#365971;margin:auto}
-html[data-natal="snow"] .hero-note,html[data-natal="snow"] .visit-counter-badge{color:#365971}
-html[data-natal="snow"] .holiday-kicker{background:#f4fbff;color:#28618e;border-color:#79aaca}
-html[data-natal="snow"] .natal-fx .sparkle{color:white;text-shadow:0 0 8px #68bfff;font-size:calc(var(--s)*1.5)}
-html[data-natal="snow"] .gallery-item{border-radius:26px;border:2px solid white;box-shadow:0 10px 35px #9bc5df66}
-/* 07: Forest — botanical arch */
-html[data-natal="forest"] .hero-section::after{background:radial-gradient(ellipse at 72% 46%,#132e2430,#0b261dd9 72%),linear-gradient(90deg,#0c211df5,#0c211d10)!important}
-html[data-natal="forest"] .hero-content{max-width:1100px}
-html[data-natal="forest"] .hero-content h2{color:#fff1cb;max-width:620px;font-style:italic}
-html[data-natal="forest"] .natal-fx{border:14px double #c7a45b55;border-radius:45% 45% 0 0;background:radial-gradient(ellipse at 12% 8%,#b9ca5255,transparent 30%),radial-gradient(ellipse at 90% 5%,#e8b94644,transparent 30%)}
-html[data-natal="forest"] .gallery-item{border-radius:48% 48% 12px 12px;border:2px solid #c7a45b88}
-html[data-natal="forest"] .gallery-item img{border-radius:46% 46% 8px 8px}
-html[data-natal="forest"] .cta-button{background:#35674d!important;border-radius:40px!important}
-/* 08: Midnight — constellation center */
-html[data-natal="midnight"] .hero-section::after{background:linear-gradient(0deg,#0b1532f2,#0b153270 75%,#0b1532a8)!important}
-html[data-natal="midnight"] .hero-content{text-align:center;max-width:870px}
-html[data-natal="midnight"] .hero-content h2{text-align:center;color:#f3f2ff;text-shadow:0 0 48px #b3baff80;margin-inline:auto}
-html[data-natal="midnight"] .hero-content p{margin-inline:auto}
-html[data-natal="midnight"] .natal-fx{background:radial-gradient(ellipse at 50% 40%,#526ad244,transparent 50%),radial-gradient(circle at 78% 18%,#e3deff 0 3%,#aca5ff33 3.2% 5%,transparent 7%)}
-html[data-natal="midnight"] .natal-fx .sparkle{animation-duration:2.1s}
-html[data-natal="midnight"] .gallery-item{border-radius:50px 8px;border-color:#b5c9ff88}
-html[data-natal="midnight"] .cta-button{background:#394d9a!important}
-/* 09: Candy — graphic holiday boutique */
-html[data-natal="candy"] .hero-section::after{background:linear-gradient(105deg,#fff5ec 0 42%,#ffdce6e8 42% 51%,#ffdce632 51%)!important}
-html[data-natal="candy"] .hero-content h2{font-family:'Montserrat',sans-serif;font-weight:800;color:#a5254a;text-shadow:3px 3px 0 #ffc4d3;max-width:530px;letter-spacing:-.09em;text-transform:uppercase}
-html[data-natal="candy"] .hero-content p,html[data-natal="candy"] .hero-note,html[data-natal="candy"] .visit-counter-badge{color:#592439}
-html[data-natal="candy"] .holiday-kicker{background:#b52e54;color:white;border-color:#b52e54;border-radius:4px}
-html[data-natal="candy"] .natal-fx{background:repeating-linear-gradient(45deg,#b52e54 0 12px,#fff5ec 12px 24px,#257a69 24px 36px,#fff5ec 36px 48px);height:10px;top:auto}
-html[data-natal="candy"] .gallery-item{border:3px solid #b52e54;border-radius:4px;padding:8px 8px 26px;background:#fff;transform:rotate(-1deg)}
-html[data-natal="candy"] .gallery-item:nth-child(even){transform:rotate(1deg);border-color:#257a69}
-html[data-natal="candy"] .gallery-item img{border-radius:0}
-/* 10: Aurora — iridescent waves */
-html[data-natal="aurora"] .hero-section::after{background:linear-gradient(90deg,#0d1025e8,#10152b9c 65%,#10152b20)!important}
-html[data-natal="aurora"] .natal-fx{background:radial-gradient(ellipse at 12% 0%,#62ffc74d,transparent 50%),radial-gradient(ellipse at 80% 4%,#a97aff50,transparent 55%);filter:saturate(1.2)}
-html[data-natal="aurora"] .natal-fx::before{content:"";position:absolute;inset:-70% -30% 25%;background:conic-gradient(from 45deg,transparent,#7fffc455,transparent,#a98bff55,transparent);filter:blur(35px);animation:auroraFlow 9s ease-in-out infinite alternate}
-@keyframes auroraFlow{from{transform:rotate(-12deg) translateX(-8%)}to{transform:rotate(15deg) translateX(8%)}}
-html[data-natal="aurora"] .hero-content h2{color:#d6fff3;background:linear-gradient(90deg,#fff,#8dffd0 50%,#d6b7ff);background-clip:text;-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-shadow:none;font-family:'Montserrat',sans-serif;font-weight:800;letter-spacing:-.07em}
-html[data-natal="aurora"] .gallery-item{border-radius:22px;border-color:#80f2c3;box-shadow:0 0 18px #80f2c330}
-html[data-natal="aurora"] .cta-button{background:linear-gradient(130deg,#225c6a,#63449a)!important}
-@media(max-width:768px){
- html[data-natal]{--header-height:70px}
- html[data-natal] .site-header{padding:0 10px}
- html[data-natal] .social-icons{gap:5px}
- html[data-natal] .social-icons a{padding:5px}
- html[data-natal] .social-icons img{width:17px;height:17px}
- .natal-lab{gap:6px;padding:8px 10px}
- .natal-lab strong{width:100%;font-size:10px}
- .natal-lab small{display:none}
- html[data-natal] .hero-section{min-height:580px;padding:55px 18px}
- html[data-natal] .hero-content h2{font-size:clamp(2.7rem,10vw,4.6rem);max-width:100%}
- html[data-natal="matrix"] .hero-content{padding-left:12px}
- html[data-natal="neon"] .hero-content,html[data-natal="snow"] .hero-content,html[data-natal="gold"] .hero-content{padding:22px 15px}
- html[data-natal="candy"] .hero-section::after{background:linear-gradient(90deg,#fff5ecee,#ffdce6c9 72%,#ffdce680)!important}
- html[data-natal="rose"] .hero-section::after{background:linear-gradient(90deg,#ffe3eced,#f6d4e4b0)!important}
- html[data-natal] .about-text ul{grid-template-columns:1fr}
- html[data-natal] .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
- html[data-natal] .gallery-item img{height:clamp(160px,50vw,260px)}
- html[data-natal] .booking-section{padding-inline:10px}
- html[data-natal] #bloco-anamnese label{min-height:44px}
- .holiday-ribbon{gap:5px;font-size:.6rem;letter-spacing:.04em}
-}
-@media(prefers-reduced-motion:reduce){.natal-fx *,.natal-fx::before{animation:none!important}.natal-fx canvas{display:none!important}}
+/* Mundo Encantado — experiência sazonal e navegação de formulário, sem alterar integrações. */
+:root{--pink:#a23c54;--deep-pink:#713146;--dark-gray:#142b26;--light-gray:#f4ede1;--text-color:#302d2a;--white:#fffdf8;--header-height:72px;--evergreen:#143e34;--gold:#e6bc79;--paper:#fffdf8;--line:#e6dccc}
+body{background:#f7f1e6;color:#302d2a;-webkit-font-smoothing:antialiased} h1,h2,h3{color:#173e34} h2{font-size:clamp(2rem,4.4vw,3.5rem);line-height:1.08}
+section{padding:clamp(3.5rem,7vw,6.5rem) 1.5rem}.container{max-width:1160px}
+.site-header{background:#102e28;box-shadow:0 4px 20px #0002;border:0;padding-inline:clamp(12px,4vw,48px)}.site-header h1{color:#ffe1aa;letter-spacing:-.04em}.main-nav-desktop a,.mobile-menu-btn{color:#fff5df}.mobile-nav{background:#fffdf8}.social-icons a{display:grid;place-items:center;width:37px;height:37px;border:1px solid #d9b67a55;border-radius:50%;background:#fffdf8}.social-icons img{width:21px;height:21px}
+.christmas-decor{display:none}
+.hero-section{height:auto;min-height:clamp(680px,91svh,880px);padding:calc(var(--header-height) + 55px) 2rem 140px;position:relative;isolation:isolate;overflow:hidden;background:#0a221f}
+.hero-section::after{z-index:-1;background:linear-gradient(90deg,#081f1bef 0%,#102d28e8 33%,#122b2699 57%,#0b221d26 100%),linear-gradient(0deg,#071b18 0%,transparent 45%)!important}
+.hero-slides{z-index:-2}.hero-slide{object-position:72% center}
+.hero-content{z-index:2;position:relative;text-align:left;width:min(1160px,100%);padding:0;animation:none}
+.hero-content::before{display:none}.hero-content h2{font-size:clamp(3.2rem,7.3vw,6.8rem);line-height:.99;letter-spacing:-.055em;color:#fff7e7;text-shadow:0 8px 50px #00150e90;max-width:730px;margin:1.3rem 0 1.4rem}.hero-content h2 em{color:#e9bd78;font-style:italic;font-weight:400}
+.hero-content p{color:#f0e7d7;font-size:clamp(.96rem,1.7vw,1.12rem);max-width:480px}.holiday-kicker{display:inline-flex;align-items:center;gap:.6rem;color:#f6d6a0;letter-spacing:.16em;font-size:.7rem;text-transform:uppercase;font-weight:700}.holiday-kicker::before{content:'✦';font-size:1.1rem}
+.hero-note{display:block;color:#e9d7ba;font-size:.78rem;margin-top:20px}.visit-counter-badge{display:none}
+.cta-button,.submit-button,#pinterest-submit,#ai-prompt-submit,#avaliacoes a{background:linear-gradient(135deg,#a23c54,#752a43)!important;color:#fff!important;border:1px solid #ce8091!important;border-radius:12px!important;box-shadow:0 5px 0 #552035,0 13px 25px #48203033!important;font-weight:700}
+.cta-button{padding:17px 27px;margin-top:30px}.cta-button:hover,.submit-button:hover{filter:brightness(1.1)}.submit-button:disabled{opacity:.55}
+.wonder-land{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.wonder-land svg{position:absolute;bottom:-2px;left:0;width:100%;height:auto;min-height:125px;max-height:42%;overflow:visible}
+.wonder-moon{position:absolute;top:17%;right:15%;width:clamp(75px,10vw,150px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 37% 36%,#fff7d6,#eac184 73%);box-shadow:0 0 60px #f4d29b55;opacity:.88}
+.wonder-star,.wonder-flake{position:absolute;left:var(--x);top:var(--y);font-size:var(--s);color:#ffe4ae;opacity:.8;text-shadow:0 0 15px #ffcf78;animation:wonderTwinkle 3s ease-in-out infinite alternate;animation-delay:var(--d)}
+.wonder-flake{color:#fff;top:-12%;animation:wonderSnow var(--t) linear infinite;animation-delay:var(--d);text-shadow:none;opacity:.65}
+@keyframes wonderTwinkle{from{opacity:.2;transform:scale(.8)}to{opacity:.9;transform:scale(1.13)}}
+@keyframes wonderSnow{to{transform:translate(34px,112vh) rotate(85deg)}}
+.hero-pause{z-index:4;bottom:18px}
+.holiday-ribbon{background:#102e28;color:#f5d6a0;border-block:1px solid #d5ae7355;display:flex;align-items:center;justify-content:center;gap:18px;text-align:center;padding:17px 10px;font-size:.68rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.wonder-intro{background:#fffdf8;padding:28px 16px;border-bottom:1px solid var(--line)}
+.wonder-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;max-width:1050px;margin:auto}
+.wonder-links a{color:#173e34;text-decoration:none;display:flex;align-items:center;gap:13px;background:#f8f2e8;border:1px solid #e9dcc9;border-radius:16px;padding:15px;min-width:0}.wonder-links a i{display:grid;place-items:center;width:42px;height:42px;flex-shrink:0;border-radius:13px;background:#173e34;color:#ffe1aa;font-size:1rem}.wonder-links strong{display:block;font-size:.86rem}.wonder-links small{display:block;font-size:.68rem;color:#76695b}
+.about-section{background:#fffdf8}.about-content{max-width:900px}.about-text p{color:#665f57}.about-text ul{display:grid;gap:13px;grid-template-columns:repeat(2,minmax(0,1fr))}.about-text ul li{padding:15px 12px 15px 38px;background:#f7f2e8;border:1px solid var(--line);border-radius:12px;margin:0}.about-text ul li::before{left:13px;top:13px;color:#a23c54}
+.gallery-section{background:#f1e9d9;border-block:1px solid #e6d7c1}.gallery-grid{gap:18px;grid-template-columns:repeat(4,minmax(0,1fr))}.gallery-item{border-radius:100px 100px 9px 9px;padding:7px 7px 20px;background:#fffdf8;border:1px solid #d9bc8a;box-shadow:0 12px 28px #614f3320;animation:none}.gallery-item img{height:clamp(170px,25vw,330px);border-radius:92px 92px 5px 5px;display:block}
+#avaliacoes{background:linear-gradient(125deg,#153d33,#0d2822)!important}#avaliacoes h2{color:#ffdaa0!important}.pinterest-section{background:#fffdf8}
+.booking-section{background:radial-gradient(ellipse at 0% 5%,#edc07c29,transparent 48%),linear-gradient(140deg,#0e3129,#234a3e 62%,#102d27);padding:clamp(38px,7vw,90px) 20px}
+.booking-container{max-width:920px;padding:0}.booking-card{background:#fffdf8;border:1px solid #d9bc8a;border-radius:28px;padding:clamp(18px,4vw,46px);color:#302d2a;box-shadow:0 25px 70px #0005}
+.booking-card>.holiday-kicker{color:#815833;background:#f4ead8;padding:7px 15px;border-radius:99px;display:table;margin:0 auto 14px;font-size:.66rem}.booking-card>.holiday-kicker::before{display:none}
+.booking-card h2{color:#173e34;font-size:clamp(2.05rem,4.5vw,3.35rem);margin:0 0 12px}.booking-card h2::before{display:none}.booking-subtitle{color:#746b62;margin:10px 0 22px;font-size:.92rem}.attention-notice{background:#f7efe1!important;border:1px solid #e5d4b5!important;color:#644d31!important;border-radius:13px!important;font-size:.78rem}
+.booking-form{gap:15px}
+.journey-progress{margin:6px 0 14px}.journey-progress-head{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.73rem;font-weight:700;color:#617064;margin-bottom:9px}.journey-progress-track{height:5px;background:#e9e5d9;border-radius:20px;overflow:hidden}.journey-progress-track span{display:block;background:linear-gradient(90deg,#225d49,#bc985c);height:100%;width:0;transition:width .3s}
+.journey-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:13px 0 4px}.journey-rail div{text-align:center;color:#827970;font-size:.63rem;font-weight:600;min-width:0}.journey-rail i{display:grid;place-items:center;width:35px;height:35px;background:#f0eadf;border:1px solid #e1d5c3;color:#786c5c;border-radius:12px;margin:0 auto 5px;font-size:.83rem}.journey-rail div.is-current{color:#173e34}.journey-rail .is-current i{background:#173e34;color:#ffe4b5;border-color:#173e34;box-shadow:0 3px 10px #173e3430}.journey-rail .is-done i{background:#dcebe1;color:#1d6244;border-color:#c2d8c9}
+.journey-panel{display:grid;gap:16px;min-width:0}.journey-title{display:flex;align-items:center;gap:13px;margin:6px 0 2px}.journey-title>i{display:grid;place-items:center;width:48px;height:48px;flex-shrink:0;border-radius:16px;background:#e9f0e8;color:#225d49;font-size:1.15rem}.journey-title h3{font:700 1.13rem 'Montserrat',sans-serif;color:#173e34;line-height:1.3;margin:0}.journey-title p{font-size:.76rem;line-height:1.5;color:#756c62;margin-top:3px}
+.journey-panel[hidden],#bloco-anamnese>.journey-sub[hidden],#bloco-anamnese.journey-away{display:none!important}
+.journey-field{position:relative;display:grid;gap:6px;min-width:0}.journey-field>label{font-size:.77rem;font-weight:700;color:#263e34}.journey-field .input-group i{color:#537465;left:14px;pointer-events:none}.journey-field .styled-input{background:#fff!important;border:1px solid #ded6c9;border-radius:12px;min-height:54px;color:#302d2a;box-shadow:none;font-size:16px}.journey-field .styled-input:focus{border-color:#497b66;box-shadow:0 0 0 3px #39775a17}.journey-field .styled-input::placeholder{color:#8a827b}.journey-field .input-group i{font-size:1rem}
+.journey-identity-choice{background:none!important;box-shadow:none!important;border:0!important;padding:0!important}.journey-identity-choice>label{color:#263e34!important;font-size:.82rem!important}.journey-identity-choice>div{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px!important}.journey-identity-choice>div>label{display:grid;grid-template-columns:26px 1fr;align-items:center;gap:7px;background:#fff;border:1px solid #dfd7c9;border-radius:14px;padding:13px 10px;min-height:76px;color:#463f38!important;font-size:.8rem!important;line-height:1.35}.journey-identity-choice>div>label>i{font-size:1.15rem;color:#527965;grid-row:1/3;position:static!important;transform:none!important;display:block}.journey-identity-choice>div>label:has(input:checked){background:#eaf2eb;border-color:#56856b;box-shadow:0 0 0 1px #56856b}.journey-identity-choice>div>label>input{grid-column:2;margin:0;accent-color:#276047}
+#bloco-anamnese{background:transparent!important;border:0!important;padding:0!important;margin:0!important;border-radius:0!important;min-width:0}
+#bloco-anamnese>h3{display:none}#bloco-anamnese>.journey-sub{border:0!important;background:transparent!important;margin:0!important;padding:0!important}
+#bloco-anamnese>.journey-sub>h4{display:none}
+#bloco-anamnese .journey-question{display:grid!important;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;background:#fff;border:1px solid #e8e1d6!important;border-radius:13px;padding:13px!important;margin:0 0 9px!important;line-height:1.45!important;font-size:.83rem!important;color:#302d2a!important}
+.journey-question-text{display:flex;align-items:center;gap:9px;font-weight:600;min-width:0}.journey-question-text i{flex-shrink:0;width:28px;height:28px;display:grid;place-items:center;background:#f1ece3;color:#527965;border-radius:9px;font-size:.8rem}
+.journey-answers{display:flex;gap:5px;align-items:center}
+#bloco-anamnese .journey-answers label{position:relative;display:flex;align-items:center;justify-content:center;gap:5px;min-height:42px;min-width:66px;padding:8px!important;margin:0!important;border:1px solid #ded7cb;border-radius:10px;background:#fff;color:#635b52;font-size:.77rem;font-weight:600;cursor:pointer}
+#bloco-anamnese .journey-answers label input{position:absolute;width:1px;height:1px;opacity:0;margin:0}
+#bloco-anamnese .journey-answers label:has(input:focus-visible){outline:3px solid #bf9760;outline-offset:2px}
+#bloco-anamnese .journey-answers label:has(input:checked){background:#e8f1e9;border-color:#618b6e;color:#1b5638;box-shadow:0 0 0 1px #618b6e}
+#bloco-anamnese .journey-answers label:has(input[value="Sim"]:checked){background:#f8eada;border-color:#b98958;color:#6f451d;box-shadow:0 0 0 1px #b98958}
+#bloco-anamnese .journey-sub:last-child label{display:flex;align-items:center;gap:8px;background:#eaf2eb;border:1px solid #b9d1be;border-radius:10px;padding:12px!important;margin-top:10px;font-size:.84rem;color:#263e34}
+#bloco-anamnese input[type=checkbox]{accent-color:#225d49;width:20px;height:20px;flex-shrink:0}
+#bloco-anamnese .journey-field{margin-bottom:12px}.journey-question-help{font-size:.75rem;color:#71685f;margin:0 0 10px}
+.journey-navigation{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:5px}
+.journey-navigation button{font:700 .87rem 'Montserrat',sans-serif;border-radius:12px;padding:14px 18px;min-height:49px;cursor:pointer;border:1px solid #d9d1c3;background:#fff;color:#365343;display:flex;align-items:center;justify-content:center;gap:9px}
+.journey-navigation button[hidden]{display:none}.journey-navigation .journey-next{background:#173e34;color:#fff5e2;border-color:#173e34;flex:1;box-shadow:0 4px 0 #0e2d24}.journey-navigation .journey-next:active{transform:translateY(2px)}
+.journey-summary{background:#f3efe4;border:1px solid #e2d6c0;border-radius:16px;padding:15px;display:grid;gap:10px}.journey-summary div{display:flex;justify-content:space-between;gap:10px;align-items:start;font-size:.8rem;color:#5c554d}.journey-summary strong{text-align:right;overflow-wrap:anywhere;color:#173e34}
+.journey-error{color:#973749;font-size:.78rem;font-weight:600;min-height:0}.journey-error:empty{display:none}
+#bloco-pix-dezembro{background:#f8f0e0!important;border-color:#bd9a62!important}#bloco-pix-dezembro .styled-input{min-width:0}.submit-button{min-height:54px}
+.ai-chat-section{background:#f7f1e6}.ai-chat-window{background:#fffdf8;border:1px solid #e5d6be}.ai-bubble{background:#f1eee5}.user-bubble{background:#285646}.site-footer{background:#173e34}.site-footer h3{color:#ffe1aa}.site-footer p{color:#f3e4cb}.footer-bottom{background:#102e28;color:#d8c8ad}
+:focus-visible{outline:3px solid #bc985c;outline-offset:3px}
+@media(max-width:768px){:root{--header-height:68px}.site-header{padding:0 10px}.site-header h1{font-size:1.25rem}.social-icons{gap:5px}.social-icons a{width:30px;height:30px}.social-icons img{width:16px;height:16px}.hero-section{min-height:650px;padding:calc(var(--header-height) + 55px) 18px 105px}.hero-section::after{background:linear-gradient(90deg,#102e28eb,#102e28a8),linear-gradient(0deg,#071b18,transparent 55%)!important}.hero-content h2{font-size:clamp(3rem,11vw,4.8rem)}.wonder-moon{right:8%;top:17%;opacity:.55}.holiday-ribbon{gap:6px;font-size:.58rem;letter-spacing:.05em}.wonder-links{gap:6px}.wonder-links a{flex-direction:column;text-align:center;padding:9px 4px;gap:6px}.wonder-links a i{width:34px;height:34px}.wonder-links strong{font-size:.65rem}.wonder-links small{display:none}.about-text ul{grid-template-columns:1fr}.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.gallery-item img{height:clamp(160px,52vw,270px)}.booking-section{padding-inline:10px}.booking-card{border-radius:20px;padding:18px 13px}.journey-rail div{font-size:.6rem}.journey-title h3{font-size:1rem}.journey-title>i{width:42px;height:42px}.journey-question-text i{width:24px;height:24px;font-size:.7rem}.journey-question-text{gap:6px}.journey-answers{gap:4px}#bloco-anamnese .journey-question{padding:9px!important;gap:5px;font-size:.76rem!important}#bloco-anamnese .journey-answers label{min-width:53px;font-size:.7rem;min-height:44px;padding:5px!important}}
+@media(max-width:370px){#bloco-anamnese .journey-question{grid-template-columns:1fr}.journey-answers{justify-content:flex-end}.journey-identity-choice>div>label{font-size:.72rem!important}}
+@media(prefers-reduced-motion:reduce){.wonder-star,.wonder-flake{animation:none!important}.wonder-flake{display:none}.journey-progress-track span{transition:none}}
 
 </style>
 </head>
@@ -476,7 +339,7 @@ html[data-natal="aurora"] .cta-button{background:linear-gradient(130deg,#225c6a,
 
     <header class="site-header">
         <div class="header-container">
-            <h1 id="admin-trigger" style="cursor: pointer;" title="Acesso Restrito">Nicole Nails 💅</h1>
+            <h1 id="admin-trigger" style="cursor: pointer;" title="Acesso Restrito">Nicole Nails <span aria-hidden="true">✦</span></h1>
             <nav class="main-nav-desktop">
                 <a href="#inicio">Início</a>
                 <a href="#sobre">Sobre</a>
@@ -498,16 +361,15 @@ html[data-natal="aurora"] .cta-button{background:linear-gradient(130deg,#225c6a,
         <a href="#agendamento" onclick="toggleMenu()">Agendamento</a>
     </nav>
 
-    <div class="natal-lab" aria-label="Seletor de estilos de teste"><strong>✦ Nicole Nails · Laboratório de Natal</strong><label for="natal-theme">Escolha a versão</label><button type="button" id="natal-prev" aria-label="Versão anterior">‹</button><select id="natal-theme"><option value="matrix">01 · Matrix de Natal</option><option value="neon">02 · Neon Cyber</option><option value="ruby">03 · Rubi de Natal</option><option value="gold">04 · Black & Gold</option><option value="rose">05 · Rosé Chic</option><option value="snow">06 · Reino de Gelo</option><option value="forest">07 · Floresta Encantada</option><option value="midnight">08 · Noite Estrelada</option><option value="candy">09 · Candy Fashion</option><option value="aurora">10 · Aurora Boreal</option></select><button type="button" id="natal-next" aria-label="Próxima versão">›</button><small>10 conceitos · apenas para avaliação</small></div>
     <main>
         <section id="inicio" class="hero-section">
-            <div class="natal-fx" aria-hidden="true"><canvas id="natal-matrix"></canvas></div>
+            <div class="wonder-land" aria-hidden="true"><div class="wonder-moon"></div><svg viewBox="0 0 1440 300" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wonderSnow" x2="0" y2="1"><stop stop-color="#d5e0d6"/><stop offset="1" stop-color="#78998d"/></linearGradient><linearGradient id="wonderRoof" x2="0" y2="1"><stop stop-color="#fff6e7"/><stop offset="1" stop-color="#d2d9cf"/></linearGradient><g id="pine"><path d="M0 0L-18 34H-9L-29 65H-16L-39 100H-5V117H5V100H39L16 65H29L9 34H18Z" fill="#1a4c3e"/><path d="M0 0L-18 34H-5L-29 65H-12L-39 100H-24L0 65L-8 65L12 34H3Z" fill="#c5ddd1" opacity=".72"/></g><g id="house"><path d="M-28 0H28V50H-28Z" fill="#723e3b"/><path d="M-35 3L0 -31L35 3Z" fill="#542c2e"/><path d="M-39 3L0 -35L39 3L31 6L0 -24L-31 6Z" fill="url(#wonderRoof)"/><rect x="-18" y="10" width="13" height="16" rx="2" fill="#ffdc86"/><rect x="7" y="10" width="13" height="16" rx="2" fill="#ffdc86"/><rect x="-6" y="30" width="12" height="20" rx="5" fill="#3a2a28"/><path d="M-11 10V26M-18 18H-5M13 10V26M7 18H20" stroke="#b27d4b" stroke-width="1.5"/></g></defs><path d="M0 220Q200 115 420 202T850 188T1440 166V300H0Z" fill="#173e34"/><path d="M0 257Q250 180 470 234T880 219T1440 205V300H0Z" fill="url(#wonderSnow)" opacity=".94"/><g opacity=".94"><use href="#pine" transform="translate(42 132) scale(1.55)"/><use href="#pine" transform="translate(106 171) scale(1)"/><use href="#pine" transform="translate(190 195) scale(.7)"/><use href="#pine" transform="translate(960 161) scale(.95)"/><use href="#pine" transform="translate(1040 128) scale(1.3)"/><use href="#pine" transform="translate(1398 112) scale(1.65)"/><use href="#pine" transform="translate(1340 166) scale(1)"/></g><g><use href="#house" transform="translate(1110 225) scale(1.1)"/><use href="#house" transform="translate(1200 207) scale(1.42)"/><use href="#house" transform="translate(1290 230) scale(.9)"/></g><path d="M0 281Q230 258 465 286T920 276T1440 270V300H0Z" fill="#eef2e8"/><g fill="#f8d28b"><circle cx="42" cy="182" r="3"/><circle cx="54" cy="205" r="3"/><circle cx="29" cy="226" r="3"/><circle cx="1041" cy="182" r="3"/><circle cx="1025" cy="208" r="3"/><circle cx="1400" cy="163" r="4"/><circle cx="1384" cy="196" r="3"/><circle cx="1418" cy="220" r="3"/></g></svg></div>
             <div class="hero-content">
-                <span class="holiday-kicker">Coleção de Natal · Nicole Nails</span>
-                <h2>Um Natal de beleza<br>e brilho.</h2>
-                <p>Celebre as festas com unhas impecáveis, cuidado especial e toda a delicadeza que você merece.</p>
-                <a href="#agendamento" class="cta-button">Reserve seu horário <span aria-hidden="true">✦</span></a>
-                <span class="hero-note">Seu momento de autocuidado começa aqui.</span>
+                <span class="holiday-kicker">Nicole Nails · Natal Encantado</span>
+                <h2>O encanto começa<br><em>nas suas mãos.</em></h2>
+                <p>Entre em um mundo de luz, delicadeza e magia. Neste Natal, reserve um momento só seu.</p>
+                <a href="#agendamento" class="cta-button">Escolher meu horário <span aria-hidden="true">✦</span></a>
+                <span class="hero-note">Uma experiência especial para as festas de fim de ano.</span>
                 <br>
                 <!-- CONTADOR DE VISITAS -->
                 <div class="visit-counter-badge">
@@ -517,6 +379,7 @@ html[data-natal="aurora"] .cta-button{background:linear-gradient(130deg,#225c6a,
         </section>
 
         <div class="holiday-ribbon"><span>✦ Beleza</span><span>·</span><span>Cuidado</span><span>·</span><span>Magia de Natal ✦</span></div>
+        <div class="wonder-intro"><nav class="wonder-links" aria-label="Atalhos"><a href="#agendamento"><i class="far fa-calendar-alt" aria-hidden="true"></i><span><strong>Meu agendamento</strong><small>Escolha seu horário</small></span></a><a href="#galeria"><i class="far fa-images" aria-hidden="true"></i><span><strong>Inspiração</strong><small>Conheça nossos trabalhos</small></span></a><a href="#ajuda"><i class="far fa-comment-dots" aria-hidden="true"></i><span><strong>Assistente virtual</strong><small>Tire suas dúvidas</small></span></a></nav></div>
         <section id="sobre" class="about-section">
             <div class="container">
                 <div class="about-content">
@@ -592,8 +455,8 @@ html[data-natal="aurora"] .cta-button{background:linear-gradient(130deg,#225c6a,
             <div class="container booking-container">
                 <div class="booking-card">
                     <span class="holiday-kicker">Agenda de fim de ano</span>
-                    <h2>Seu momento especial</h2>
-                    <p class="booking-subtitle">Preencha seus dados, escolha o procedimento e reserve seu horário.</p>
+                    <h2>Reserve sua experiência</h2>
+                    <p class="booking-subtitle">Vamos preparar seu atendimento em algumas etapas simples.</p>
                     
                     <div class="attention-notice">
                         <strong>✨ Agendamento 100% Online e Prático!</strong>
@@ -1162,19 +1025,68 @@ html[data-natal="aurora"] .cta-button{background:linear-gradient(130deg,#225c6a,
         visitasElement.innerText = visitasAtuais.toLocaleString('pt-BR');
 
     </script>
-<script id="natal-lab-script">
+
+<script id="wonder-journey">
+
 (()=>{"use strict";
-const themes=[{"id":"matrix","tag":"NICOLE // CHRISTMAS EDITION","title":"O Natal entrou em outra dimensão.","sub":"Beleza em modo extraordinário. Descubra seu próximo visual para as festas."},{"id":"neon","tag":"AFTER DARK · HOLIDAY COLLECTION","title":"Acenda sua beleza.","sub":"Neon, brilho e uma dose de ousadia para a temporada mais iluminada do ano."},{"id":"ruby","tag":"THE RED CHRISTMAS COLLECTION","title":"Vermelho que deixa sua marca.","sub":"Clássico, intenso e irresistível. Seu Natal merece um toque de rubi."},{"id":"gold","tag":"PRIVATE HOLIDAY EDITION","title":"O luxo está nos detalhes.","sub":"Uma experiência de beleza exclusiva, em uma noite de ouro e luz."},{"id":"rose","tag":"CHRISTMAS IN BLOOM","title":"Um Natal cor de rosa.","sub":"Delicadeza, laços e brilho suave para celebrar a sua beleza."},{"id":"snow","tag":"FROSTED BEAUTY · WINTER EDITION","title":"Brilhe como a primeira neve.","sub":"Uma coleção de inverno iluminada, delicada e cheia de encanto."},{"id":"forest","tag":"THE ENCHANTED CHRISTMAS","title":"Onde a magia floresce.","sub":"Entre luzes douradas e verdes profundos, descubra um Natal encantado."},{"id":"midnight","tag":"A MIDNIGHT CHRISTMAS DREAM","title":"Seu brilho, escrito nas estrelas.","sub":"Um Natal celestial, com luzes de uma noite que merece ser lembrada."},{"id":"candy","tag":"THE SWEET HOLIDAY CLUB","title":"Natal com atitude.","sub":"Uma temporada divertida, fashion e cheia de personalidade. Brilhe do seu jeito."},{"id":"aurora","tag":"AURORA · THE HOLIDAY EXPERIENCE","title":"A magia tem novas cores.","sub":"Um espetáculo de luz e beleza para transformar seu fim de ano."}];
-const select=document.getElementById('natal-theme'),root=document.documentElement,hero=document.querySelector('.hero-section'),fx=hero.querySelector('.natal-fx'),canvas=document.getElementById('natal-matrix'),ctx=canvas.getContext('2d'),motion=matchMedia('(prefers-reduced-motion: reduce)');
-let current=0,frame=0,last=0,drops=[],w=0,h=0,raf=0;
-for(let i=0;i<26;i++){const star=document.createElement('span');star.className='sparkle';star.textContent=i%4===0?'❄':'✦';star.style.setProperty('--x',((i*37+9)%97)+'%');star.style.setProperty('--y',((i*19+6)%93)+'%');star.style.setProperty('--s',(i%5+7)+'px');star.style.setProperty('--d',-(i%7)*.5+'s');fx.append(star)}
-function resize(){if(!ctx)return;const r=hero.getBoundingClientRect();w=Math.max(1,Math.floor(r.width));h=Math.max(1,Math.floor(r.height));canvas.width=w;canvas.height=h;drops=Array.from({length:Math.ceil(w/20)},()=>Math.floor(Math.random()*h/20));}
-function stop(){cancelAnimationFrame(raf);raf=0;}
-function animate(now){if(root.dataset.natal!=='matrix'||motion.matches||document.hidden||!ctx){raf=0;return}raf=requestAnimationFrame(animate);if(now-last<85)return;last=now;ctx.fillStyle='rgba(3,16,10,.16)';ctx.fillRect(0,0,w,h);ctx.font='14px monospace';ctx.fillStyle='#65ff91';const symbols='01✦❄NOEL★';drops.forEach((y,i)=>{ctx.fillText(symbols[Math.floor(Math.random()*symbols.length)],i*20,y*20);if(y*20>h&&Math.random()>.93)drops[i]=0;else drops[i]++})}
-function start(){stop();if(root.dataset.natal==='matrix'&&!motion.matches&&!document.hidden&&ctx){resize();raf=requestAnimationFrame(animate)}}
-function apply(id,updateUrl=true){current=themes.findIndex(t=>t.id===id);if(current<0)current=0;const t=themes[current];root.dataset.natal=t.id;select.value=t.id;hero.querySelector('.holiday-kicker').textContent=t.tag;hero.querySelector('h2').textContent=t.title;hero.querySelector('.hero-content p').textContent=t.sub;if(updateUrl){const u=new URL(location.href);u.searchParams.set('tema',t.id);history.replaceState(null,'',u)}start()}
-select.addEventListener('change',()=>apply(select.value));document.getElementById('natal-prev').addEventListener('click',()=>apply(themes[(current+themes.length-1)%themes.length].id));document.getElementById('natal-next').addEventListener('click',()=>apply(themes[(current+1)%themes.length].id));window.addEventListener('resize',()=>{if(root.dataset.natal==='matrix')resize()});document.addEventListener('visibilitychange',start);motion.addEventListener('change',start);apply(new URL(location.href).searchParams.get('tema')||'matrix',false);
+const hero=document.querySelector('.wonder-land');
+if(hero){for(let i=0;i<35;i++){const s=document.createElement('span');s.className=i<18?'wonder-star':'wonder-flake';s.textContent=i<18?'✦':'❄';s.style.setProperty('--x',((i*37+8)%98)+'%');s.style.setProperty('--y',((i*23+5)%77)+'%');s.style.setProperty('--s',(i%5+7)+'px');s.style.setProperty('--d',-(i%11)*1.1+'s');s.style.setProperty('--t',(10+i%8)+'s');hero.append(s)}}
+const form=document.getElementById('form-agendamento'),ana=document.getElementById('bloco-anamnese');
+if(!form||!ana)return;
+const by=id=>document.getElementById(id),make=(tag,cls)=>{const n=document.createElement(tag);if(cls)n.className=cls;return n};
+const phone=by('whatsapp_cliente'),name=by('nome'),service=by('servico'),date=by('data'),time=by('horario'),accept=by('ana_aceite'),submit=by('btn-agendar'),pix=by('bloco-pix-dezembro'),coupon=by('cupom_desconto'),vip=by('alerta-vip');
+if(![phone,name,service,date,time,accept,submit,pix,coupon,vip].every(Boolean))return;
+const choice=form.querySelector('input[name="primeira_vez"]').closest('.input-group'),subs=Array.from(ana.children).filter(n=>n.tagName==='DIV');
+if(subs.length!==5)return;
+const icon=(cls)=>{const i=make('i',cls);i.setAttribute('aria-hidden','true');return i};
+const field=(node,label,ico)=>{const group=node.closest('.input-group')||node;const outer=make('div','journey-field');group.before(outer);const l=make('label');l.htmlFor=node.id;l.textContent=label;outer.append(l,group);if(ico){const i=group.querySelector('i');if(i)i.className=ico}return outer};
+const plainField=(node,label)=>{const outer=make('div','journey-field');node.before(outer);const l=make('label');l.htmlFor=node.id;l.textContent=label;outer.append(l,node)};
+const heading=(title,desc,ico)=>{const h=make('div','journey-title'),text=make('div'),t=make('h3'),p=make('p');t.textContent=title;p.textContent=desc;text.append(t,p);h.append(icon(ico),text);return h};
+const identity=make('div','journey-panel'),schedule=make('div','journey-panel'),review=make('div','journey-panel');
+const pfield=field(phone,'WhatsApp para contato','fab fa-whatsapp'),nfield=field(name,'Nome completo','far fa-id-badge');
+choice.classList.add('journey-identity-choice');
+choice.querySelectorAll('div>label').forEach((label,i)=>label.prepend(icon(i?'far fa-heart':'far fa-star')));
+form.insertBefore(identity,choice);
+identity.append(heading('Vamos nos conhecer','Informe seus dados para localizar ou criar seu cadastro.','far fa-user-circle'),pfield,nfield,choice,vip);
+const sfield=field(service,'Qual procedimento você deseja?','fas fa-spa'),dfield=field(date,'Qual é o melhor dia para você?','far fa-calendar-alt'),tfield=field(time,'Escolha um horário disponível','far fa-clock'),cfield=field(coupon,'Cupom de desconto (opcional)','fas fa-ticket-alt');
+form.insertBefore(schedule,sfield);
+schedule.append(heading('Seu momento no studio','Escolha o serviço, a data e um horário da agenda.','far fa-calendar-check'),sfield,dfield,tfield);
+form.insertBefore(review,pix);
+const summary=make('div','journey-summary');
+review.append(heading('Confira sua pré-reserva','Revise as informações antes de confirmar.','fas fa-clipboard-check'),summary,cfield,pix,submit);
+const subInfo=[
+['Sobre você','Essas informações ajudam a personalizar seu atendimento.','far fa-address-card'],
+['Cuidados com sua saúde','Revise todas as respostas e selecione o que se aplica a você.','fas fa-heartbeat'],
+['Alergias e sensibilidades','Conte se já teve alguma reação aos materiais.','fas fa-shield-alt'],
+['Suas unhas e sua rotina','Conhecer seus hábitos ajuda a escolher os cuidados adequados.','fas fa-spa'],
+['Consentimento','Leia o termo original e marque a opção se estiver de acordo.','fas fa-file-signature']];
+const questionIcons=['fas fa-heart','fas fa-tint','fas fa-stethoscope','fas fa-notes-medical','fas fa-pills','fas fa-exclamation-circle','fas fa-flask','fas fa-shield-alt','fas fa-hand-paper','fas fa-tint','fas fa-leaf','fas fa-band-aid','fas fa-flask','fas fa-running'];
+let qi=0;
+subs.forEach((sub,i)=>{sub.classList.add('journey-sub');sub.prepend(heading(...subInfo[i]));if(i===0){plainField(by('ana_data_nasc'),'Data de nascimento');plainField(by('ana_profissao'),'Profissão');plainField(by('ana_origem'),'Como conheceu o studio?')}if(i===1)plainField(by('ana_qual_med'),'Se usa medicamento, qual?');
+Array.from(sub.children).filter(n=>n.querySelector('input[type=radio]')&&!n.classList.contains('journey-title')).forEach(row=>{const labels=Array.from(row.querySelectorAll('label'));if(labels.length!==2)return;const text=Array.from(row.childNodes).filter(n=>n.nodeType===3).map(n=>n.textContent).join(' ').trim();const title=make('span','journey-question-text');title.id='journey-question-'+qi;title.append(icon(questionIcons[qi++]||'far fa-heart'),document.createTextNode(text));const opts=make('div','journey-answers');opts.setAttribute('role','group');opts.setAttribute('aria-labelledby',title.id);labels.forEach(l=>{const radio=l.querySelector('input');l.replaceChildren(radio,icon(radio.value==='Sim'?'fas fa-check':'fas fa-times'),document.createTextNode(radio.value));opts.append(l)});row.replaceChildren(title,opts);row.classList.add('journey-question')})});
+const progress=make('div','journey-progress'),ph=make('div','journey-progress-head'),counter=make('span'),phaseLabel=make('span'),track=make('div','journey-progress-track'),bar=make('span'),rail=make('div','journey-rail');
+ph.append(counter,phaseLabel);track.append(bar);progress.append(ph,track,rail);
+const phases=[['far fa-user','Identificação'],['fas fa-heartbeat','Ficha de saúde'],['far fa-calendar-alt','Horário'],['fas fa-check','Revisão']];
+phases.forEach(([ico,label])=>{const n=make('div');n.append(icon(ico),document.createTextNode(label));rail.append(n)});
+form.prepend(progress);
+const err=make('p','journey-error');err.setAttribute('role','alert');const nav=make('div','journey-navigation'),prev=make('button'),next=make('button','journey-next');prev.type=next.type='button';prev.append(icon('fas fa-arrow-left'),document.createTextNode('Voltar'));next.append(document.createTextNode('Continuar'),icon('fas fa-arrow-right'));nav.append(prev,next);form.append(err,nav);
+let current='identity';
+function steps(){return ['identity',...(ana.style.display==='none'?[]:subs.map((_,i)=>'ana'+i)),'schedule','review']}
+function writeSummary(){const values=[['Nome',name.value],['WhatsApp',phone.value],['Procedimento',service.value],['Data',date.value.split('-').reverse().join('/')],['Horário',time.value]];summary.replaceChildren();values.forEach(([key,value])=>{const row=make('div'),label=make('span'),v=make('strong');label.textContent=key;v.textContent=value||'—';row.append(label,v);summary.append(row)})}
+function show(step,scroll=false){let all=steps();if(!all.includes(step))step='identity';current=step;identity.hidden=step!=='identity';schedule.hidden=step!=='schedule';review.hidden=step!=='review';ana.classList.toggle('journey-away',!step.startsWith('ana'));subs.forEach((n,i)=>n.hidden=step!=='ana'+i);const pos=all.indexOf(step);const phase=step==='identity'?0:step.startsWith('ana')?1:step==='schedule'?2:3;counter.textContent='Etapa '+(pos+1)+' de '+all.length;phaseLabel.textContent=phases[phase][1];bar.style.width=((pos+1)/all.length*100)+'%';Array.from(rail.children).forEach((n,i)=>{n.classList.toggle('is-current',i===phase);n.classList.toggle('is-done',i<phase);if(i===phase)n.setAttribute('aria-current','step');else n.removeAttribute('aria-current')});prev.hidden=pos===0;next.hidden=step==='review';err.textContent='';if(step==='review')writeSummary();if(scroll){progress.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});const h=(step==='identity'?identity:step==='schedule'?schedule:step==='review'?review:subs[Number(step.slice(3))]).querySelector('.journey-title h3');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}
+function valid(step){if(step==='identity'){if(phone.value.replace(/\D/g,'').length<9){err.textContent='Informe um WhatsApp válido com DDD.';phone.focus();return false}if(!name.value.trim()){err.textContent='Informe seu nome completo.';name.focus();return false}}
+if(step==='ana4'&&accept.required&&!accept.checked){err.textContent='Leia e aceite o termo para continuar.';accept.focus();return false}
+if(step==='schedule'){if(!service.value){err.textContent='Escolha o procedimento.';service.focus();return false}if(!date.value){err.textContent='Escolha uma data.';(date._flatpickr?.altInput||date).focus();return false}if(time.disabled||!time.value||!/^\d{1,2}:\d{2}$/.test(time.value)){err.textContent='Selecione um horário disponível na agenda.';if(!time.disabled)time.focus();return false}}return true}
+next.addEventListener('click',()=>{if(!valid(current))return;const all=steps();const target=all[all.indexOf(current)+1];if(target)show(target,true)});
+prev.addEventListener('click',()=>{const all=steps();const target=all[all.indexOf(current)-1];if(target)show(target,true)});
+new MutationObserver(()=>{if(!steps().includes(current))show('identity');else if(current==='identity')show(current)}).observe(ana,{attributes:true,attributeFilter:['style']});
+form.addEventListener('invalid',e=>{const el=e.target;const step=identity.contains(el)?'identity':schedule.contains(el)?'schedule':subs.findIndex(n=>n.contains(el))>=0?'ana'+subs.findIndex(n=>n.contains(el)):'review';if(current!==step)show(step);},true);
+form.addEventListener('keydown',e=>{if(e.key==='Enter'&&current!=='review'&&e.target.matches('input:not([type=radio]):not([type=checkbox])')&&!e.target.classList.contains('flatpickr-input')){e.preventDefault();next.click()}});
+form.addEventListener('submit',e=>{if(current!=='review'){e.preventDefault();e.stopImmediatePropagation();next.click();return}for(const step of steps().filter(s=>s!=='review')){show(step);if(!valid(step)){e.preventDefault();e.stopImmediatePropagation();return}}show('review')},true);
+form.addEventListener('reset',()=>setTimeout(()=>show('identity'),0));
+show('identity');
 })();
+
 </script>
 </body>
 </html>
