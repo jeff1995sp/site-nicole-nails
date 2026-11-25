@@ -14,7 +14,7 @@ for(const [key,val] of Object.entries(v.services||{}).slice(0,20)){if(key.length
 return out}
 export default async function handler(req){
 const secret=process.env.NICOLE_ADMIN_KEY||"";
-const scope=process.env.CONTEXT==="production"?"prod":"preview";
+const scope=process.env.NICOLE_STORAGE_SCOPE==="production"?"prod":"preview";
 const store=getStore({name:"nicole-studio-"+scope,consistency:"strong"});
 const url=new URL(req.url),action=url.searchParams.get("action")||"settings";
 try{
