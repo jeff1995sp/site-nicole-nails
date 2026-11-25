@@ -10,15 +10,17 @@ if(!pub||!priv||!contact)return reply({error:"Lembretes ainda não ativados pelo
 if(req.method==="GET")return reply({publicKey:pub});
 if(req.method!=="POST")return reply({error:"Método inválido."},405);
 try{if(Number(req.headers.get("content-length")||0)>8000)return reply({error:"Dados inválidos."},413);
-const {action,subscription,date,time}=await req.json();if(!validSub(subscription))return reply({error:"Navegador incompatível com lembretes."},400);
+const {action,subscription,date,time,stage}=await req.json();if(!validSub(subscription))return reply({error:"Navegador incompatível com lembretes."},400);
 const store=getStore({name:"nicole-push-"+(process.env.NICOLE_STORAGE_SCOPE==="production"?"prod":"preview"),consistency:"strong"});
 const key=createHash("sha256").update(subscription.endpoint+"|"+subscription.keys.auth).digest("hex");
 if(action==="cancel"){await store.delete(key);return reply({ok:true})}
 webpush.setVapidDetails(contact,pub,priv);
-if(action==="test"){await webpush.sendNotification(subscription,JSON.stringify({test:true}),{TTL:60,timeout:8000});return reply({ok:true})}
+if(action==="test"){await webpush.sendNotification(subscription,JSON.stringify({test:true,stage:stage==="24h"?"24h":stage==="2h"?"2h":"welcome"}),{TTL:60,timeout:8000});return reply({ok:true})}
 if(action!=="schedule"||!/^\d{4}-\d{2}-\d{2}$/.test(date)||!/^\d{1,2}:\d{2}$/.test(time))return reply({error:"Horário inválido."},400);
 const appointment=Date.parse(date+"T"+time.padStart(5,"0")+":00-03:00"),now=Date.now();if(!Number.isFinite(appointment)||appointment<=now||appointment>now+366*86400000)return reply({error:"Data fora do período permitido."},400);
-await store.setJSON(key,{subscription,appointment,due:Math.max(now,appointment-3600000)});
-return reply({ok:true})
+const pending=[{stage:"24h",due:appointment-24*3600000},{stage:"2h",due:appointment-2*3600000}].filter(x=>x.due>now);
+if(!pending.length){await store.delete(key);return reply({ok:true,scheduled:0})}
+await store.setJSON(key,{subscription,appointment,pending});
+return reply({ok:true,scheduled:pending.length})
 }catch{return reply({error:"Não foi possível ativar o lembrete."},502)}
 }
