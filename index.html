@@ -580,6 +580,7 @@ html:not(.nn-seasonal) .nn-reminder-top::before{top:6px}html:not(.nn-seasonal) .
 .nn-book-calendar .flatpickr-day.flatpickr-disabled{color:#aaa2a0!important}
 @media(max-width:600px){.nn-procedure-grid{grid-template-columns:1fr}.nn-procedure-card{min-height:64px}.nn-procedure-text strong{font-size:1.05rem}.nn-idea-box{padding:12px}.nn-book-calendar.open{position:fixed!important;top:50%!important;left:50%!important;transform:translate(-50%,-50%);z-index:99999!important}.nn-book-calendar:before,.nn-book-calendar:after{display:none}}
 </style>
+<style id="nn-multi-procedures">.nn-multi-help{font-size:.78rem;line-height:1.55;color:#735c52;margin:5px 0 10px}.nn-multi-total{border:1px solid var(--nn-proc-gold);border-radius:12px;background:var(--nn-proc-paper);padding:12px 14px;color:var(--nn-proc-accent);font-weight:700;font-size:.9rem;margin-top:12px}.nn-multi-contact{display:block;width:100%;padding:13px 15px;border-radius:12px;border:1px solid #d6b478;background:#236449;color:#fff;font:700 1rem 'Mountains of Christmas',Georgia,serif;cursor:pointer}.nn-multi-contact[hidden]{display:none!important}.nn-procedure-card[aria-pressed=true]{background:#f8e9db}.nn-procedure-card[aria-pressed=true] .nn-procedure-check{background:var(--nn-proc-accent);color:white}</style>
 </head>
 <body>
 
@@ -814,6 +815,8 @@ html:not(.nn-seasonal) .nn-reminder-top::before{top:6px}html:not(.nn-seasonal) .
                                 <option>Alongamento Podal – 2h</option>
                                 <option>Alongamento + Pedicure – 4h</option>
                                 <option>Esmaltação – 30min</option>
+                                <option>Designer personalizado simples – 1h</option>
+                                <option>Designer personalizado com henna – 1h</option>
                             </select>
                         </div>
 
@@ -1013,26 +1016,42 @@ generate.onclick=async()=>{const description=el("nn-idea").value.trim();if(descr
         const dataNascInput = document.getElementById("ana_data_nasc");
         if(studioConfig?.services){const configured=studioConfig.services,originals=new Set(Array.from(servicoSelect.options,o=>o.value));function labelService(name,s){const mins=Number(s.duration)||60;const duration=(mins>=60?Math.floor(mins/60)+"h":"")+(mins%60?mins%60+"min":"");return name.replace(/\s+–\s+\d+h?(?:\d+min)?$|\s+–\s+\d+min$/,"")+" · "+duration+(s.price>0?" · "+s.price.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"")}Array.from(servicoSelect.options).forEach(o=>{const s=configured[o.value];if(!s||!o.value)return;if(s.active===false){o.remove();return}const original=o.value;o.value=original;o.textContent=labelService(original,s)});for(const [name,s] of Object.entries(configured)){if(originals.has(name)||s.active!==true)continue;const option=document.createElement("option");option.value=name;option.textContent=labelService(name,s);servicoSelect.append(option)}}
 
-        // Cartões de procedimentos: o valor original permanece no select para a agenda.
+        // Seleção múltipla com duração total. Até integrar Apps Script, combos e serviços novos exigem confirmação humana.
+        const nnSelected=new Set();
+        const nnLegacyServices=new Set(["Manicure – 1h30min","Pedicure – 1h30min","Manicure & Pedicure – 2h30min","Spa dos Pés – 2h","Alongamento na Tip – 2h30min","Alongamento na Fibra – 3h","Manutenção – 1h30min","Alongamento Podal – 2h","Alongamento + Pedicure – 4h","Esmaltação – 30min"]);
+        const nnOriginalMinutes={"Manicure – 1h30min":90,"Pedicure – 1h30min":90,"Manicure & Pedicure – 2h30min":150,"Spa dos Pés – 2h":120,"Alongamento na Tip – 2h30min":150,"Alongamento na Fibra – 3h":180,"Manutenção – 1h30min":90,"Alongamento Podal – 2h":120,"Alongamento + Pedicure – 4h":240,"Esmaltação – 30min":30,"Designer personalizado simples – 1h":60,"Designer personalizado com henna – 1h":60};
+        const nnMinutes=name=>Number(studioConfig?.services?.[name]?.duration)||nnOriginalMinutes[name]||60;
+        const nnDuration=mins=>[Math.floor(mins/60)?Math.floor(mins/60)+"h":"",mins%60?mins%60+"min":""].filter(Boolean).join(" ")||"0min";
+        const nnNeedsContact=()=>nnSelected.size>1||Array.from(nnSelected).some(n=>!nnLegacyServices.has(n)||nnMinutes(n)!==nnOriginalMinutes[n]);
         function montarProcedimentos(){
           const group=servicoSelect.closest(".input-group")||servicoSelect.parentElement;
           const panel=document.createElement("div");panel.className="nn-procedure-picker";
-          const grid=document.createElement("div");grid.className="nn-procedure-grid";grid.setAttribute("role","group");grid.setAttribute("aria-label","Procedimentos disponíveis");panel.append(grid);
+          const help=document.createElement("p");help.className="nn-multi-help";help.textContent="Escolha um ou mais procedimentos para seu atendimento.";panel.append(help);
+          const grid=document.createElement("div");grid.className="nn-procedure-grid";grid.setAttribute("role","group");grid.setAttribute("aria-label","Selecione um ou mais procedimentos");panel.append(grid);
+          const total=document.createElement("div");total.className="nn-multi-total";total.setAttribute("aria-live","polite");panel.append(total);
+          const msg=document.createElement("p");msg.className="nn-multi-help";panel.append(msg);
+          const contact=document.createElement("button");contact.type="button";contact.className="nn-multi-contact";contact.textContent="✦ Solicitar horário pelo WhatsApp";contact.hidden=true;panel.append(contact);
+          contact.onclick=()=>{const name=nomeInput.value.trim(),zap=normalizarZap(zapInput.value);if(!name||!/^\d{10,11}$/.test(zap)){alert("Preencha seu nome e WhatsApp na primeira etapa.");return}const date=dataInput.value?dataInput.value.split("-").reverse().join("/"):"a combinar";const list=[...nnSelected].map(n=>"• "+n.replace(/\s+–\s+.*$/,"")+" ("+nnDuration(nnMinutes(n))+")").join("\n");const message="Oi Nicole! Quero consultar disponibilidade para estes procedimentos:\n"+list+"\nTempo estimado: "+nnDuration([...nnSelected].reduce((a,n)=>a+nnMinutes(n),0))+"\nData desejada: "+date+"\nNome: "+name+"\nWhatsApp: "+zap+"\nPodemos combinar um horário?";window.open("https://wa.me/5511913554213?text="+encodeURIComponent(message),"_blank","noopener,noreferrer")};
           const cards=[];
           for(const o of Array.from(servicoSelect.options)){if(!o.value||o.disabled)continue;
             const card=document.createElement("button");card.type="button";card.className="nn-procedure-card";card.dataset.value=o.value;card.setAttribute("aria-pressed","false");
-            const ico=document.createElement("span");ico.className="nn-procedure-icon";ico.setAttribute("aria-hidden","true");ico.textContent=/pedicure|podal|pés/i.test(o.value)?"❄":/alongamento|fibra|tip/i.test(o.value)?"✧":"✦";
+            const ico=document.createElement("span");ico.className="nn-procedure-icon";ico.setAttribute("aria-hidden","true");ico.textContent=/designer/i.test(o.value)?"✧":/pedicure|podal|pés/i.test(o.value)?"❄":/alongamento|fibra|tip/i.test(o.value)?"✧":"✦";
             const content=document.createElement("span"),title=document.createElement("strong"),detail=document.createElement("small");content.className="nn-procedure-text";
-            const label=o.textContent.trim(),parts=label.includes(" · ")?label.split(" · "):label.split(/\s+–\s+/);title.textContent=parts.shift();detail.textContent=parts.join(" · ")||"Consulte o studio";content.append(title,detail);
+            title.textContent=o.value.replace(/\s+–\s+\d.*$/,"");const price=Number(studioConfig?.services?.[o.value]?.price)||0;detail.textContent=nnDuration(nnMinutes(o.value))+(price>0?" · "+price.toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):"");content.append(title,detail);
             const check=document.createElement("span");check.className="nn-procedure-check";check.textContent="✓";check.setAttribute("aria-hidden","true");
             card.append(ico,content,check);grid.append(card);cards.push(card);
-            card.onclick=()=>{servicoSelect.value=o.value;servicoSelect.dispatchEvent(new Event("change",{bubbles:true}));sync();};
+            card.onclick=()=>{if(nnSelected.has(o.value))nnSelected.delete(o.value);else nnSelected.add(o.value);servicoSelect.value=[...nnSelected][0]||"";servicoSelect.dispatchEvent(new Event("change",{bubbles:true}));};
           }
-          function sync(){for(const card of cards)card.setAttribute("aria-pressed",String(card.dataset.value===servicoSelect.value))}
-          if(!cards.length){grid.textContent="Nenhum procedimento disponível no momento."}
+          function sync(){for(const card of cards)card.setAttribute("aria-pressed",String(nnSelected.has(card.dataset.value)));
+            const names=[...nnSelected],minutes=names.reduce((a,n)=>a+nnMinutes(n),0),prices=names.map(n=>Number(studioConfig?.services?.[n]?.price)||0);
+            total.textContent=names.length?names.length+" procedimento(s) · "+nnDuration(minutes)+(prices.every(p=>p>0)?" · "+prices.reduce((a,p)=>a+p,0).toLocaleString("pt-BR",{style:"currency",currency:"BRL"}):""):"Nenhum procedimento selecionado";
+            contact.hidden=!nnNeedsContact();msg.textContent=nnNeedsContact()?"Para reservar o tempo completo, combine o horário com a Nicole pelo WhatsApp. Nenhuma vaga é bloqueada automaticamente.":"";
+          }
+          if(!cards.length)grid.textContent="Nenhum procedimento disponível no momento.";
           group.after(panel);group.classList.add("nn-procedure-original");servicoSelect.tabIndex=-1;servicoSelect.setAttribute("aria-hidden","true");
-          servicoSelect.addEventListener("focus",()=>{(cards.find(x=>x.dataset.value===servicoSelect.value)||cards[0])?.focus()});
-          servicoSelect.addEventListener("change",sync);formAgendamento.addEventListener("reset",()=>setTimeout(sync,0));sync();
+          servicoSelect.addEventListener("focus",()=>{(cards.find(x=>nnSelected.has(x.dataset.value))||cards[0])?.focus()});
+          servicoSelect.addEventListener("change",sync);formAgendamento.addEventListener("reset",()=>{nnSelected.clear();setTimeout(sync,0)});sync();
+          window.nnCombinedService=nnNeedsContact;window.nnSelectedServiceText=()=>[...nnSelected].join(" + ");
         }
         montarProcedimentos();
 
@@ -1121,7 +1140,11 @@ generate.onclick=async()=>{const description=el("nn-idea").value.trim();if(descr
         });
 
         // GOOGLE CALENDAR
+        let nnAvailabilitySequence=0;
         function buscarHorarios() {
+            const seq=++nnAvailabilitySequence;
+            horarioSelect.disabled=true;horarioSelect.innerHTML='<option value="">Selecione o procedimento e a data</option>';
+            if(nnNeedsContact()){horarioSelect.innerHTML='<option value="">Horário a combinar com a Nicole</option>';return;}
             const data = dataInput.value;
             const servico = servicoSelect.value;
             if (!data || !servico) return;
@@ -1132,6 +1155,7 @@ generate.onclick=async()=>{const description=el("nn-idea").value.trim();if(descr
             fetch(`${SCRIPT_URL}?data=${data}&servico=${encodeURIComponent(servico)}`)
                 .then(r => r.json())
                 .then(horarios => {
+                    if(seq!==nnAvailabilitySequence)return;
                     horarioSelect.innerHTML = '<option value="" disabled selected>Selecione</option>';
                     const hoje = new Date().toISOString().split('T')[0];
                     const agora = new Date();
@@ -1147,7 +1171,7 @@ generate.onclick=async()=>{const description=el("nn-idea").value.trim();if(descr
                         horarioSelect.disabled = horarioSelect.options.length <= 1;
                     } else horarioSelect.innerHTML = '<option>Lotado :(</option>';
                 })
-                .catch(() => horarioSelect.innerHTML = '<option>Erro na agenda</option>');
+                .catch(() => {if(seq===nnAvailabilitySequence)horarioSelect.innerHTML = '<option>Erro na agenda</option>'});
         }
 
         servicoSelect.addEventListener("change", buscarHorarios);
@@ -1172,6 +1196,7 @@ generate.onclick=async()=>{const description=el("nn-idea").value.trim();if(descr
         // SALVAMENTO REALTIME
         formAgendamento.addEventListener("submit", async function(e) {
             e.preventDefault();
+            if(nnNeedsContact()){alert("Solicite um horário pelo WhatsApp para reservar todos os procedimentos.");return;}
             
             if(!nomeInput.value || !servicoSelect.value || !dataInput.value || !horarioSelect.value || !zapInput.value) {
                 alert("Por favor, preencha todos os campos, incluindo seu WhatsApp!"); return;
@@ -1360,7 +1385,7 @@ choice.classList.add('journey-identity-choice');
 choice.querySelectorAll(':scope > div > label').forEach((label,i)=>label.prepend(icon(i?'far fa-heart':'far fa-star')));
 form.insertBefore(identity,choice);
 identity.append(heading('Vamos nos conhecer','Informe seus dados para localizar ou criar seu cadastro.','far fa-user-circle'),pfield,nfield,choice,vip);
-const sfield=field(service,'Qual procedimento você deseja?','fas fa-spa'),dfield=field(date,'Qual é o melhor dia para você?','far fa-calendar-alt'),tfield=field(time,'Escolha um horário disponível','far fa-clock'),cfield=field(coupon,'Cupom de desconto (opcional)','fas fa-ticket-alt');
+const sfield=field(service,'Quais procedimentos você deseja?','fas fa-spa'),dfield=field(date,'Qual é o melhor dia para você?','far fa-calendar-alt'),tfield=field(time,'Escolha um horário disponível','far fa-clock'),cfield=field(coupon,'Cupom de desconto (opcional)','fas fa-ticket-alt');
 form.insertBefore(schedule,sfield);
 schedule.append(heading('Seu momento no studio','Escolha o serviço, a data e um horário da agenda.','far fa-calendar-check'),sfield,dfield,tfield);
 form.insertBefore(review,pix);
@@ -1384,11 +1409,11 @@ form.prepend(progress);
 const err=make('p','journey-error');err.setAttribute('role','alert');const nav=make('div','journey-navigation'),prev=make('button'),next=make('button','journey-next');prev.type=next.type='button';prev.append(icon('fas fa-arrow-left'),document.createTextNode('Voltar'));next.append(document.createTextNode('Continuar'),icon('fas fa-arrow-right'));nav.append(prev,next);form.append(err,nav);
 let current='identity';
 function steps(){return ['identity',...(ana.style.display==='none'?[]:subs.map((_,i)=>'ana'+i)),'schedule','review']}
-function writeSummary(){const values=[['Nome',name.value],['WhatsApp',phone.value],['Procedimento',service.selectedOptions[0]?.textContent||service.value],['Data',date.value.split('-').reverse().join('/')],['Horário',time.value]];summary.replaceChildren();values.forEach(([key,value])=>{const row=make('div'),label=make('span'),v=make('strong');label.textContent=key;v.textContent=value||'—';row.append(label,v);summary.append(row)})}
+function writeSummary(){const values=[['Nome',name.value],['WhatsApp',phone.value],['Procedimentos',window.nnSelectedServiceText?.()||service.selectedOptions[0]?.textContent||service.value],['Data',date.value.split('-').reverse().join('/')],['Horário',time.value]];summary.replaceChildren();values.forEach(([key,value])=>{const row=make('div'),label=make('span'),v=make('strong');label.textContent=key;v.textContent=value||'—';row.append(label,v);summary.append(row)})}
 function show(step,scroll=false){let all=steps();if(!all.includes(step))step='identity';current=step;identity.hidden=step!=='identity';schedule.hidden=step!=='schedule';review.hidden=step!=='review';ana.classList.toggle('journey-away',!step.startsWith('ana'));subs.forEach((n,i)=>n.hidden=step!=='ana'+i);const pos=all.indexOf(step);const phase=step==='identity'?0:step.startsWith('ana')?1:step==='schedule'?2:3;counter.textContent='Etapa '+(pos+1)+' de '+all.length;phaseLabel.textContent=phases[phase][1];bar.style.width=((pos+1)/all.length*100)+'%';Array.from(rail.children).forEach((n,i)=>{n.classList.toggle('is-current',i===phase);n.classList.toggle('is-done',i<phase);if(i===phase)n.setAttribute('aria-current','step');else n.removeAttribute('aria-current')});prev.hidden=pos===0;next.hidden=step==='review';err.textContent='';if(step==='review')writeSummary();if(scroll){progress.scrollIntoView({block:'start',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});const h=(step==='identity'?identity:step==='schedule'?schedule:step==='review'?review:subs[Number(step.slice(3))]).querySelector('.journey-title h3');if(h){h.tabIndex=-1;h.focus({preventScroll:true})}}}
 function valid(step){if(step==='identity'){if(phone.value.replace(/\D/g,'').length<9){err.textContent='Informe um WhatsApp válido com DDD.';phone.focus();return false}if(!name.value.trim()){err.textContent='Informe seu nome completo.';name.focus();return false}}
 if(step==='ana4'&&accept.required&&!accept.checked){err.textContent='Leia e aceite o termo para continuar.';accept.focus();return false}
-if(step==='schedule'){if(!service.value){err.textContent='Escolha o procedimento.';service.focus();return false}if(!date.value){err.textContent='Escolha uma data.';(date._flatpickr?.altInput||date).focus();return false}if(time.disabled||!time.value||time.selectedIndex<1){err.textContent='Selecione um horário disponível na agenda.';if(!time.disabled)time.focus();return false}}return true}
+if(step==='schedule'){if(window.nnCombinedService?.()){err.textContent='Use o botão Solicitar horário pelo WhatsApp para reservar o tempo completo.';document.querySelector('.nn-multi-contact')?.focus();return false}if(!service.value){err.textContent='Escolha o procedimento.';service.focus();return false}if(!date.value){err.textContent='Escolha uma data.';(date._flatpickr?.altInput||date).focus();return false}if(time.disabled||!time.value||time.selectedIndex<1){err.textContent='Selecione um horário disponível na agenda.';if(!time.disabled)time.focus();return false}}return true}
 next.addEventListener('click',()=>{if(!valid(current))return;const all=steps();const target=all[all.indexOf(current)+1];if(target)show(target,true)});
 prev.addEventListener('click',()=>{const all=steps();const target=all[all.indexOf(current)-1];if(target)show(target,true)});
 new MutationObserver(()=>{if(!steps().includes(current))show('identity');else if(current==='identity')show(current)}).observe(ana,{attributes:true,attributeFilter:['style']});
